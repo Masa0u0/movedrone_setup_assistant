@@ -10,7 +10,7 @@ class Perception3dWidget(BaseSettingWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         tab_text = 'Setup 3D Perception Sensor'
-        abst_text = 'TODO'
+        abst_text = 'TODO: abstruct'
         super().__init__(main, tab_text, abst_text)
 
     def define_connections(self) -> None:

@@ -20,7 +20,7 @@ class FrameTreeWidget(QTreeWidget):
         self.setHeaderLabels(["Frames"])
 
     def define_connections(self) -> None:
-        self.main.robot.robot_model_updated.connect(self._on_robot_model_updated)
+        self.main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
 
     def _on_robot_model_updated(self) -> None:
         pass  # TODO: cf. https://doc.qt.io/qtforpython/tutorials/basictutorial/treewidget.html

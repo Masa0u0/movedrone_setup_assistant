@@ -8,12 +8,10 @@ from rviz import bindings as rviz
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
 
 from .utils import get_pkg_path
-from .robot_model_loader import RobotModelLoaderWidget
 
 
 class RvizWidget(QWidget):
 
-    HEIGHT = 350
     MIN_WIDTH = 300
 
     def __init__(self, main: SetupAssistant):
@@ -51,11 +49,10 @@ class RvizWidget(QWidget):
         self.rows.addWidget(self.frame)
         self.setLayout(self.rows)
 
-        self.setFixedHeight(self.HEIGHT)
         self.setMinimumWidth(self.MIN_WIDTH)
 
     def define_connections(self) -> None:
-        self.main.robot.robot_model_updated.connect(self._on_robot_model_updated)
+        self.main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
 
     def highlight_link(self, link_name: str) -> None:
         if link_name == self.highlighted_link:
@@ -72,4 +69,4 @@ class RvizWidget(QWidget):
 
     def _on_robot_model_updated(self) -> None:
         self.robot_model_display.setBool(True)
-        self.frame.getManager().setFixedFrame(self.main.robot.base)
+        self.frame.getManager().setFixedFrame(self.urdf_parser.base)

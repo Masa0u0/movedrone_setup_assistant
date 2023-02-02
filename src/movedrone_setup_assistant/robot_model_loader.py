@@ -8,14 +8,26 @@ import os.path as osp
 import rospy
 import rospkg
 import roslaunch
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLineEdit, QPushButton, QFileDialog, QMessageBox
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QFileDialog,
+    QMessageBox,
+)
 
 from .utils import get_pkg_path
 
 
 class RobotModelLoaderWidget(QWidget):
 
+    PARAM_PSIZE = 12
+    INSTRUCTION_PSIZE = 9
     WAIT_UNTIL_URDF_LOADED = 5.
 
     urdf_loaded = pyqtSignal()
@@ -33,10 +45,20 @@ class RobotModelLoaderWidget(QWidget):
             description_loader_uuid, [description_launch_path]
         )
 
-        self.columns = QHBoxLayout()
-        self.setLayout(self.columns)
+        self.rows = QVBoxLayout()
+        self.setLayout(self.rows)
 
-        # TODO: ラベルと説明
+        label = QLabel("Description path")
+        label.setFont(QFont("Default", pointSize=self.PARAM_PSIZE, weight=QFont.Bold))
+        self.rows.addWidget(label)
+        
+        instruction_text = "TODO: instruction"
+        instruction = QLabel(instruction_text)
+        instruction.setFont(QFont("Default", pointSize=self.INSTRUCTION_PSIZE))
+        self.rows.addWidget(instruction)
+
+        self.columns = QHBoxLayout()
+        self.rows.addLayout(self.columns)
 
         self.file_text = QLineEdit("")
         self.columns.addWidget(self.file_text)

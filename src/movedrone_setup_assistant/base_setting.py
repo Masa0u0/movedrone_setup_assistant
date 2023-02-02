@@ -11,7 +11,7 @@ from PyQt5.QtGui import QFont
 
 class BaseSettingWidget(QWidget):
     
-    LABEL_PSIZE = 10
+    LABEL_PSIZE = 18
     ABST_PSIZE = 9
 
     def __init__(self, main: SetupAssistant, tab_text: str, abst_text: str) -> None:
@@ -22,14 +22,15 @@ class BaseSettingWidget(QWidget):
         self.rows = QVBoxLayout()
         self.setLayout(self.rows)
 
-        tab_label = QLabel(tab_text)
-        tab_label.setFont(QFont('Default', pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
-        tab_label.setAlignment(Qt.AlignCenter)
-        self.rows.addWidget(tab_label)
+        title = QLabel(tab_text)
+        title.setFont(QFont('Default', pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
+        title.setAlignment(Qt.AlignTop)
+        self.rows.addWidget(title)
 
-        abst_label = QLabel(abst_text)
-        abst_label.setFont(QFont("Default", pointSize=self.ABST_PSIZE))
-        self.rows.addWidget(abst_label)
+        abst = QLabel(abst_text)
+        abst.setFont(QFont("Default", pointSize=self.ABST_PSIZE))
+        abst.setAlignment(Qt.AlignTop)
+        self.rows.addWidget(abst)
 
     @abstractmethod
     def define_connections(self) -> None:

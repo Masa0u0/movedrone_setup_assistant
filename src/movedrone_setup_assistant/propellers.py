@@ -3,14 +3,12 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
-from PyQt5.QtWidgets import QWidget
+from .base_setting import BaseSettingWidget
 
 
-class PropellersWidget(QWidget):
+class PropellersWidget(BaseSettingWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
-        super().__init__()
-
-        self.main = main
-
-        # TODO
+        tab_text = 'Define Propellers'
+        abst_text = 'TODO'
+        super().__init__(main, tab_text, abst_text)

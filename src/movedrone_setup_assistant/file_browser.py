@@ -3,42 +3,58 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
-import rospkg
+import os
 import os.path as osp
-from PyQt5.QtCore import pyqtSignal
+import rospy
+import rospkg
+import roslaunch
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLineEdit, QPushButton, QFileDialog, QMessageBox
+from PyQt5.QtCore import pyqtSignal
+
+from .utils import get_pkg_path
 
 
 class FileBrowserWidget(QWidget):
 
-    description_load_requested = pyqtSignal()
+    WAIT_UNTIL_URDF_LOADED = 5.
+
+    urdf_loaded = pyqtSignal()
 
     def __init__(self, main: SetupAssistant):
-        super(QWidget, self).__init__()
+        super().__init__()
 
         self.main = main
         self.description_path = None
 
+        description_loader_uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+        description_launch_path = osp.join(get_pkg_path(), "launch/description.launch")
+        roslaunch.configure_logging(description_loader_uuid)
+        self.description_launcher = roslaunch.parent.ROSLaunchParent(
+            description_loader_uuid, [description_launch_path]
+        )
+
         self.columns = QHBoxLayout()
         self.setLayout(self.columns)
 
+        # TODO: ラベルと説明
+
         self.file_text = QLineEdit("")
-        self.file_text.textChanged.connect(self.on_file_path_changed)
+        self.file_text.textChanged.connect(self._on_file_path_changed)
         self.columns.addWidget(self.file_text)
 
         self.browse_button = QPushButton("Browse")
-        self.browse_button.clicked.connect(self.on_browse_button_clicked)
+        self.browse_button.clicked.connect(self._on_browse_button_clicked)
         self.columns.addWidget(self.browse_button)
 
         self.load_button = QPushButton("Load")
-        self.load_button.clicked.connect(self.on_load_button_clicked)
+        self.load_button.clicked.connect(self._on_load_button_clicked)
         self.load_button.setEnabled(False)
         self.columns.addWidget(self.load_button)
 
-    def on_file_path_changed(self) -> None:
+    def _on_file_path_changed(self) -> None:
         file_path = self.file_text.text().strip()
 
-        if not self.is_valid_extension(file_path):
+        if not self._is_valid_extension(file_path):
             self.load_button.setEnabled(False)
             return
 
@@ -60,14 +76,14 @@ class FileBrowserWidget(QWidget):
         except:
             pass
 
-    def on_browse_button_clicked(self) -> None:
+    def _on_browse_button_clicked(self) -> None:
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file_path, _ = QFileDialog.getOpenFileName(
             self, self.main.TITLE, "", "URDF(*.urdf);;XACRO(*.xacro)", options=options
         )
 
-        if self.is_valid_extension(file_path):
+        if self._is_valid_extension(file_path):
             self.file_text.setText(file_path)
             self.load_button.setEnabled(True)
         elif file_path == "":
@@ -75,16 +91,55 @@ class FileBrowserWidget(QWidget):
         else:
             QMessageBox.information(self, "ERROR", "Invalid file path: " + "\r\n" + file_path)
 
-    def on_load_button_clicked(self) -> None:
+    def _on_load_button_clicked(self) -> None:
+        self._launch_file()
+
         self.file_text.setEnabled(False)
         self.browse_button.setEnabled(False)
         self.load_button.setEnabled(False)
-        self.description_load_requested.emit()
 
-    def is_valid_extension(self, file_path: str) -> bool:
+        ok = self._wait_until_urdf_ready()
+        if ok:
+            self.urdf_loaded.emit()
+        else:
+            rospy.logerr('Failed to load robot description.')
+            self.file_text.clear()
+            self.file_text.setEnabled(True)
+            self.browse_button.setEnabled(True)
+            self.load_button.setEnabled(True)
+
+    def _launch_file(self) -> None:
+        # this is a hack to pass urdf file
+        # description.launchで使われる環境変数を設定
+        print(self.description_path)
+        os.environ["MOVEDRONE_SETUP_ASSISTANT_DESCRIPTION_PATH"] = self.description_path
+
+        # robot_descriptionをrosparamに登録
+        self.description_launcher.shutdown()
+        self.description_launcher.start()
+
+    def _is_valid_extension(self, file_path: str) -> bool:
         _, extension = osp.splitext(file_path)
 
         if extension in {'.urdf', '.xacro'}:
             return osp.isfile(file_path)
         else:
             return False
+
+    def _wait_until_urdf_ready(self) -> bool:
+        """ 制限時間内にdescriptionがパラメータサーバに登録されたらTrue． """
+        start = rospy.Time.now()
+
+        while not rospy.is_shutdown():
+            try:
+                rospy.get_param('/robot_description')
+                return True
+            except:
+                pass
+
+            now = rospy.Time.now()
+            elapsed_time = (now - start).to_sec()
+            if elapsed_time > self.WAIT_UNTIL_URDF_LOADED:
+                return False
+
+            rospy.sleep(0.1)

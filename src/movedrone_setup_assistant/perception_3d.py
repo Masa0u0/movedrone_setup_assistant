@@ -9,6 +9,6 @@ from .base_setting import BaseSettingWidget
 class Perception3dWidget(BaseSettingWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
-        tab_text = 'Setup 3D Perception Widget'
+        tab_text = 'Setup 3D Perception Sensor'
         abst_text = 'TODO'
         super().__init__(main, tab_text, abst_text)

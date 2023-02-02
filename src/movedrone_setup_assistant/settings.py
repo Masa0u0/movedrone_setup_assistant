@@ -49,3 +49,6 @@ class SettingsWidget(VerticalTabWidget):
 
         self.setMinimumHeight(self.MIN_HEIGHT)
         self.setStyleSheet(f'QTabBar::tab {{ height: {self.TAB_HEIGHT}px; width: {self.TAB_WIDTH}px; }}')
+
+    def define_connections(self) -> None:
+        pass

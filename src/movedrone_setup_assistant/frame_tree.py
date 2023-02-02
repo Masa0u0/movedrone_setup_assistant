@@ -19,7 +19,8 @@ class FrameTreeWidget(QTreeWidget):
         self.setColumnCount(1)
         self.setHeaderLabels(["Frames"])
 
-        # self.main.hoge.connect(self.on_urdf_loaded)  # TODO: URDFが正しく読み込まれた時の処理
+    def define_connections(self) -> None:
+        self.main.robot.robot_model_updated.connect(self._on_robot_model_updated)
 
-    def on_urdf_loaded() -> None:
+    def _on_robot_model_updated(self) -> None:
         pass  # TODO: cf. https://doc.qt.io/qtforpython/tutorials/basictutorial/treewidget.html

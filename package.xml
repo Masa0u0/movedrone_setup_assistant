@@ -10,5 +10,7 @@
 	<buildtool_depend>catkin</buildtool_depend>
 
 	<depend>rospy</depend>
+	<depend>rviz</depend>
+	<depend>python-jinja2</depend>
 
 </package>

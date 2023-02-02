@@ -14,6 +14,8 @@ from .utils import get_pkg_path
 
 
 class RvizWidget(QWidget):
+    
+    MIN_WIDTH = 300
 
     urdf_loaded = pyqtSignal()
 
@@ -21,15 +23,14 @@ class RvizWidget(QWidget):
         super().__init__()
 
         self.main = main
-
-        self.setFixedHeight(350)  # ウィンドウサイズを変えてもRvizの縦幅は不変
+        
+        self.setMinimumWidth(self.MIN_WIDTH)
 
         pkg_path = get_pkg_path()
         rviz_config_path = osp.join(pkg_path, "config/setup_assistant.rviz")
         description_launch_path = osp.join(pkg_path, "/launch/description.launch")
 
-        # TODO: Loadボタンが押された時のコールバック
-        # self.main.hogehoge.connect(self.on_urdf_path_load)
+        # self.main.hogehoge.connect(self.on_urdf_path_load)  # TODO: Loadボタンが押された時のコールバック
 
         # cf. RViz Python Tutorial: https://docs.ros.org/en/indigo/api/rviz_python_tutorial/html/
         self.frame = rviz.VisualizationFrame()

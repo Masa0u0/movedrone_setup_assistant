@@ -16,12 +16,10 @@ class SetupAssistant(QWidget):
         self.setWindowTitle("MoveDrone Setup Assistant")
 
         pkg_path = get_pkg_path()
-        icon_path = osp.join(pkg_path, 'resources/movedrone_icon.png')
+        icon_path = osp.join(pkg_path, 'resources/movedrone_icon.png')  # TODO
         self.setWindowIcon(QIcon(icon_path))
 
         self.robot_structure = RobotStructureWidget(self)
-        self.robot_structure.setVisible(False)
-
         self.settings = SettingsWidget(self)
 
         self.rows = QVBoxLayout()

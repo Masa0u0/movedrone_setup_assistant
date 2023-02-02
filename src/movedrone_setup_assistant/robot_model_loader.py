@@ -14,7 +14,7 @@ from PyQt5.QtCore import pyqtSignal
 from .utils import get_pkg_path
 
 
-class FileBrowserWidget(QWidget):
+class RobotModelLoaderWidget(QWidget):
 
     WAIT_UNTIL_URDF_LOADED = 5.
 

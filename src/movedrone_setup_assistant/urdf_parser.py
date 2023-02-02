@@ -28,23 +28,23 @@ class URDFParser(QWidget):
         self.joints = None
         self.links = None
         self.link_names = None
-        self.base = ""
+        self.base = "base"
 
     def define_connections(self) -> None:
-        self.main.settings.start.file_browser.urdf_loaded.connect(self._on_urdf_loaded)
+        self.main.settings.start.robot_model_loader.urdf_loaded.connect(self._on_urdf_loaded)
 
     def _on_urdf_loaded(self):
         # TODO: kdl_parser_pyを使ってパラメータサーバから読み込む
 
-        self.path = path
-        self.robot = URDF.from_xml_file(path)
-        self.links = self.parse_links(self.robot)
-        self.joints = self.parse_joints(self.robot)
-        self.link_names = self.parse_link_names(self.links)
-        self.joint_names = self.parse_joint_names(self.joints)
-        self.base = self.robot.get_root()
-        self.end_links = self.get_end_links()
-        self.foot_links, self.foot_links_ns = self.get_foot_links()
+        # self.path = path
+        # self.robot = URDF.from_xml_file(path)
+        # self.links = self.parse_links(self.robot)
+        # self.joints = self.parse_joints(self.robot)
+        # self.link_names = self.parse_link_names(self.links)
+        # self.joint_names = self.parse_joint_names(self.joints)
+        # self.base = self.robot.get_root()
+        # self.end_links = self.get_end_links()
+        # self.foot_links, self.foot_links_ns = self.get_foot_links()
 
         self.robot_model_updated.emit()
 

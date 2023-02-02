@@ -8,7 +8,7 @@ from rviz import bindings as rviz
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
 
 from .utils import get_pkg_path
-from .file_browser import FileBrowserWidget
+from .robot_model_loader import RobotModelLoaderWidget
 
 
 class RvizWidget(QWidget):

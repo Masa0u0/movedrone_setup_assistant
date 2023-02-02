@@ -4,7 +4,7 @@ if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
 from .base_setting import BaseSettingWidget
-from .file_browser import FileBrowserWidget
+from .robot_model_loader import RobotModelLoaderWidget
 
 
 class StartWidget(BaseSettingWidget):
@@ -14,5 +14,5 @@ class StartWidget(BaseSettingWidget):
         abst_text = 'TODO'
         super().__init__(main, tab_text, abst_text)
 
-        self.file_browser = FileBrowserWidget(main)
-        self.rows.addWidget(self.file_browser)
+        self.robot_model_loader = RobotModelLoaderWidget(main)
+        self.rows.addWidget(self.robot_model_loader)

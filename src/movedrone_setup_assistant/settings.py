@@ -51,4 +51,12 @@ class SettingsWidget(VerticalTabWidget):
         self.setStyleSheet(f'QTabBar::tab {{ height: {self.TAB_HEIGHT}px; width: {self.TAB_WIDTH}px; }}')
 
     def define_connections(self) -> None:
-        pass
+        self.start.define_connections()
+        self.propellers.define_connections()
+        self.imu.define_connections()
+        self.gps.define_connections()
+        self.perception_3d.define_connections()
+        self.controllers.define_connections()
+        self.simulation.define_connections()
+        self.author_information.define_connections()
+        self.ros_package.define_connections()

@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
+from abc import abstractmethod
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
@@ -29,3 +30,7 @@ class BaseSettingWidget(QWidget):
         abst_label = QLabel(abst_text)
         abst_label.setFont(QFont("Default", pointSize=self.ABST_PSIZE))
         self.rows.addWidget(abst_label)
+
+    @abstractmethod
+    def define_connections(self) -> None:
+        raise NotImplementedError()

@@ -36,7 +36,10 @@ class SetupAssistant(QWidget):
         self.rows.addWidget(self.settings)
         self.setLayout(self.rows)
 
-        # "no attribute"エラーを防ぐため，最後にシグナルスロット接続を定義
+        # "no attribute"エラーを防ぐため，コンストラクタの最後に再帰的にシグナルスロット接続を定義する
+        self.define_connections()
+    
+    def define_connections(self) -> None:
         self.robot.define_connections()
         self.frame_tree.define_connections()
         self.rviz.define_connections()

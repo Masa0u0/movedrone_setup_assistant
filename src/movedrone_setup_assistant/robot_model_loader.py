@@ -39,17 +39,19 @@ class RobotModelLoaderWidget(QWidget):
         # TODO: ラベルと説明
 
         self.file_text = QLineEdit("")
-        self.file_text.textChanged.connect(self._on_file_path_changed)
         self.columns.addWidget(self.file_text)
 
         self.browse_button = QPushButton("Browse")
-        self.browse_button.clicked.connect(self._on_browse_button_clicked)
         self.columns.addWidget(self.browse_button)
 
         self.load_button = QPushButton("Load")
-        self.load_button.clicked.connect(self._on_load_button_clicked)
         self.load_button.setEnabled(False)
         self.columns.addWidget(self.load_button)
+
+    def define_connections(self) -> None:
+        self.file_text.textChanged.connect(self._on_file_path_changed)
+        self.browse_button.clicked.connect(self._on_browse_button_clicked)
+        self.load_button.clicked.connect(self._on_load_button_clicked)
 
     def _on_file_path_changed(self) -> None:
         file_path = self.file_text.text().strip()

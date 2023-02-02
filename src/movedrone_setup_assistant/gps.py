@@ -12,3 +12,6 @@ class GpsWidget(BaseSettingWidget):
         tab_text = 'Define Global Positioning System'
         abst_text = 'TODO'
         super().__init__(main, tab_text, abst_text)
+
+    def define_connections(self) -> None:
+        pass

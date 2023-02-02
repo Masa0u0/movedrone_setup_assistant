@@ -16,3 +16,6 @@ class StartWidget(BaseSettingWidget):
 
         self.robot_model_loader = RobotModelLoaderWidget(main)
         self.rows.addWidget(self.robot_model_loader)
+
+    def define_connections(self) -> None:
+        self.robot_model_loader.define_connections()

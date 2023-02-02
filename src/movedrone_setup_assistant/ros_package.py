@@ -12,3 +12,6 @@ class RosPackageWidget(BaseSettingWidget):
         tab_text = 'Generate ROS Package'
         abst_text = 'TODO'
         super().__init__(main, tab_text, abst_text)
+
+    def define_connections(self) -> None:
+        pass

@@ -9,11 +9,13 @@ from .utils import get_pkg_path
 
 
 class SetupAssistant(QWidget):
+    
+    TITLE = "MoveDrone Setup Assistant"
 
     def __init__(self) -> None:
         super().__init__()
 
-        self.setWindowTitle("MoveDrone Setup Assistant")
+        self.setWindowTitle(self.TITLE)
 
         pkg_path = get_pkg_path()
         icon_path = osp.join(pkg_path, 'resources/movedrone_icon.png')  # TODO

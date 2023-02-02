@@ -1,0 +1,11 @@
+- git: {
+  local-name: rotors_simulator,
+  uri: https://github.com/ethz-asl/rotors_simulator.git,
+  version: master,
+}
+
+- git: {
+  local-name: mav_comm,
+  uri: https://github.com/ethz-asl/mav_comm.git,
+  version: master,
+}

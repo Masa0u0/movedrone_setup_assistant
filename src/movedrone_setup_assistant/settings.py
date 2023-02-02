@@ -44,7 +44,7 @@ class SettingsWidget(VerticalTabWidget):
         self.addTab(self.perception_3d, '3D Perception')
         self.addTab(self.controllers, 'Controllers')
         self.addTab(self.simulation, 'Simulation')
-        self.addTab(self.author_information, 'Author Information')
+        self.addTab(self.author_information, 'Author Info')
         self.addTab(self.ros_package, 'ROS Package')
 
         self.setMinimumHeight(self.MIN_HEIGHT)

@@ -8,6 +8,7 @@ from PyQt5.QtGui import *
 class ParamGetterWidget(QWidget):
 
     LABEL_PSIZE = 12
+    LABEL_HEIGHT = 20
     DESCRIPTION_PSIZE = 9
 
     def __init__(
@@ -22,6 +23,7 @@ class ParamGetterWidget(QWidget):
 
         label = QLabel(param_name)
         label.setFont(QFont("Default", pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
+        label.setFixedHeight(self.LABEL_HEIGHT)
         label.setAlignment(Qt.AlignTop)
         self.rows.addWidget(label)
 

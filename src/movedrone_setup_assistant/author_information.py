@@ -16,6 +16,8 @@ class AuthorInformationWidget(BaseSettingWidget):
         title_text = 'Specify Author Information'
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
+        
+        self._add_dummy_widget()
 
     def define_connections(self) -> None:
         pass

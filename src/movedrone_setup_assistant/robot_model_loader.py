@@ -19,13 +19,13 @@ class RobotModelLoaderWidget(QWidget):
 
     PARAM_PSIZE = 12
     INSTRUCTION_PSIZE = 9
+    LABEL_HEIGHT = 20
     WAIT_UNTIL_URDF_LOADED = 5.
 
     urdf_loaded = pyqtSignal()
 
     def __init__(self, main: SetupAssistant):
         super().__init__()
-
         self.main = main
         self.description_path = None
 
@@ -41,11 +41,13 @@ class RobotModelLoaderWidget(QWidget):
 
         label = QLabel("Description path")
         label.setFont(QFont("Default", pointSize=self.PARAM_PSIZE, weight=QFont.Bold))
+        label.setAlignment(Qt.AlignTop)
         self.rows.addWidget(label)
-        
+
         instruction_text = "TODO: instruction"
         instruction = QLabel(instruction_text)
         instruction.setFont(QFont("Default", pointSize=self.INSTRUCTION_PSIZE))
+        instruction.setAlignment(Qt.AlignTop)
         self.rows.addWidget(instruction)
 
         self.columns = QHBoxLayout()

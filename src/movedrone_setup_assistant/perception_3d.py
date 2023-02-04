@@ -39,6 +39,8 @@ class Perception3dWidget(BaseSettingWidget):
         self.depth_map_settings = DepthMapSettingsWidget(main)
         self.rows.addWidget(self.depth_map_settings)
 
+        self._add_dummy_widget()
+
         self._update_sensors_visibility()
 
     def define_connections(self) -> None:

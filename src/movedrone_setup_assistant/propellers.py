@@ -69,8 +69,8 @@ class SelectedPropellersWidget(QTableWidget):
 
 class AddDeleteButtonsWidget(QWidget):
 
-    BUTTON_HEIGHT = 20
-    BUTTON_WIDTH = 50
+    BUTTON_HEIGHT = 40
+    BUTTON_WIDTH = 100
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
@@ -80,15 +80,11 @@ class AddDeleteButtonsWidget(QWidget):
         self.setLayout(self.cols)
 
         self.add_button = QPushButton("⬆")
-        self.add_button.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        self.add_button.setFixedHeight(self.BUTTON_HEIGHT)
-        self.add_button.setFixedWidth(self.BUTTON_WIDTH)
+        self.add_button.setFixedSize(QSize(self.BUTTON_WIDTH, self.BUTTON_HEIGHT))
         self.cols.addWidget(self.add_button)
 
         self.delete_button = QPushButton("⬇")
-        self.delete_button.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        self.delete_button.setFixedHeight(self.BUTTON_HEIGHT)
-        self.delete_button.setFixedWidth(self.BUTTON_WIDTH)
+        self.delete_button.setFixedSize(QSize(self.BUTTON_WIDTH, self.BUTTON_HEIGHT))
         self.cols.addWidget(self.delete_button)
 
     def define_connections(self) -> None:

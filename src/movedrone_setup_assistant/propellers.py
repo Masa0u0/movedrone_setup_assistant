@@ -103,7 +103,7 @@ class AvailableLinksWidget(QListWidget):
     @pyqtSlot()
     def _add_available_links(self) -> None:
         root_link = self.main.urdf_parser.get_root()
-        
+
         for link in self.main.urdf_parser.get_links():
             if link.name == root_link.name:
                 continue

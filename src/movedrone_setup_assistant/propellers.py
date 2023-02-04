@@ -15,9 +15,9 @@ class PropellersWidget(BaseSettingWidget):
     LABEL_PSIZE = 12
 
     def __init__(self, main: SetupAssistant) -> None:
-        tab_text = 'Define Propellers'
+        title_text = 'Define Propellers'
         abst_text = 'TODO: abstruct'
-        super().__init__(main, tab_text, abst_text)
+        super().__init__(main, title_text, abst_text)
 
         propellers_label = QLabel("Propellers")
         propellers_label.setFont(QFont("Default", pointSize=self.LABEL_PSIZE, weight=QFont.Bold))

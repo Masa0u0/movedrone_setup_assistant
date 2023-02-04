@@ -11,6 +11,7 @@ from PyQt5.QtGui import *
 from .start import StartWidget
 from .propellers import PropellersWidget
 from .imu import ImuWidget
+from .magnetic import MagneticSensorWidget
 from .gps import GpsWidget
 from .perception_3d import Perception3dWidget
 from .controllers import ControllersWidget
@@ -33,6 +34,7 @@ class SettingsWidget(VerticalTabWidget):
         self.start = StartWidget(main)
         self.propellers = PropellersWidget(main)
         self.imu = ImuWidget(main)
+        self.magnetic_sensor = MagneticSensorWidget(main)
         self.gps = GpsWidget(main)
         self.perception_3d = Perception3dWidget(main)
         self.controllers = ControllersWidget(main)
@@ -43,6 +45,7 @@ class SettingsWidget(VerticalTabWidget):
         self.addTab(self.start, 'Start')
         self.addTab(self.propellers, 'Propellers')
         self.addTab(self.imu, 'IMU')
+        self.addTab(self.magnetic_sensor, 'Magnetic')
         self.addTab(self.gps, 'GPS')
         self.addTab(self.perception_3d, '3D Perception')
         self.addTab(self.controllers, 'Controllers')
@@ -57,6 +60,7 @@ class SettingsWidget(VerticalTabWidget):
         self.start.define_connections()
         self.propellers.define_connections()
         self.imu.define_connections()
+        self.magnetic_sensor.define_connections()
         self.gps.define_connections()
         self.perception_3d.define_connections()
         self.controllers.define_connections()

@@ -14,15 +14,14 @@ class BaseSettingWidget(QWidget):
     TITLE_PSIZE = 18
     ABST_PSIZE = 9
 
-    def __init__(self, main: SetupAssistant, tab_text: str, abst_text: str) -> None:
+    def __init__(self, main: SetupAssistant, title_text: str, abst_text: str) -> None:
         super().__init__()
-
         self.main = main
         
         self.rows = QVBoxLayout()
         self.setLayout(self.rows)
 
-        title = QLabel(tab_text)
+        title = QLabel(title_text)
         title.setFont(QFont('Default', pointSize=self.TITLE_PSIZE, weight=QFont.Bold))
         title.setAlignment(Qt.AlignTop)
         self.rows.addWidget(title)

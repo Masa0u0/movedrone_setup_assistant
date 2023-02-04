@@ -10,10 +10,10 @@ from PyQt5.QtGui import *
 from .base_setting import BaseSettingWidget
 
 
-class AuthorInformationWidget(BaseSettingWidget):
+class MagneticSensorWidget(BaseSettingWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
-        title_text = 'Specify Author Information'
+        title_text = 'Define Magnetic Sensor'
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
 

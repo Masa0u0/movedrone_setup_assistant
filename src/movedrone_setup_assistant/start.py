@@ -14,9 +14,9 @@ from .robot_model_loader import RobotModelLoaderWidget
 class StartWidget(BaseSettingWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
-        tab_text = 'MoveDrone Setup Assistant'
+        title_text = 'MoveDrone Setup Assistant'
         abst_text = 'TODO: abstruct'
-        super().__init__(main, tab_text, abst_text)
+        super().__init__(main, title_text, abst_text)
 
         self.robot_model_loader = RobotModelLoaderWidget(main)
         self.rows.addWidget(self.robot_model_loader)

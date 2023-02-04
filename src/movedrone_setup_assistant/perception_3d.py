@@ -51,8 +51,8 @@ class Perception3dWidget(BaseSettingWidget):
         sensor_type = self.sensor_type_getter.get()
 
         if sensor_type == self.POINT_CLOUD_LABEL:
-            self.depth_map_settings.setVisible(False)
             self.point_cloud_settings.setVisible(True)
+            self.depth_map_settings.setVisible(False)
         elif sensor_type == self.DEPTH_MAP_LABEL:
             self.point_cloud_settings.setVisible(False)
             self.depth_map_settings.setVisible(True)

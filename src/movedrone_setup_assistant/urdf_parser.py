@@ -3,11 +3,12 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
+import rospy
 from typing import List
+from urdf_parser_py.urdf import Robot, Link, Joint  # https://github.com/ros/urdf_parser_py
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from urdf_parser_py.urdf import Robot, Link, Joint  # https://github.com/ros/urdf_parser_py
 
 
 class URDFParser(QWidget):
@@ -26,6 +27,7 @@ class URDFParser(QWidget):
     @pyqtSlot()
     def _on_urdf_loaded(self) -> None:
         self.robot = Robot.from_parameter_server("/robot_description")
+        rospy.loginfo("Robot model is loaded successfully.")
         self.robot_model_updated.emit()
 
     def get_links(self) -> List[Link]:

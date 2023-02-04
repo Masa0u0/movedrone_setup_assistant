@@ -12,16 +12,28 @@ from .base_setting import BaseSettingWidget
 
 class PropellersWidget(BaseSettingWidget):
 
+    LABEL_PSIZE = 12
+
     def __init__(self, main: SetupAssistant) -> None:
         tab_text = 'Define Propellers'
         abst_text = 'TODO: abstruct'
         super().__init__(main, tab_text, abst_text)
+
+        propellers_label = QLabel("Propellers")
+        propellers_label.setFont(QFont("Default", pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
+        propellers_label.setAlignment(Qt.AlignLeft)
+        self.rows.addWidget(propellers_label)
 
         self.selected = SelectedPropellersWidget(main)
         self.rows.addWidget(self.selected)
 
         self.add_delete = AddDeleteButtonsWidget(main)
         self.rows.addWidget(self.add_delete)
+
+        links_label = QLabel("Available Links")
+        links_label.setFont(QFont("Default", pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
+        links_label.setAlignment(Qt.AlignLeft)
+        self.rows.addWidget(links_label)
 
         self.available_links = AvailableLinksWidget(main)
         self.rows.addWidget(self.available_links)
@@ -83,13 +95,23 @@ class AddDeleteButtonsWidget(QWidget):
         pass
 
 
-class AvailableLinksWidget(QWidget):
+class AvailableLinksWidget(QListWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
         self.main = main
 
-        # TODO
-
     def define_connections(self) -> None:
-        pass
+        self.main.urdf_parser.robot_model_updated.connect(self._add_available_links)
+
+    @pyqtSlot()
+    def _add_available_links(self) -> None:
+        root_link = self.main.urdf_parser.get_root()
+        
+        for link in self.main.urdf_parser.get_links():
+            if link.name == root_link.name:
+                continue
+
+            joint = self.main.urdf_parser.get_joint(link.name)
+            if joint.type == "continuous":
+                self.addItem(QListWidgetItem(link.name))

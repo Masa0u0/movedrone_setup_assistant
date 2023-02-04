@@ -11,7 +11,7 @@ from PyQt5.QtGui import *
 
 class BaseSettingWidget(QWidget):
     
-    LABEL_PSIZE = 18
+    TITLE_PSIZE = 18
     ABST_PSIZE = 9
 
     def __init__(self, main: SetupAssistant, tab_text: str, abst_text: str) -> None:
@@ -23,7 +23,7 @@ class BaseSettingWidget(QWidget):
         self.setLayout(self.rows)
 
         title = QLabel(tab_text)
-        title.setFont(QFont('Default', pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
+        title.setFont(QFont('Default', pointSize=self.TITLE_PSIZE, weight=QFont.Bold))
         title.setAlignment(Qt.AlignTop)
         self.rows.addWidget(title)
 

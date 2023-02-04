@@ -11,7 +11,6 @@
 
 	<depend>rospy</depend>
 	<depend>rviz</depend>
-	<depend>kdl-parser-py</depend>
 	<depend>python-jinja2</depend>
 	<depend>robot_state_plugin</depend>
 

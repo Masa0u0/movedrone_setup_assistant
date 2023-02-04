@@ -97,7 +97,7 @@ class RobotModelLoaderWidget(QWidget):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file_path, _ = QFileDialog.getOpenFileName(
-            self, self.main.TITLE, "", "URDF (*.urdf);;XACRO (*.xacro)", options=options
+            self, self.main.TITLE, "", "Robot Description (*.urdf *xacro);;All (*)", options=options
         )
 
         if self._is_valid_extension(file_path):

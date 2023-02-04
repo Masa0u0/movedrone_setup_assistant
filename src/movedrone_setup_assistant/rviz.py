@@ -71,5 +71,6 @@ class RvizWidget(QWidget):
 
     @pyqtSlot()
     def _on_robot_model_updated(self) -> None:
+        root_link = self.main.urdf_parser.get_root()
+        self.frame.getManager().setFixedFrame(root_link.name)
         self.robot_model_display.setBool(True)
-        self.frame.getManager().setFixedFrame(self.urdf_parser.base)

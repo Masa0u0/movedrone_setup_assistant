@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
-from .parameter_getters import ParamGetterWidget_ComboBox, ParamGetterWidget_LineEdit, ParamGetterWidget_DSB
+from .parameter_getters import *
 
 
 class ImuWidget(BaseSettingWidget):
@@ -24,11 +24,11 @@ class ImuWidget(BaseSettingWidget):
         self.rows.addWidget(self.frame_getter)
 
         topic_description = "TODO: instruction"
-        self.topic_getter = ParamGetterWidget_LineEdit("Topic Name", topic_description)
+        self.topic_getter = ParamGetterWidget_LineEdit("IMU Topic", topic_description, "/imu/data")
         self.rows.addWidget(self.topic_getter)
 
         update_rate_description = "TODO: instruction"
-        self.update_rate_getter = ParamGetterWidget_DSB(
+        self.update_rate_getter = ParamGetterWidget_DoubleSpinBox(
             "Update Rate",
             update_rate_description,
             min=1.,
@@ -37,7 +37,7 @@ class ImuWidget(BaseSettingWidget):
         self.rows.addWidget(self.update_rate_getter)
 
         gaussian_noise_description = "TODO: instruction"
-        self.gaussian_noise_getter = ParamGetterWidget_DSB(
+        self.gaussian_noise_getter = ParamGetterWidget_DoubleSpinBox(
             "Gaussian Noise",
             gaussian_noise_description,
             min=0.,

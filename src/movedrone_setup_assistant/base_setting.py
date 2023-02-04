@@ -12,7 +12,7 @@ from PyQt5.QtGui import *
 class BaseSettingWidget(QWidget):
     
     TITLE_PSIZE = 18
-    ABST_PSIZE = 9
+    BODY_PSIZE = 9
 
     def __init__(self, main: SetupAssistant, title_text: str, abst_text: str) -> None:
         super().__init__()
@@ -27,7 +27,7 @@ class BaseSettingWidget(QWidget):
         self.rows.addWidget(title)
 
         abst = QLabel(abst_text)
-        abst.setFont(QFont("Default", pointSize=self.ABST_PSIZE))
+        abst.setFont(QFont("Default", pointSize=self.BODY_PSIZE))
         abst.setAlignment(Qt.AlignTop)
         self.rows.addWidget(abst)
 

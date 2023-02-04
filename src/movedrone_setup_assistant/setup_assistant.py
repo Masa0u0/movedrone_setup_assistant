@@ -1,6 +1,7 @@
 import os.path as osp
-from PyQt5.QtWidgets import QWidget, QVBoxLayout
-from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 from .urdf_parser import URDFParser
 from .robot_visualizer import RobotVisualizerWidget

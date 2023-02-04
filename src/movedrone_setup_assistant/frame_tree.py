@@ -3,7 +3,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
-from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 
 class FrameTreeWidget(QTreeWidget):
@@ -22,5 +24,6 @@ class FrameTreeWidget(QTreeWidget):
     def define_connections(self) -> None:
         self.main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
 
+    @pyqtSlot()
     def _on_robot_model_updated(self) -> None:
         pass  # TODO: cf. https://doc.qt.io/qtforpython/tutorials/basictutorial/treewidget.html

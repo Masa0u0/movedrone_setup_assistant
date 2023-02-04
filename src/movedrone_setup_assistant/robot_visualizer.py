@@ -3,7 +3,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
-from PyQt5.QtWidgets import QWidget, QHBoxLayout
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 from .frame_tree import FrameTreeWidget
 from .rviz import RvizWidget

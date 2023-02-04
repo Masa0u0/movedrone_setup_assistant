@@ -9,8 +9,9 @@ import yaml
 from difflib import SequenceMatcher
 import numpy as np
 import kdl_parser_py
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 
 class URDFParser(QWidget):

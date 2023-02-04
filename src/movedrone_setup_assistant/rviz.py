@@ -5,7 +5,9 @@ if TYPE_CHECKING:
 
 import os.path as osp
 from rviz import bindings as rviz
-from PyQt5.QtWidgets import QWidget, QVBoxLayout
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 from .utils import get_pkg_path
 
@@ -67,6 +69,7 @@ class RvizWidget(QWidget):
     def unhighlight_link(self, link_name: str) -> None:
         self.link_unhighlighter.setValue(link_name)
 
+    @pyqtSlot()
     def _on_robot_model_updated(self) -> None:
         self.robot_model_display.setBool(True)
         self.frame.getManager().setFixedFrame(self.urdf_parser.base)

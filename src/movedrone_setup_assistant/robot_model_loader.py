@@ -8,18 +8,9 @@ import os.path as osp
 import rospy
 import rospkg
 import roslaunch
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QPushButton,
-    QFileDialog,
-    QMessageBox,
-)
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 from .utils import get_pkg_path
 
@@ -75,6 +66,7 @@ class RobotModelLoaderWidget(QWidget):
         self.browse_button.clicked.connect(self._on_browse_button_clicked)
         self.load_button.clicked.connect(self._on_load_button_clicked)
 
+    @pyqtSlot()
     def _on_file_path_changed(self) -> None:
         file_path = self.file_text.text().strip()
 
@@ -100,11 +92,12 @@ class RobotModelLoaderWidget(QWidget):
         except:
             pass
 
+    @pyqtSlot()
     def _on_browse_button_clicked(self) -> None:
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file_path, _ = QFileDialog.getOpenFileName(
-            self, self.main.TITLE, "", "URDF(*.urdf);;XACRO(*.xacro)", options=options
+            self, self.main.TITLE, "", "URDF (*.urdf);;XACRO (*.xacro)", options=options
         )
 
         if self._is_valid_extension(file_path):
@@ -115,6 +108,7 @@ class RobotModelLoaderWidget(QWidget):
         else:
             QMessageBox.information(self, "ERROR", "Invalid file path: " + "\r\n" + file_path)
 
+    @pyqtSlot()
     def _on_load_button_clicked(self) -> None:
         self._launch_file()
 

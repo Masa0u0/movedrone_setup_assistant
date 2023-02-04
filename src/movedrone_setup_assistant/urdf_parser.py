@@ -45,3 +45,7 @@ class URDFParser(QWidget):
     def get_parent(self, link_name: str) -> Link:
         _, parent_name = self.robot.parent_map[link_name]
         return self.robot.link_map[parent_name]
+
+    def get_fixed_link_names(self) -> List[str]:
+        """ ルートリンクに固定されているリンクの名前の配列を返す． """
+        return ["hoge", "fuga", "piyo"]  # TODO

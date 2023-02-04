@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
-from typing import List
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -20,7 +19,7 @@ class ImuWidget(BaseSettingWidget):
         super().__init__(main, title_text, abst_text)
 
         frame_description = "TODO: instruction"
-        frame_choices = self._get_fixed_link_names()
+        frame_choices = self.main.urdf_parser.get_fixed_link_names()
         self.frame_getter = ParamGetterWidget_ComboBox("Frame", frame_description, frame_choices)
         self.rows.addWidget(self.frame_getter)
 
@@ -47,7 +46,3 @@ class ImuWidget(BaseSettingWidget):
 
     def define_connections(self) -> None:
         pass
-
-    def _get_fixed_link_names(self) -> List[str]:
-        """ ルートリンクに固定されているリンクの名前の配列を返す． """
-        return ["hoge", "fuga", "piyo"]  # TODO

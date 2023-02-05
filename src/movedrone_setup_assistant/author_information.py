@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
+from .parameter_getters import *
 
 
 class AuthorInformationWidget(BaseSettingWidget):
@@ -16,7 +17,13 @@ class AuthorInformationWidget(BaseSettingWidget):
         title_text = 'Specify Author Information'
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
-        
+
+        self.name_getter = ParamGetterWidget_LineEdit("Name of the maintainer")
+        self.rows.addWidget(self.name_getter)
+
+        self.email_getter = ParamGetterWidget_LineEdit("Email of the maintainer")
+        self.rows.addWidget(self.email_getter)
+
         self._add_dummy_widget()
 
     def define_connections(self) -> None:

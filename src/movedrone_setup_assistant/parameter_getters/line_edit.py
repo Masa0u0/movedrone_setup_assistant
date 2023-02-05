@@ -19,7 +19,7 @@ class ParamGetterWidget_LineEdit(ParamGetterWidget):
     def __init__(
         self,
         param_name: str,
-        description_text: str,
+        description_text: str = None,
         default: str = "",
     ) -> None:
         super().__init__(param_name, description_text)

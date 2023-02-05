@@ -20,8 +20,8 @@ class ParamGetterWidget_ComboBox(ParamGetterWidget):
     def __init__(
         self,
         param_name: str,
-        description_text: str,
-        choices: List[str],
+        description_text: str = None,
+        choices: List[str] = [],
     ) -> None:
         super().__init__(param_name, description_text)
 

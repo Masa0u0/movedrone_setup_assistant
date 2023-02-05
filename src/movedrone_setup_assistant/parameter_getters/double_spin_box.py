@@ -19,7 +19,7 @@ class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):
     def __init__(
         self,
         param_name: str,
-        description_text: str,
+        description_text: str = None,
         min: float = -1e-9,
         max: float = +1e+9,
         single_step: float = 1.,

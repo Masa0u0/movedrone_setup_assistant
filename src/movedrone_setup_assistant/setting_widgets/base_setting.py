@@ -20,7 +20,7 @@ class BaseSettingWidget(QScrollArea):
         self._main = main
 
         self.setWidgetResizable(True)  # この設定が必須．無いとオブジェクトが潰れてしまう．
-        # self.setEnabled(False)  # 基本的にモデルが読み込まれて初めてアクティブになる  # TODO: 非コメント
+        self.setEnabled(False)  # 基本的にモデルが読み込まれて初めてアクティブになる
 
         # QScrollAreaを使う際は，QLayoutの前にQWidgetを挟む必要がある．
         inner = QWidget()

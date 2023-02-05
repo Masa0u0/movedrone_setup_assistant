@@ -28,7 +28,7 @@ class ParamGetterWidget_ComboBox(ParamGetterWidget):
         self.box = ComboBox()
         for choice in choices:
             self.box.addItem(choice)
-        self.rows.addWidget(self.box)
+        self._rows.addWidget(self.box)
 
         self.box.currentTextChanged.connect(self._on_text_changed)
 

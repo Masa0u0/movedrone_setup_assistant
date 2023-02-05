@@ -17,12 +17,12 @@ class URDFParser(QWidget):
 
     def __init__(self, main: SetupAssistant):
         super().__init__()
-        self.main = main
+        self._main = main
 
         self.robot = Robot()
 
     def define_connections(self) -> None:
-        self.main.settings.start.robot_model_loader.urdf_loaded.connect(self._on_urdf_loaded)
+        self._main.settings.start.robot_model_loader.urdf_loaded.connect(self._on_urdf_loaded)
 
     @pyqtSlot()
     def _on_urdf_loaded(self) -> None:

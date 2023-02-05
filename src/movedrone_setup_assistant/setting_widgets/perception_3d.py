@@ -24,7 +24,7 @@ class Perception3dWidget(BaseSettingWidget):
 
         self.no_sensor = QCheckBox("The drone is not equipped with 3D perception sensor.")
         self.no_sensor.setFont(QFont("Default", pointSize=BODY_PSIZE))
-        self.rows.addWidget(self.no_sensor)
+        self._rows.addWidget(self.no_sensor)
 
         type_description = "TODO: instruction"
         self.sensor_type_getter = ParamGetterWidget_ComboBox(
@@ -32,13 +32,13 @@ class Perception3dWidget(BaseSettingWidget):
             type_description,
             [self.POINT_CLOUD_LABEL, self.DEPTH_MAP_LABEL],
         )
-        self.rows.addWidget(self.sensor_type_getter)
+        self._rows.addWidget(self.sensor_type_getter)
 
         self.point_cloud_settings = PointCloudSettingsWidget(main)
-        self.rows.addWidget(self.point_cloud_settings)
+        self._rows.addWidget(self.point_cloud_settings)
 
         self.depth_map_settings = DepthMapSettingsWidget(main)
-        self.rows.addWidget(self.depth_map_settings)
+        self._rows.addWidget(self.depth_map_settings)
 
         self._add_dummy_widget()
 
@@ -80,22 +80,22 @@ class PointCloudSettingsWidget(QWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
-        self.rows = QVBoxLayout()
-        self.setLayout(self.rows)
+        self._rows = QVBoxLayout()
+        self.setLayout(self._rows)
 
         frame_description = "TODO: instruction"
-        frame_choices = self.main.urdf_parser.get_fixed_link_names()
+        frame_choices = self._main.urdf_parser.get_fixed_link_names()
         self.frame_getter = ParamGetterWidget_ComboBox("Frame", frame_description, frame_choices)
-        self.rows.addWidget(self.frame_getter)
+        self._rows.addWidget(self.frame_getter)
 
         raw_topic_description = "TODO: instruction"
         self.raw_topic_getter = ParamGetterWidget_LineEdit(
             "Point Cloud Topic",
             raw_topic_description,
             "/head_mount_kinect/depth_registered/points")
-        self.rows.addWidget(self.raw_topic_getter)
+        self._rows.addWidget(self.raw_topic_getter)
 
         max_range_description = "TODO: instruction"
         self.max_range_getter = ParamGetterWidget_DoubleSpinBox(
@@ -104,7 +104,7 @@ class PointCloudSettingsWidget(QWidget):
             min=0.,
             default=5.,
         )
-        self.rows.addWidget(self.max_range_getter)
+        self._rows.addWidget(self.max_range_getter)
 
         subsample_description = "TODO: instruction"
         self.subsample_getter = ParamGetterWidget_SpinBox(
@@ -113,7 +113,7 @@ class PointCloudSettingsWidget(QWidget):
             min=0,
             default=1,
         )
-        self.rows.addWidget(self.subsample_getter)
+        self._rows.addWidget(self.subsample_getter)
 
         padding_offset_description = "TODO: instruction"
         self.padding_offset_getter = ParamGetterWidget_DoubleSpinBox(
@@ -122,7 +122,7 @@ class PointCloudSettingsWidget(QWidget):
             min=0.,
             default=0.1,
         )
-        self.rows.addWidget(self.padding_offset_getter)
+        self._rows.addWidget(self.padding_offset_getter)
 
         padding_scale_description = "TODO: instruction"
         self.padding_scale_getter = ParamGetterWidget_DoubleSpinBox(
@@ -131,14 +131,14 @@ class PointCloudSettingsWidget(QWidget):
             min=0.,
             default=0.1,
         )
-        self.rows.addWidget(self.padding_scale_getter)
+        self._rows.addWidget(self.padding_scale_getter)
 
         filtered_topic_description = "TODO: instruction"
         self.filtered_topic_getter = ParamGetterWidget_LineEdit(
             "Filtered Cloud Topic",
             filtered_topic_description,
             "/head_mount_kinect/depth_registered/points")
-        self.rows.addWidget(self.filtered_topic_getter)
+        self._rows.addWidget(self.filtered_topic_getter)
 
         max_update_rate_description = "TODO: instruction"
         self.max_update_rate_getter = ParamGetterWidget_DoubleSpinBox(
@@ -147,13 +147,13 @@ class PointCloudSettingsWidget(QWidget):
             min=1.,
             suffix=" Hz",
         )
-        self.rows.addWidget(self.max_update_rate_getter)
+        self._rows.addWidget(self.max_update_rate_getter)
 
 
 class DepthMapSettingsWidget(QWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
         # TODO

@@ -29,16 +29,16 @@ class ControllersWidget(BaseSettingWidget):
             type_description,
             [self.LMPC_LABEL, self.NMPC_LABEL, self.SMC_LABEL],
         )
-        self.rows.addWidget(self.controller_type_getter)
+        self._rows.addWidget(self.controller_type_getter)
 
         self.lmpc_settings = LMPCSettingsWidget(main)
-        self.rows.addWidget(self.lmpc_settings)
+        self._rows.addWidget(self.lmpc_settings)
 
         self.nmpc_settings = NMPCSettingsWidget(main)
-        self.rows.addWidget(self.nmpc_settings)
+        self._rows.addWidget(self.nmpc_settings)
 
         self.smc_settings = SMCSettingsWidget(main)
-        self.rows.addWidget(self.smc_settings)
+        self._rows.addWidget(self.smc_settings)
 
         self._add_dummy_widget()
 
@@ -75,16 +75,16 @@ class LMPCSettingsWidget(QWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
-        self.rows = QVBoxLayout()
-        self.setLayout(self.rows)
+        self._rows = QVBoxLayout()
+        self.setLayout(self._rows)
 
         abst_text = 'TODO: abstruct of LMPC'
         abst = QLabel(abst_text)
         abst.setFont(QFont("Default", pointSize=BODY_PSIZE))
         abst.setAlignment(Qt.AlignTop)
-        self.rows.addWidget(abst)
+        self._rows.addWidget(abst)
 
         # TODO
 
@@ -93,16 +93,16 @@ class NMPCSettingsWidget(QWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
-        self.rows = QVBoxLayout()
-        self.setLayout(self.rows)
+        self._rows = QVBoxLayout()
+        self.setLayout(self._rows)
 
         abst_text = 'TODO: abstruct of NMPC'
         abst = QLabel(abst_text)
         abst.setFont(QFont("Default", pointSize=BODY_PSIZE))
         abst.setAlignment(Qt.AlignTop)
-        self.rows.addWidget(abst)
+        self._rows.addWidget(abst)
 
         # TODO
 
@@ -112,15 +112,15 @@ class SMCSettingsWidget(QWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
-        self.rows = QVBoxLayout()
-        self.setLayout(self.rows)
+        self._rows = QVBoxLayout()
+        self.setLayout(self._rows)
 
         abst_text = 'TODO: abstruct of SMC'
         abst = QLabel(abst_text)
         abst.setFont(QFont("Default", pointSize=BODY_PSIZE))
         abst.setAlignment(Qt.AlignTop)
-        self.rows.addWidget(abst)
+        self._rows.addWidget(abst)
 
         # TODO

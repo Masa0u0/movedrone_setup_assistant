@@ -27,7 +27,7 @@ class StartWidget(BaseSettingWidget):
         self.setEnabled(True)  # Startだけは初めからアクティブにしておく
 
         self.robot_model_loader = RobotModelLoaderWidget(main)
-        self.rows.addWidget(self.robot_model_loader)
+        self._rows.addWidget(self.robot_model_loader)
 
         self._add_dummy_widget()
 
@@ -41,9 +41,9 @@ class RobotModelLoaderWidget(QWidget):
 
     urdf_loaded = pyqtSignal()
 
-    def __init__(self, main: SetupAssistant):
+    def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
         self.description_path = None
 
         description_loader_uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
@@ -53,32 +53,32 @@ class RobotModelLoaderWidget(QWidget):
             description_loader_uuid, [description_launch_path]
         )
 
-        self.rows = QVBoxLayout()
-        self.setLayout(self.rows)
+        self._rows = QVBoxLayout()
+        self.setLayout(self._rows)
 
-        label = QLabel("Description path")
+        label = QLabel("Description Path")
         label.setFont(QFont("Default", pointSize=LABEL_PSIZE, weight=QFont.Bold))
         label.setAlignment(Qt.AlignTop)
-        self.rows.addWidget(label)
+        self._rows.addWidget(label)
 
         instruction_text = "TODO: instruction"
         instruction = QLabel(instruction_text)
         instruction.setFont(QFont("Default", pointSize=BODY_PSIZE))
         instruction.setAlignment(Qt.AlignTop)
-        self.rows.addWidget(instruction)
+        self._rows.addWidget(instruction)
 
-        self.columns = QHBoxLayout()
-        self.rows.addLayout(self.columns)
+        self._cols = QHBoxLayout()
+        self._rows.addLayout(self._cols)
 
         self.file_text = QLineEdit("")
-        self.columns.addWidget(self.file_text)
+        self._cols.addWidget(self.file_text)
 
         self.browse_button = QPushButton("Browse")
-        self.columns.addWidget(self.browse_button)
+        self._cols.addWidget(self.browse_button)
 
         self.load_button = QPushButton("Load")
         self.load_button.setEnabled(False)
-        self.columns.addWidget(self.load_button)
+        self._cols.addWidget(self.load_button)
 
     def define_connections(self) -> None:
         self.file_text.textChanged.connect(self._on_file_path_changed)
@@ -116,7 +116,7 @@ class RobotModelLoaderWidget(QWidget):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file_path, _ = QFileDialog.getOpenFileName(
-            self, self.main.TITLE, "", "Robot Description (*.urdf *xacro);;All (*)", options=options
+            self, TITLE, "", "Robot Description (*.urdf *xacro);;All (*)", options=options
         )
 
         if self._is_valid_extension(file_path):
@@ -139,7 +139,7 @@ class RobotModelLoaderWidget(QWidget):
         if ok:
             self.urdf_loaded.emit()
         else:
-            rospy.logerr('Failed to load robot description.')
+            QMessageBox.information(self, "ERROR", "Failed to load robot description.")
             self.file_text.clear()
             self.file_text.setEnabled(True)
             self.browse_button.setEnabled(True)

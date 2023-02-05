@@ -18,7 +18,7 @@ class RvizWidget(QWidget):
 
     def __init__(self, main: SetupAssistant):
         super().__init__()
-        self.main = main
+        self._main = main
 
         self.highlighted_link = None
 
@@ -47,14 +47,14 @@ class RvizWidget(QWidget):
         self.link_unhighlighter = self.robot_model_display.subProp("Unhighlight Link")
 
         # Layout
-        self.rows = QVBoxLayout()
-        self.rows.addWidget(self.frame)
-        self.setLayout(self.rows)
+        self._rows = QVBoxLayout()
+        self._rows.addWidget(self.frame)
+        self.setLayout(self._rows)
 
         self.setMinimumWidth(self.MIN_WIDTH)
 
     def define_connections(self) -> None:
-        self.main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
+        self._main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
 
     def highlight_link(self, link_name: str) -> None:
         if link_name == self.highlighted_link:
@@ -71,6 +71,6 @@ class RvizWidget(QWidget):
 
     @pyqtSlot()
     def _on_robot_model_updated(self) -> None:
-        root_link = self.main.urdf_parser.get_root()
+        root_link = self._main.urdf_parser.get_root()
         self.frame.getManager().setFixedFrame(root_link.name)
         self.robot_model_display.setBool(True)

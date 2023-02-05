@@ -3,12 +3,12 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from ..const import *
+
 
 class ParamGetterWidget(QWidget):
 
-    LABEL_PSIZE = 12
     LABEL_HEIGHT = 20
-    DESCRIPTION_PSIZE = 9
 
     def __init__(
         self,
@@ -17,20 +17,19 @@ class ParamGetterWidget(QWidget):
     ) -> None:
         super().__init__()
 
-        self.rows = QVBoxLayout()
-        self.setLayout(self.rows)
+        self._rows = QVBoxLayout()
+        self.setLayout(self._rows)
 
         label = QLabel(param_name)
-        label.setFont(QFont("Default", pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
-        label.setFixedHeight(self.LABEL_HEIGHT)
+        label.setFont(QFont("Default", pointSize=LABEL_PSIZE, weight=QFont.Bold))
         label.setAlignment(Qt.AlignTop)
-        self.rows.addWidget(label)
+        self._rows.addWidget(label)
 
         if description_text is not None:
             description = QLabel(description_text)
-            description.setFont(QFont("Default", pointSize=self.DESCRIPTION_PSIZE))
+            description.setFont(QFont("Default", pointSize=BODY_PSIZE))
             description.setAlignment(Qt.AlignTop)
-            self.rows.addWidget(description)
+            self._rows.addWidget(description)
 
     @abstractmethod
     def get(self):

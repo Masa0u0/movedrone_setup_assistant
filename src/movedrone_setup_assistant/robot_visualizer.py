@@ -17,16 +17,16 @@ class RobotVisualizerWidget(QWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
-        self.cols = QHBoxLayout()
-        self.setLayout(self.cols)
+        self._cols = QHBoxLayout()
+        self.setLayout(self._cols)
 
         self.frame_tree = FrameTreeWidget(main)
-        self.cols.addWidget(self.frame_tree)
+        self._cols.addWidget(self.frame_tree)
 
         self.rviz = RvizWidget(main)
-        self.cols.addWidget(self.rviz)
+        self._cols.addWidget(self.rviz)
 
         self.setFixedHeight(self.HEIGHT)
 

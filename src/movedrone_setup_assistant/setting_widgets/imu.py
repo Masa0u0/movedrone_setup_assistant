@@ -19,13 +19,13 @@ class ImuWidget(BaseSettingWidget):
         super().__init__(main, title_text, abst_text)
 
         frame_description = "TODO: instruction"
-        frame_choices = self.main.urdf_parser.get_fixed_link_names()
+        frame_choices = self._main.urdf_parser.get_fixed_link_names()
         self.frame_getter = ParamGetterWidget_ComboBox("Frame", frame_description, frame_choices)
-        self.rows.addWidget(self.frame_getter)
+        self._rows.addWidget(self.frame_getter)
 
         topic_description = "TODO: instruction"
         self.topic_getter = ParamGetterWidget_LineEdit("IMU Topic", topic_description, "/imu/data")
-        self.rows.addWidget(self.topic_getter)
+        self._rows.addWidget(self.topic_getter)
 
         update_rate_description = "TODO: instruction"
         self.update_rate_getter = ParamGetterWidget_DoubleSpinBox(
@@ -34,7 +34,7 @@ class ImuWidget(BaseSettingWidget):
             min=1.,
             suffix=" Hz",
         )
-        self.rows.addWidget(self.update_rate_getter)
+        self._rows.addWidget(self.update_rate_getter)
 
         gaussian_noise_description = "TODO: instruction"
         self.gaussian_noise_getter = ParamGetterWidget_DoubleSpinBox(
@@ -42,6 +42,6 @@ class ImuWidget(BaseSettingWidget):
             gaussian_noise_description,
             min=0.,
         )
-        self.rows.addWidget(self.gaussian_noise_getter)
+        self._rows.addWidget(self.gaussian_noise_getter)
 
         self._add_dummy_widget()

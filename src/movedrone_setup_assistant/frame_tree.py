@@ -15,14 +15,14 @@ class FrameTreeWidget(QTreeWidget):
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
 
-        self.main = main
+        self._main = main
 
         self.setFixedWidth(self.WIDTH)
         self.setColumnCount(1)
         self.setHeaderLabels(["Frames"])
 
     def define_connections(self) -> None:
-        self.main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
+        self._main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
 
     @pyqtSlot()
     def _on_robot_model_updated(self) -> None:

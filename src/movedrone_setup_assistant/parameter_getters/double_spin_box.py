@@ -32,7 +32,7 @@ class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):
         super().__init__(param_name, description_text)
 
         self.spin_box = DoubleSpinBox()
-        self.rows.addWidget(self.spin_box)
+        self._rows.addWidget(self.spin_box)
 
         self.spin_box.setMinimum(min)
         self.spin_box.setMaximum(max)

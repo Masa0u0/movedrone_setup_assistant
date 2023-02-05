@@ -5,13 +5,6 @@ from PyQt5.QtGui import *
 from .base import ParamGetterWidget
 
 
-class LineEdit(QLineEdit):
-    """ QLineEditのスクロールイベントを無効化したもの． """
-
-    def wheelEvent(self, e: QWheelEvent) -> None:
-        e.ignore()
-
-
 class ParamGetterWidget_LineEdit(ParamGetterWidget):
 
     text_changed = pyqtSignal(str)
@@ -24,10 +17,8 @@ class ParamGetterWidget_LineEdit(ParamGetterWidget):
     ) -> None:
         super().__init__(param_name, description_text)
 
-        self.line = LineEdit()
-        self.rows.addWidget(self.line)
-
-        self.line.setText(default)
+        self.line = QLineEdit(default)
+        self._rows.addWidget(self.line)
 
         self.line.textChanged.connect(self._on_text_changed)
 

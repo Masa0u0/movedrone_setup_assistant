@@ -22,21 +22,21 @@ class PropellersWidget(BaseSettingWidget):
         propellers_label = QLabel("Propellers")
         propellers_label.setFont(QFont("Default", pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
         propellers_label.setAlignment(Qt.AlignLeft)
-        self.rows.addWidget(propellers_label)
+        self._rows.addWidget(propellers_label)
 
         self.selected = SelectedPropellersWidget(main)
-        self.rows.addWidget(self.selected)
+        self._rows.addWidget(self.selected)
 
         self.add_delete = AddDeleteButtonsWidget(main)
-        self.rows.addWidget(self.add_delete)
+        self._rows.addWidget(self.add_delete)
 
         links_label = QLabel("Available Links")
         links_label.setFont(QFont("Default", pointSize=self.LABEL_PSIZE, weight=QFont.Bold))
         links_label.setAlignment(Qt.AlignLeft)
-        self.rows.addWidget(links_label)
+        self._rows.addWidget(links_label)
 
         self.available_links = AvailableLinksWidget(main)
-        self.rows.addWidget(self.available_links)
+        self._rows.addWidget(self.available_links)
 
     def define_connections(self) -> None:
         super().define_connections()
@@ -49,7 +49,7 @@ class SelectedPropellersWidget(QTableWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__(0, 4)
-        self.main = main
+        self._main = main
 
         self.setHorizontalHeaderLabels([
             "Link Name",
@@ -59,7 +59,7 @@ class SelectedPropellersWidget(QTableWidget):
         ])
 
     def define_connections(self) -> None:
-        self.main.settings.propellers.add_delete.add_button.clicked.connect(self._add_new_link)
+        self._main.settings.propellers.add_delete.add_button.clicked.connect(self._add_new_link)
 
     @pyqtSlot()
     def _add_new_link(self) -> None:
@@ -75,18 +75,18 @@ class AddDeleteButtonsWidget(QWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
-        self.cols = QHBoxLayout()
-        self.setLayout(self.cols)
+        self._cols = QHBoxLayout()
+        self.setLayout(self._cols)
 
         self.add_button = QPushButton("⬆")
         self.add_button.setFixedSize(QSize(self.BUTTON_WIDTH, self.BUTTON_HEIGHT))
-        self.cols.addWidget(self.add_button)
+        self._cols.addWidget(self.add_button)
 
         self.delete_button = QPushButton("⬇")
         self.delete_button.setFixedSize(QSize(self.BUTTON_WIDTH, self.BUTTON_HEIGHT))
-        self.cols.addWidget(self.delete_button)
+        self._cols.addWidget(self.delete_button)
 
     def define_connections(self) -> None:
         pass
@@ -96,19 +96,19 @@ class AvailableLinksWidget(QListWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-        self.main = main
+        self._main = main
 
     def define_connections(self) -> None:
-        self.main.urdf_parser.robot_model_updated.connect(self._add_available_links)
+        self._main.urdf_parser.robot_model_updated.connect(self._add_available_links)
 
     @pyqtSlot()
     def _add_available_links(self) -> None:
-        root_link = self.main.urdf_parser.get_root()
+        root_link = self._main.urdf_parser.get_root()
 
-        for link in self.main.urdf_parser.get_links():
+        for link in self._main.urdf_parser.get_links():
             if link.name == root_link.name:
                 continue
 
-            joint = self.main.urdf_parser.get_joint(link.name)
+            joint = self._main.urdf_parser.get_joint(link.name)
             if joint.type == "continuous":
                 self.addItem(QListWidgetItem(link.name))

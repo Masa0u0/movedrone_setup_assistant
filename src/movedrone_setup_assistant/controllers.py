@@ -9,6 +9,7 @@ from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
 from .parameter_getters import *
+from .const import *
 
 
 class ControllersWidget(BaseSettingWidget):
@@ -81,7 +82,7 @@ class LMPCSettingsWidget(QWidget):
 
         abst_text = 'TODO: abstruct of LMPC'
         abst = QLabel(abst_text)
-        abst.setFont(QFont("Default", pointSize=BaseSettingWidget.BODY_PSIZE))
+        abst.setFont(QFont("Default", pointSize=BODY_PSIZE))
         abst.setAlignment(Qt.AlignTop)
         self.rows.addWidget(abst)
 
@@ -99,7 +100,7 @@ class NMPCSettingsWidget(QWidget):
 
         abst_text = 'TODO: abstruct of NMPC'
         abst = QLabel(abst_text)
-        abst.setFont(QFont("Default", pointSize=BaseSettingWidget.BODY_PSIZE))
+        abst.setFont(QFont("Default", pointSize=BODY_PSIZE))
         abst.setAlignment(Qt.AlignTop)
         self.rows.addWidget(abst)
 
@@ -118,7 +119,7 @@ class SMCSettingsWidget(QWidget):
 
         abst_text = 'TODO: abstruct of SMC'
         abst = QLabel(abst_text)
-        abst.setFont(QFont("Default", pointSize=BaseSettingWidget.BODY_PSIZE))
+        abst.setFont(QFont("Default", pointSize=BODY_PSIZE))
         abst.setAlignment(Qt.AlignTop)
         self.rows.addWidget(abst)
 

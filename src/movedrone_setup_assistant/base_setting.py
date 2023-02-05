@@ -3,17 +3,16 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
-from abc import abstractmethod
 from typing import final
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from .const import *
+
 
 class BaseSettingWidget(QScrollArea):
 
-    TITLE_PSIZE = 18
-    BODY_PSIZE = 9
     ABST_HEIGHT = 100
 
     def __init__(self, main: SetupAssistant, title_text: str, abst_text: str) -> None:
@@ -30,12 +29,12 @@ class BaseSettingWidget(QScrollArea):
         inner.setLayout(self.rows)
 
         title = QLabel(title_text)
-        title.setFont(QFont('Default', pointSize=self.TITLE_PSIZE, weight=QFont.Bold))
+        title.setFont(QFont('Default', pointSize=TITLE_PSIZE, weight=QFont.Bold))
         title.setAlignment(Qt.AlignTop)
         self.rows.addWidget(title)
 
         abst = QLabel(abst_text)
-        abst.setFont(QFont("Default", pointSize=self.BODY_PSIZE))
+        abst.setFont(QFont("Default", pointSize=BODY_PSIZE))
         abst.setFixedHeight(self.ABST_HEIGHT)
         abst.setAlignment(Qt.AlignTop)
         self.rows.addWidget(abst)

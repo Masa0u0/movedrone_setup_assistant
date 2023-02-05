@@ -9,6 +9,7 @@ from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
 from .parameter_getters import *
+from .const import *
 
 
 class Perception3dWidget(BaseSettingWidget):
@@ -22,7 +23,7 @@ class Perception3dWidget(BaseSettingWidget):
         super().__init__(main, title_text, abst_text)
 
         self.no_sensor = QCheckBox("The drone is not equipped with 3D perception sensor.")
-        self.no_sensor.setFont(QFont("Default", pointSize=self.BODY_PSIZE))
+        self.no_sensor.setFont(QFont("Default", pointSize=BODY_PSIZE))
         self.rows.addWidget(self.no_sensor)
 
         type_description = "TODO: instruction"

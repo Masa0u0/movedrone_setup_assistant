@@ -13,13 +13,11 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .utils import get_pkg_path
+from .const import *
 
 
 class RobotModelLoaderWidget(QWidget):
 
-    PARAM_PSIZE = 12
-    INSTRUCTION_PSIZE = 9
-    LABEL_HEIGHT = 20
     WAIT_UNTIL_URDF_LOADED = 5.
 
     urdf_loaded = pyqtSignal()
@@ -40,13 +38,13 @@ class RobotModelLoaderWidget(QWidget):
         self.setLayout(self.rows)
 
         label = QLabel("Description path")
-        label.setFont(QFont("Default", pointSize=self.PARAM_PSIZE, weight=QFont.Bold))
+        label.setFont(QFont("Default", pointSize=LABEL_PSIZE, weight=QFont.Bold))
         label.setAlignment(Qt.AlignTop)
         self.rows.addWidget(label)
 
         instruction_text = "TODO: instruction"
         instruction = QLabel(instruction_text)
-        instruction.setFont(QFont("Default", pointSize=self.INSTRUCTION_PSIZE))
+        instruction.setFont(QFont("Default", pointSize=BODY_PSIZE))
         instruction.setAlignment(Qt.AlignTop)
         self.rows.addWidget(instruction)
 

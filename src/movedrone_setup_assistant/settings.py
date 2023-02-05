@@ -21,7 +21,7 @@ from .ros_package import RosPackageWidget
 
 
 class SettingsWidget(VerticalTabWidget):
-    
+
     TAB_HEIGHT = 30  # 30以上無いと何故かTabBarの文字が横に見切れてしまう
     TAB_WIDTH = 70
     MIN_HEIGHT = 600
@@ -54,7 +54,9 @@ class SettingsWidget(VerticalTabWidget):
         self.addTab(self.ros_package, 'ROS Package')
 
         self.setMinimumHeight(self.MIN_HEIGHT)
-        self.setStyleSheet(f'QTabBar::tab {{ height: {self.TAB_HEIGHT}px; width: {self.TAB_WIDTH}px; }}')
+        self.setStyleSheet(
+            f'QTabBar::tab {{ height: {self.TAB_HEIGHT}px; width: {self.TAB_WIDTH}px; }}'
+        )
 
     def define_connections(self) -> None:
         self.start.define_connections()

@@ -17,6 +17,8 @@ class StartWidget(BaseSettingWidget):
         title_text = 'MoveDrone Setup Assistant'
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
+        
+        self.setEnabled(True)  # Startだけは初めからアクティブにしておく
 
         self.robot_model_loader = RobotModelLoaderWidget(main)
         self.rows.addWidget(self.robot_model_loader)

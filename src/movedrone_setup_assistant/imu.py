@@ -45,6 +45,3 @@ class ImuWidget(BaseSettingWidget):
         self.rows.addWidget(self.gaussian_noise_getter)
 
         self._add_dummy_widget()
-
-    def define_connections(self) -> None:
-        pass

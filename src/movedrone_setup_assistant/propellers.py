@@ -39,6 +39,7 @@ class PropellersWidget(BaseSettingWidget):
         self.rows.addWidget(self.available_links)
 
     def define_connections(self) -> None:
+        super().define_connections()
         self.selected.define_connections()
         self.add_delete.define_connections()
         self.available_links.define_connections()

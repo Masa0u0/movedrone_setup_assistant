@@ -20,13 +20,14 @@ class BaseSettingWidget(QScrollArea):
         super().__init__()
         self.main = main
 
+        self.setWidgetResizable(True)  # この設定が必須．無いとオブジェクトが潰れてしまう．
+        self.setEnabled(False)  # 基本的にモデルが読み込まれて初めてアクティブになる
+
         # QScrollAreaを使う際は，QLayoutの前にQWidgetを挟む必要がある．
         inner = QWidget()
         self.setWidget(inner)
         self.rows = QVBoxLayout()
         inner.setLayout(self.rows)
-
-        self.setWidgetResizable(True)  # この設定が必須．無いとオブジェクトが潰れてしまう．
 
         title = QLabel(title_text)
         title.setFont(QFont('Default', pointSize=self.TITLE_PSIZE, weight=QFont.Bold))
@@ -39,9 +40,8 @@ class BaseSettingWidget(QScrollArea):
         abst.setAlignment(Qt.AlignTop)
         self.rows.addWidget(abst)
 
-    @abstractmethod
     def define_connections(self) -> None:
-        raise NotImplementedError()
+        self.main.urdf_parser.robot_model_updated.connect(self._enable)
 
     @final
     def _add_dummy_widget(self) -> None:
@@ -52,3 +52,8 @@ class BaseSettingWidget(QScrollArea):
         dummy_widget = QWidget()
         dummy_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.rows.addWidget(dummy_widget)
+
+    @final
+    @pyqtSlot()
+    def _enable(self) -> None:
+        self.setEnabled(True)

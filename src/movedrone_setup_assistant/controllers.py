@@ -44,6 +44,7 @@ class ControllersWidget(BaseSettingWidget):
         self._update_controllers_visibility()
 
     def define_connections(self) -> None:
+        super().define_connections()
         self.controller_type_getter.text_changed.connect(self._on_type_changed)
 
     def _update_controllers_visibility(self) -> None:

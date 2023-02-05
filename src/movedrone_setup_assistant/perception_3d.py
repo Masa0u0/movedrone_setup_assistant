@@ -44,6 +44,7 @@ class Perception3dWidget(BaseSettingWidget):
         self._update_sensors_visibility()
 
     def define_connections(self) -> None:
+        super().define_connections()
         self.no_sensor.toggled.connect(self._on_no_sensor_toggled)
         self.sensor_type_getter.text_changed.connect(self._on_type_changed)
 

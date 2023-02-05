@@ -18,6 +18,3 @@ class SimulationWidget(BaseSettingWidget):
         super().__init__(main, title_text, abst_text)
 
         self._add_dummy_widget()
-
-    def define_connections(self) -> None:
-        pass

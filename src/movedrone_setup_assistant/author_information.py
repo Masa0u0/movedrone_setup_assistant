@@ -25,6 +25,3 @@ class AuthorInformationWidget(BaseSettingWidget):
         self.rows.addWidget(self.email_getter)
 
         self._add_dummy_widget()
-
-    def define_connections(self) -> None:
-        pass

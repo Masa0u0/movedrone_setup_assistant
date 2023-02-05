@@ -12,7 +12,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-from ..setting_widgets.base_setting import BaseSettingWidget
+from .base_setting import BaseSettingWidget
 from ..utils import get_pkg_path
 from ..const import *
 

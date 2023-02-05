@@ -1,14 +1,14 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from .setup_assistant import SetupAssistant
+    from ..setup_assistant import SetupAssistant
 
 from typing import final
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-from .const import *
+from ..const import *
 
 
 class BaseSettingWidget(QScrollArea):

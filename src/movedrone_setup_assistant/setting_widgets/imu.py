@@ -1,20 +1,20 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from .setup_assistant import SetupAssistant
+    from ..setup_assistant import SetupAssistant
 
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-from .base_setting import BaseSettingWidget
-from .parameter_getters import *
+from ..setting_widgets.base_setting import BaseSettingWidget
+from ..parameter_getters import *
 
 
-class GpsWidget(BaseSettingWidget):
+class ImuWidget(BaseSettingWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
-        title_text = 'Define Global Positioning System'
+        title_text = 'Define Inertial Measurement Unit'
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
 
@@ -24,7 +24,7 @@ class GpsWidget(BaseSettingWidget):
         self.rows.addWidget(self.frame_getter)
 
         topic_description = "TODO: instruction"
-        self.topic_getter = ParamGetterWidget_LineEdit("GPS Topic", topic_description, "/gps/data")
+        self.topic_getter = ParamGetterWidget_LineEdit("IMU Topic", topic_description, "/imu/data")
         self.rows.addWidget(self.topic_getter)
 
         update_rate_description = "TODO: instruction"
@@ -38,7 +38,7 @@ class GpsWidget(BaseSettingWidget):
 
         gaussian_noise_description = "TODO: instruction"
         self.gaussian_noise_getter = ParamGetterWidget_DoubleSpinBox(
-            "Velocity Gaussian Noise",
+            "Gaussian Noise",
             gaussian_noise_description,
             min=0.,
         )

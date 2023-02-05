@@ -59,7 +59,6 @@ class RosPackageWidget(BaseSettingWidget):
 
 class PackagePath(QLabel):
 
-    PSIZE = 12
     HEIGHT = 50
 
     def __init__(self, main: SetupAssistant) -> None:
@@ -69,9 +68,11 @@ class PackagePath(QLabel):
         self._pardir = ""
         self._pkg_name = ""
 
-        self.setFont(QFont("Default", pointSize=self.PSIZE, weight=QFont.Bold))
+        self.setFont(QFont("Default", pointSize=BODY_PSIZE, weight=QFont.Bold))
         self.setFixedHeight(self.HEIGHT)
         self.setAlignment(Qt.AlignTop)
+        
+        self._update()
 
     def define_connections(self) -> None:
         self._main.settings.ros_package.pardir_getter.path_changed.connect(

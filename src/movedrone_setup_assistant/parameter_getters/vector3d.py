@@ -74,7 +74,7 @@ class DoubleGetter(QWidget):
 
         label = QLabel(name + ":")
         label.setFont(QFont("Default", pointSize=BODY_PSIZE))
-        label.setAlignment(Qt.AlignLeft)
+        label.setAlignment(Qt.AlignRight)
         self._cols.addWidget(label)
 
         self.data = DoubleSpinBox()

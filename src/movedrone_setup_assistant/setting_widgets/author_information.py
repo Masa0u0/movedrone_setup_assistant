@@ -18,10 +18,10 @@ class AuthorInformationWidget(BaseSettingWidget):
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
 
-        self.name_getter = ParamGetterWidget_LineEdit("Name of the Maintainer")
-        self._rows.addWidget(self.name_getter)
+        self.name = ParamGetterWidget_LineEdit("Name of the Maintainer")
+        self._rows.addWidget(self.name)
 
-        self.email_getter = ParamGetterWidget_LineEdit("Email of the Maintainer")
-        self._rows.addWidget(self.email_getter)
+        self.email = ParamGetterWidget_LineEdit("Email of the Maintainer")
+        self._rows.addWidget(self.email)
 
         self._add_dummy_widget()

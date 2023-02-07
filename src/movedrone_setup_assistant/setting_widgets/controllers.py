@@ -24,12 +24,12 @@ class ControllersWidget(BaseSettingWidget):
         super().__init__(main, title_text, abst_text)
 
         type_description = "TODO: instruction"
-        self.controller_type_getter = ParamGetterWidget_ComboBox(
+        self.controller_type = ParamGetterWidget_ComboBox(
             "Type of Controller",
             type_description,
             [self.LMPC_LABEL, self.NMPC_LABEL, self.SMC_LABEL],
         )
-        self._rows.addWidget(self.controller_type_getter)
+        self._rows.addWidget(self.controller_type)
 
         self.lmpc_settings = LMPCSettingsWidget(main)
         self._rows.addWidget(self.lmpc_settings)
@@ -46,10 +46,10 @@ class ControllersWidget(BaseSettingWidget):
 
     def define_connections(self) -> None:
         super().define_connections()
-        self.controller_type_getter.text_changed.connect(self._on_type_changed)
+        self.controller_type.text_changed.connect(self._on_type_changed)
 
     def _update_controllers_visibility(self) -> None:
-        controller_type = self.controller_type_getter.get()
+        controller_type = self.controller_type.get()
 
         if controller_type == self.LMPC_LABEL:
             self.lmpc_settings.setVisible(True)

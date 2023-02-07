@@ -27,12 +27,12 @@ class Perception3dWidget(BaseSettingWidget):
         self._rows.addWidget(self.no_sensor)
 
         type_description = "TODO: instruction"
-        self.sensor_type_getter = ParamGetterWidget_ComboBox(
+        self.sensor_type = ParamGetterWidget_ComboBox(
             "Type of 3D Perception Sensor",
             type_description,
             [self.POINT_CLOUD_LABEL, self.DEPTH_MAP_LABEL],
         )
-        self._rows.addWidget(self.sensor_type_getter)
+        self._rows.addWidget(self.sensor_type)
 
         self.point_cloud_settings = PointCloudSettingsWidget(main)
         self._rows.addWidget(self.point_cloud_settings)
@@ -47,10 +47,10 @@ class Perception3dWidget(BaseSettingWidget):
     def define_connections(self) -> None:
         super().define_connections()
         self.no_sensor.toggled.connect(self._on_no_sensor_toggled)
-        self.sensor_type_getter.text_changed.connect(self._on_type_changed)
+        self.sensor_type.text_changed.connect(self._on_type_changed)
 
     def _update_sensors_visibility(self) -> None:
-        sensor_type = self.sensor_type_getter.get()
+        sensor_type = self.sensor_type.get()
 
         if sensor_type == self.POINT_CLOUD_LABEL:
             self.point_cloud_settings.setVisible(True)
@@ -64,11 +64,11 @@ class Perception3dWidget(BaseSettingWidget):
     @pyqtSlot()
     def _on_no_sensor_toggled(self) -> None:
         if self.no_sensor.isChecked():
-            self.sensor_type_getter.setVisible(False)
+            self.sensor_type.setVisible(False)
             self.point_cloud_settings.setVisible(False)
             self.depth_map_settings.setVisible(False)
         else:
-            self.sensor_type_getter.setVisible(True)
+            self.sensor_type.setVisible(True)
             self._update_sensors_visibility()
 
     @pyqtSlot(str)

@@ -24,12 +24,12 @@ class RosPackageWidget(BaseSettingWidget):
         super().__init__(main, title_text, abst_text)
 
         pardir_description = "TODO: description"
-        self.pardir_getter = ParamGetterWidget_DirDialog("Parent Directory", pardir_description)
-        self._rows.addWidget(self.pardir_getter)
+        self.pardir = ParamGetterWidget_DirDialog("Parent Directory", pardir_description)
+        self._rows.addWidget(self.pardir)
 
         pkg_name_description = "TODO: description"
-        self.pkg_name_getter = ParamGetterWidget_LineEdit("Package Name", pkg_name_description)
-        self._rows.addWidget(self.pkg_name_getter)
+        self.pkg_name = ParamGetterWidget_LineEdit("Package Name", pkg_name_description)
+        self._rows.addWidget(self.pkg_name)
 
         text = QLabel("The package will be generated as")
         text.setFont(QFont("Default", pointSize=BODY_PSIZE))
@@ -71,16 +71,12 @@ class PackagePath(QLabel):
         self.setFont(QFont("Default", pointSize=BODY_PSIZE, weight=QFont.Bold))
         self.setFixedHeight(self.HEIGHT)
         self.setAlignment(Qt.AlignTop)
-        
+
         self._update()
 
     def define_connections(self) -> None:
-        self._main.settings.ros_package.pardir_getter.path_changed.connect(
-            self._on_pardir_changed
-        )
-        self._main.settings.ros_package.pkg_name_getter.text_changed.connect(
-            self._on_pkg_name_changed
-        )
+        self._main.settings.ros_package.pardir.path_changed.connect(self._on_pardir_changed)
+        self._main.settings.ros_package.pkg_name.text_changed.connect(self._on_pkg_name_changed)
 
     def _update(self) -> None:
         self.setText(self._pardir + "/" + self._pkg_name)

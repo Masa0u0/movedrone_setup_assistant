@@ -3,13 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base import ParamGetterWidget
-
-
-class DoubleSpinBox(QDoubleSpinBox):
-    """ QDoubleSpineBoxのスクロールイベントを無効化したもの． """
-
-    def wheelEvent(self, e: QWheelEvent) -> None:
-        e.ignore()
+from ..utils import DoubleSpinBox
 
 
 class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):

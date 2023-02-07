@@ -18,30 +18,27 @@ class ImuWidget(BaseSettingWidget):
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
 
-        frame_description = "TODO: instruction"
-        frame_choices = self._main.urdf_parser.get_fixed_link_names()
-        self.frame_getter = ParamGetterWidget_ComboBox("Frame", frame_description, frame_choices)
-        self._rows.addWidget(self.frame_getter)
-
         topic_description = "TODO: instruction"
-        self.topic_getter = ParamGetterWidget_LineEdit("IMU Topic", topic_description, "/imu/data")
-        self._rows.addWidget(self.topic_getter)
+        self.topic = ParamGetterWidget_LineEdit("Topic Name", topic_description, "/imu/data_raw")
+        self._rows.addWidget(self.topic)
 
-        update_rate_description = "TODO: instruction"
-        self.update_rate_getter = ParamGetterWidget_DoubleSpinBox(
-            "Update Rate",
-            update_rate_description,
-            min=1.,
-            suffix=" Hz",
-        )
-        self._rows.addWidget(self.update_rate_getter)
+        body_description = "TODO: instruction"
+        body_choices = self._main.urdf_parser.get_fixed_link_names()
+        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, body_choices)
+        self._rows.addWidget(self.body)
 
         gaussian_noise_description = "TODO: instruction"
-        self.gaussian_noise_getter = ParamGetterWidget_DoubleSpinBox(
-            "Gaussian Noise",
-            gaussian_noise_description,
-            min=0.,
+        self.gaussian_noise = ParamGetterWidget_DoubleSpinBox(
+            "Gaussian Noise", gaussian_noise_description, min=0., default=0.
         )
-        self._rows.addWidget(self.gaussian_noise_getter)
+        self._rows.addWidget(self.gaussian_noise)
 
+        trans_offset_description = "TODO: instruction"
+        self.trans_offset = ParamGetterWidget_Vector3d("Translational Offset", trans_offset_description)
+        self._rows.addWidget(self.trans_offset)
+
+        rot_offset_description = "TODO: instruction"
+        self.rot_offset = ParamGetterWidget_Vector3d("Rotational Offset", rot_offset_description)
+        self._rows.addWidget(self.rot_offset)
+        
         self._add_dummy_widget()

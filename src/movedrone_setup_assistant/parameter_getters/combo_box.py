@@ -4,13 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base import ParamGetterWidget
-
-
-class ComboBox(QComboBox):
-    """ QComboBoxのスクロールイベントを無効化したもの． """
-
-    def wheelEvent(self, e: QWheelEvent) -> None:
-        e.ignore()
+from ..utils import ComboBox
 
 
 class ParamGetterWidget_ComboBox(ParamGetterWidget):

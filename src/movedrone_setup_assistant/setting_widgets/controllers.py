@@ -86,7 +86,95 @@ class LMPCSettingsWidget(QWidget):
         abst.setAlignment(Qt.AlignTop)
         self._rows.addWidget(abst)
 
-        # TODO
+        update_rate_description = "TODO: instruction"
+        self.update_rate = ParamGetterWidget_DoubleSpinBox(
+            "update_rate", update_rate_description, min=1., default=1000., suffix="Hz"
+        )
+        self._rows.addWidget(self.update_rate)
+
+        natural_freq_description = "TODO: instruction"
+        self.natural_freq = ParamGetterWidget_DoubleSpinBox(
+            "position_controller/natural_frequency", natural_freq_description, min=0., default=1., suffix="Hz"
+        )
+        self._rows.addWidget(self.natural_freq)
+
+        damp_ratio_description = "TODO: instruction"
+        self.damp_ratio = ParamGetterWidget_DoubleSpinBox(
+            "position_controller/damping_ratio", damp_ratio_description, min=0., default=1.
+        )
+        self._rows.addWidget(self.damp_ratio)
+
+        pred_horizon_description = "TODO: instruction"
+        self.pred_horizon = ParamGetterWidget_DoubleSpinBox(
+            "rotation_controller/prediction_horizon", pred_horizon_description, min=0., default=1.
+        )
+        self._rows.addWidget(self.pred_horizon)
+
+        pred_steps_description = "TODO: instruction"
+        self.pred_steps = ParamGetterWidget_SpinBox(
+            "rotation_controller/prediction_steps", pred_steps_description, min=1, default=10
+        )
+        self._rows.addWidget(self.pred_steps)
+
+        input_steps_description = "TODO: instruction"
+        self.input_steps = ParamGetterWidget_SpinBox(
+            "rotation_controller/input_steps", input_steps_description, min=1, default=10
+        )
+        self._rows.addWidget(self.input_steps)
+
+        weight_scale_description = "TODO: instruction"
+        self.weight_scale = ParamGetterWidget_DoubleSpinBox(
+            "rotation_controller/weight_scale", weight_scale_description, min=0., default=1e-6
+        )
+        self._rows.addWidget(self.weight_scale)
+
+        rot_decay_description = "TODO: instruction"
+        self.rot_decay = ParamGetterWidget_Vector3d(
+            "rotation_controller/decay/rotation",
+            rot_decay_description,
+            min=[0.] * 3,
+            default=[0.3] * 3,
+        )
+        self._rows.addWidget(self.rot_decay)
+
+        angvel_decay_description = "TODO: instruction"
+        self.angvel_decay = ParamGetterWidget_Vector3d(
+            "rotation_controller/decay/angular_velocity",
+            angvel_decay_description,
+            min=[0.] * 3,
+            default=[0.] * 3,
+        )
+        self._rows.addWidget(self.angvel_decay)
+
+        rot_weight_description = "TODO: instruction"
+        self.rot_weight = ParamGetterWidget_Vector3d(
+            "rotation_controller/state_weight/rotation",
+            rot_weight_description,
+            min=[0.] * 3,
+            default=[100.] * 3,
+        )
+        self._rows.addWidget(self.rot_weight)
+
+        angvel_weight_description = "TODO: instruction"
+        self.angvel_weight = ParamGetterWidget_Vector3d(
+            "rotation_controller/state_weight/angular_velocity",
+            angvel_weight_description,
+            min=[0.] * 3,
+            default=[0.] * 3,
+        )
+        self._rows.addWidget(self.angvel_weight)
+
+        input_weight_description = "TODO: instruction"
+        self.input_weight = ParamGetterWidget_DoubleSpinBox(
+            "rotation_controller/input_weight", input_weight_description, min=0., default=1e-3
+        )
+        self._rows.addWidget(self.input_weight)
+
+        input_rate_weight_description = "TODO: instruction"
+        self.input_rate_weight = ParamGetterWidget_DoubleSpinBox(
+            "rotation_controller/input_rate_weight", input_rate_weight_description, min=0., default=1e-3
+        )
+        self._rows.addWidget(self.input_rate_weight)
 
 
 class NMPCSettingsWidget(QWidget):

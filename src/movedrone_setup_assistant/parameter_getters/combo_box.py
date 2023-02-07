@@ -16,13 +16,18 @@ class ParamGetterWidget_ComboBox(ParamGetterWidget):
         param_name: str,
         description_text: str = None,
         choices: List[str] = [],
+        default: str = None,
     ) -> None:
         super().__init__(param_name, description_text)
 
         self.box = ComboBox()
+        self._rows.addWidget(self.box)
+
         for choice in choices:
             self.box.addItem(choice)
-        self._rows.addWidget(self.box)
+        
+        if default is not None:
+            self.box.setCurrentText(default)
 
         self.box.currentTextChanged.connect(self._on_text_changed)
 

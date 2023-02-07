@@ -24,8 +24,7 @@ class MagneticSensorWidget(BaseSettingWidget):
         self._rows.addWidget(self.no_sensor)
 
         topic_description = "TODO: instruction"
-        self.topic = ParamGetterWidget_LineEdit(
-            "Topic Name", topic_description, "/magnetic/data_raw")
+        self.topic = ParamGetterWidget_LineEdit("Topic Name", topic_description, "/imu/mag")
         self._rows.addWidget(self.topic)
 
         body_description = "TODO: instruction"

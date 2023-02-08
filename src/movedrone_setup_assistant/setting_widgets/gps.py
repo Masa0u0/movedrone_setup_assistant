@@ -34,8 +34,7 @@ class GpsWidget(BaseSettingWidget):
         self._rows.addWidget(self.vel_topic)
 
         body_description = "TODO: instruction"
-        body_choices = self._main.urdf_parser.get_fixed_link_names()
-        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, body_choices)
+        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, [])
         self._rows.addWidget(self.body)
 
         frame_id_description = "TODO: instruction"
@@ -87,6 +86,12 @@ class GpsWidget(BaseSettingWidget):
     def define_connections(self) -> None:
         super().define_connections()
         self.no_sensor.toggled.connect(self._update_visibility)
+        self._main.urdf_parser.robot_model_updated.connect(self._add_fixed_links)
+
+    @pyqtSlot()
+    def _add_fixed_links(self) -> None:
+        body_choices = self._main.urdf_parser.get_fixed_link_names()
+        self.body.box.addItems(body_choices)
 
     @pyqtSlot()
     def _update_visibility(self) -> None:

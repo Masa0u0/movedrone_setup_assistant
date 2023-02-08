@@ -40,6 +40,9 @@ class URDFParser(QWidget):
         root_name = self.robot.get_root()
         return self.robot.link_map[root_name]
 
+    def get_link(self, link_name: str) -> Link:
+        return self.robot.link_map[link_name]
+
     def get_joint(self, link_name: str) -> Joint:
         joint_name, _ = self.robot.parent_map[link_name]
         return self.robot.joint_map[joint_name]
@@ -48,6 +51,25 @@ class URDFParser(QWidget):
         _, parent_name = self.robot.parent_map[link_name]
         return self.robot.link_map[parent_name]
 
+    def is_end_link(self, link_name: str) -> bool:
+        assert link_name in self.robot.link_map.keys()
+        return link_name not in self.robot.child_map.keys()
+
     def get_fixed_link_names(self) -> List[str]:
         """ ルートリンクに固定されているリンクの名前の配列を返す． """
-        return ["hoge", "fuga", "piyo"]  # TODO
+        root = self.get_root()
+        return self._get_fixed_link_names_rec(root.name)
+
+    def _get_fixed_link_names_rec(self, parent_name: str) -> List[str]:
+        """ parent以下の固定リンクの名前の配列を返す． """
+        res = [parent_name]
+
+        if self.is_end_link(parent_name):
+            return res
+
+        for _, child_name in self.robot.child_map[parent_name]:
+            joint = self.get_joint(child_name)
+            if joint.type != "fixed":
+                continue
+            res += self._get_fixed_link_names_rec(child_name)
+        return res

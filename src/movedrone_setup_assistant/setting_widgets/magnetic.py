@@ -28,8 +28,7 @@ class MagneticSensorWidget(BaseSettingWidget):
         self._rows.addWidget(self.topic)
 
         body_description = "TODO: instruction"
-        body_choices = self._main.urdf_parser.get_fixed_link_names()
-        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, body_choices)
+        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, [])
         self._rows.addWidget(self.body)
 
         self.edit_sim_params = QCheckBox("Edit parameters only for simulation.")
@@ -68,6 +67,12 @@ class MagneticSensorWidget(BaseSettingWidget):
         super().define_connections()
         self.no_sensor.toggled.connect(self._update_visibility)
         self.edit_sim_params.toggled.connect(self._update_visibility)
+        self._main.urdf_parser.robot_model_updated.connect(self._add_fixed_links)
+
+    @pyqtSlot()
+    def _add_fixed_links(self) -> None:
+        body_choices = self._main.urdf_parser.get_fixed_link_names()
+        self.body.box.addItems(body_choices)
 
     @pyqtSlot()
     def _update_visibility(self) -> None:

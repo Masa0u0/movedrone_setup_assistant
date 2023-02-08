@@ -23,8 +23,7 @@ class ImuWidget(BaseSettingWidget):
         self._rows.addWidget(self.topic)
 
         body_description = "TODO: instruction"
-        body_choices = self._main.urdf_parser.get_fixed_link_names()
-        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, body_choices)
+        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, [])
         self._rows.addWidget(self.body)
 
         gaussian_noise_description = "TODO: instruction"
@@ -42,3 +41,12 @@ class ImuWidget(BaseSettingWidget):
         self._rows.addWidget(self.rot_offset)
         
         self._add_dummy_widget()
+
+    def define_connections(self) -> None:
+        super().define_connections()
+        self._main.urdf_parser.robot_model_updated.connect(self._add_fixed_links)
+    
+    @pyqtSlot()
+    def _add_fixed_links(self) -> None:
+        body_choices = self._main.urdf_parser.get_fixed_link_names()
+        self.body.box.addItems(body_choices)

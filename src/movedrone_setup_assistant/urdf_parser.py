@@ -4,7 +4,7 @@ if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
 import rospy
-from typing import List
+from typing import List, Tuple
 from urdf_parser_py.urdf import Robot, Link, Joint  # https://github.com/ros/urdf_parser_py
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -19,41 +19,44 @@ class URDFParser(QWidget):
         super().__init__()
         self._main = main
 
-        self.robot = Robot()
+        self._robot = Robot()
 
     def define_connections(self) -> None:
         self._main.settings.start.robot_model_loader.urdf_loaded.connect(self._on_urdf_loaded)
 
     @pyqtSlot()
     def _on_urdf_loaded(self) -> None:
-        self.robot = Robot.from_parameter_server("/robot_description")
+        self._robot = Robot.from_parameter_server("/robot_description")
         rospy.loginfo("Robot model is loaded successfully.")
         self.robot_model_updated.emit()
 
     def get_links(self) -> List[Link]:
-        return self.robot.links
+        return self._robot.links
 
     def get_joints(self) -> List[Joint]:
-        return self.robot.joints
+        return self._robot.joints
 
     def get_root(self) -> Link:
-        root_name = self.robot.get_root()
-        return self.robot.link_map[root_name]
+        root_name = self._robot.get_root()
+        return self._robot.link_map[root_name]
 
     def get_link(self, link_name: str) -> Link:
-        return self.robot.link_map[link_name]
+        return self._robot.link_map[link_name]
 
     def get_joint(self, link_name: str) -> Joint:
-        joint_name, _ = self.robot.parent_map[link_name]
-        return self.robot.joint_map[joint_name]
+        joint_name, _ = self._robot.parent_map[link_name]
+        return self._robot.joint_map[joint_name]
 
     def get_parent(self, link_name: str) -> Link:
-        _, parent_name = self.robot.parent_map[link_name]
-        return self.robot.link_map[parent_name]
+        _, parent_name = self._robot.parent_map[link_name]
+        return self._robot.link_map[parent_name]
+
+    def get_children(self, link_name: str) -> Link[Tuple[str, str]]:
+        return self._robot.child_map[link_name]
 
     def is_end_link(self, link_name: str) -> bool:
-        assert link_name in self.robot.link_map.keys()
-        return link_name not in self.robot.child_map.keys()
+        assert link_name in self._robot.link_map.keys()
+        return link_name not in self._robot.child_map.keys()
 
     def get_fixed_link_names(self) -> List[str]:
         """ ルートリンクに固定されているリンクの名前の配列を返す． """
@@ -67,7 +70,7 @@ class URDFParser(QWidget):
         if self.is_end_link(parent_name):
             return res
 
-        for _, child_name in self.robot.child_map[parent_name]:
+        for _, child_name in self.get_children(parent_name):
             joint = self.get_joint(child_name)
             if joint.type != "fixed":
                 continue

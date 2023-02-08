@@ -15,15 +15,33 @@ class FrameTreeWidget(QTreeWidget):
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
 
-        self._main = main
+        self._urdf_parser = main.urdf_parser
 
         self.setFixedWidth(self.WIDTH)
         self.setColumnCount(1)
-        self.setHeaderLabels(["Frames"])
+        self.setHeaderLabels(["Frames Tree"])
 
     def define_connections(self) -> None:
-        self._main.urdf_parser.robot_model_updated.connect(self._on_robot_model_updated)
+        self._urdf_parser.robot_model_updated.connect(self._add_tree_items)
 
     @pyqtSlot()
-    def _on_robot_model_updated(self) -> None:
-        pass  # TODO: cf. https://doc.qt.io/qtforpython/tutorials/basictutorial/treewidget.html
+    def _add_tree_items(self) -> None:
+        """
+        ルートリンクから再帰的にリンクをTreeに追加していく．
+        cf. https://doc.qt.io/qtforpython/tutorials/basictutorial/treewidget.html
+        """
+        root = self._urdf_parser.get_root()
+        root_item = QTreeWidgetItem([root.name])
+        self._add_tree_items_rec(root_item)
+        self.insertTopLevelItem(0, root_item)
+
+    def _add_tree_items_rec(self, parent_item: QTreeWidgetItem) -> None:
+        parent_name = parent_item.text(0)
+
+        if self._urdf_parser.is_end_link(parent_name):
+            return
+
+        for _, child_name in self._urdf_parser.get_children(parent_name):
+            child_item = QTreeWidgetItem([child_name])
+            parent_item.addChild(child_item)
+            self._add_tree_items_rec(child_item)

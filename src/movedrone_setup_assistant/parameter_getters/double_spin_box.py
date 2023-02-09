@@ -18,10 +18,12 @@ class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):
         max: float = +1e+9,
         single_step: float = 1.,
         default: float = None,
+        decimals: int = 12,
         suffix: str = "",
     ) -> None:
         assert min < max
         assert single_step > 0.
+        assert decimals > 0
 
         super().__init__(param_name, description_text)
 
@@ -34,6 +36,7 @@ class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):
         if default is not None:
             assert min <= default <= max
             self.spin_box.setValue(default)
+        self.spin_box.setDecimals(decimals)
         self.spin_box.setSuffix(suffix)
 
         self.spin_box.valueChanged.connect(self._on_value_changed)

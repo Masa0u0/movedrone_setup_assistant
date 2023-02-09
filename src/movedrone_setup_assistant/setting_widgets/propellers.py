@@ -3,12 +3,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ..setup_assistant import SetupAssistant
 
-from typing import Union
+from typing import Union, List
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
+from ..utils import ComboBox, DoubleSpinBox
 from ..const import *
 
 
@@ -49,11 +50,19 @@ class PropellersWidget(BaseSettingWidget):
 
 class SelectedPropellersWidget(QTableWidget):
 
+    COL_WIDTH = 150
+    DECIMALS = 12
+
     link_added = pyqtSignal(str)
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__(0, 4)
         self._main = main
+
+        self._link_names: List[QLabel] = []
+        self._directions: List[ComboBox] = []
+        self._motor_consts: List[DoubleSpinBox] = []
+        self._moment_consts: List[DoubleSpinBox] = []
 
         self.setHorizontalHeaderLabels([
             "Link Name",
@@ -61,6 +70,9 @@ class SelectedPropellersWidget(QTableWidget):
             "Motor Constant",
             "Moment Constant",
         ])
+
+        for c in range(self.columnCount()):
+            self.setColumnWidth(c, self.COL_WIDTH)
 
     def define_connections(self) -> None:
         # 必ずAdd -> Deleteの順に実行する
@@ -71,7 +83,8 @@ class SelectedPropellersWidget(QTableWidget):
         row = self.currentRow()
         if row < 0:
             return None
-        return self.cellWidget(row, 0).property("text")
+        # return self.cellWidget(row, 0).property("text")
+        return self._link_names[row].text()
 
     @pyqtSlot()
     def _add_selected_link(self) -> None:
@@ -86,7 +99,33 @@ class SelectedPropellersWidget(QTableWidget):
         link_name = QLabel(selected_link)
         link_name.setFont(QFont("Default", pointSize=BODY_PSIZE))
         link_name.setAlignment(Qt.AlignCenter)
+        self._link_names.append(link_name)
         self.setCellWidget(row, 0, link_name)
+
+        direction = ComboBox()
+        direction.addItems(["CW", "CCW"])
+        self._directions.append(direction)
+        self.setCellWidget(row, 1, direction)
+
+        motor_const = DoubleSpinBox()
+        motor_const.setMinimum(0.)
+        motor_const.setDecimals(self.DECIMALS)
+        motor_const.setSuffix(" kg*m/s^2")
+        self._motor_consts.append(motor_const)
+        self.setCellWidget(row, 2, motor_const)
+
+        moment_const = DoubleSpinBox()
+        moment_const.setMinimum(0.)
+        moment_const.setDecimals(self.DECIMALS)
+        moment_const.setSuffix(" m")
+        self._moment_consts.append(moment_const)
+        self.setCellWidget(row, 3, moment_const)
+
+        # 2段目以降は直前の設定を初期値とする
+        if row > 0:
+            direction.setCurrentText(self._directions[row - 1].currentText())
+            motor_const.setValue(self._motor_consts[row - 1].value())
+            moment_const.setValue(self._moment_consts[row - 1].value())
 
         self.link_added.emit(selected_link)
 
@@ -95,7 +134,13 @@ class SelectedPropellersWidget(QTableWidget):
         row = self.currentRow()
         if row < 0:
             return
+
         self.removeRow(row)
+
+        self._link_names.pop(row)
+        self._directions.pop(row)
+        self._motor_consts.pop(row)
+        self._moment_consts.pop(row)
 
 
 class AddDeleteButtonsWidget(QWidget):

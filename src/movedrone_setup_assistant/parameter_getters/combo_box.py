@@ -23,9 +23,8 @@ class ParamGetterWidget_ComboBox(ParamGetterWidget):
         self.box = ComboBox()
         self._rows.addWidget(self.box)
 
-        for choice in choices:
-            self.box.addItem(choice)
-        
+        self.box.addItems(choices)
+
         if default is not None:
             self.box.setCurrentText(default)
 

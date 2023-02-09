@@ -89,13 +89,17 @@ class LMPCSettingsWidget(QWidget):
 
         update_rate_description = "TODO: instruction"
         self.update_rate = ParamGetterWidget_DoubleSpinBox(
-            "update_rate", update_rate_description, min=1., default=1000., suffix="Hz"
+            "update_rate", update_rate_description, min=1., default=1000., suffix=" Hz"
         )
         self._rows.addWidget(self.update_rate)
 
         natural_freq_description = "TODO: instruction"
         self.natural_freq = ParamGetterWidget_DoubleSpinBox(
-            "position_controller/natural_frequency", natural_freq_description, min=0., default=1., suffix="Hz"
+            "position_controller/natural_frequency",
+            natural_freq_description,
+            min=0.,
+            default=1.,
+            suffix=" Hz",
         )
         self._rows.addWidget(self.natural_freq)
 
@@ -173,7 +177,10 @@ class LMPCSettingsWidget(QWidget):
 
         input_rate_weight_description = "TODO: instruction"
         self.input_rate_weight = ParamGetterWidget_DoubleSpinBox(
-            "rotation_controller/input_rate_weight", input_rate_weight_description, min=0., default=1e-3
+            "rotation_controller/input_rate_weight",
+            input_rate_weight_description,
+            min=0.,
+            default=1e-3,
         )
         self._rows.addWidget(self.input_rate_weight)
 

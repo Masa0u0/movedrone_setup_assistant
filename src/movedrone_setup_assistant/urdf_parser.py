@@ -58,6 +58,18 @@ class URDFParser(QWidget):
         assert link_name in self._robot.link_map.keys()
         return link_name not in self._robot.child_map.keys()
 
+    def link_exists(self, link_name: str) -> bool:
+        for link in self._robot.links:
+            if link.name == link_name:
+                return True
+        return False
+
+    def joint_exists(self, joint_name: str) -> bool:
+        for joint in self._robot.joints:
+            if joint.name == joint_name:
+                return True
+        return False
+
     def get_fixed_link_names(self) -> List[str]:
         """ ルートリンクに固定されているリンクの名前の配列を返す． """
         root = self.get_root()

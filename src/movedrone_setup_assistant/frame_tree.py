@@ -14,15 +14,21 @@ class FrameTreeWidget(QTreeWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-
-        self._urdf_parser = main.urdf_parser
+        self._main = main
 
         self.setFixedWidth(self.WIDTH)
         self.setColumnCount(1)
         self.setHeaderLabels(["Frames Tree"])
 
     def define_connections(self) -> None:
-        self._urdf_parser.robot_model_updated.connect(self._add_tree_items)
+        self.itemClicked.connect(self._on_item_clicked)
+        self._main.urdf_parser.robot_model_updated.connect(self._add_tree_items)
+
+    @pyqtSlot(QTreeWidgetItem, int)
+    def _on_item_clicked(self, item: QTreeWidgetItem, col: int) -> None:
+        assert col == 0
+        link_name = item.text(col)
+        self._main.robot_visualizer.rviz.highlight_link(link_name)
 
     @pyqtSlot()
     def _add_tree_items(self) -> None:
@@ -30,7 +36,7 @@ class FrameTreeWidget(QTreeWidget):
         ルートリンクから再帰的にリンクをTreeに追加していく．
         cf. https://doc.qt.io/qtforpython/tutorials/basictutorial/treewidget.html
         """
-        root = self._urdf_parser.get_root()
+        root = self._main.urdf_parser.get_root()
         root_item = QTreeWidgetItem([root.name])
         self._add_tree_items_rec(root_item)
         self.insertTopLevelItem(0, root_item)
@@ -38,10 +44,10 @@ class FrameTreeWidget(QTreeWidget):
     def _add_tree_items_rec(self, parent_item: QTreeWidgetItem) -> None:
         parent_name = parent_item.text(0)
 
-        if self._urdf_parser.is_end_link(parent_name):
+        if self._main.urdf_parser.is_end_link(parent_name):
             return
 
-        for _, child_name in self._urdf_parser.get_children(parent_name):
+        for _, child_name in self._main.urdf_parser.get_children(parent_name):
             child_item = QTreeWidgetItem([child_name])
             parent_item.addChild(child_item)
             self._add_tree_items_rec(child_item)

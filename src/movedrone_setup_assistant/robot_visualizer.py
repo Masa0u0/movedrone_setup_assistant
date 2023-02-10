@@ -29,7 +29,13 @@ class RobotVisualizerWidget(QWidget):
         self._cols.addWidget(self.rviz)
 
         self.setFixedHeight(self.HEIGHT)
+        self.setVisible(False)
 
     def define_connections(self) -> None:
         self.frame_tree.define_connections()
         self.rviz.define_connections()
+        self._main.urdf_parser.robot_model_updated.connect(self._visualize)
+
+    @pyqtSlot()
+    def _visualize(self) -> None:
+        self.setVisible(True)

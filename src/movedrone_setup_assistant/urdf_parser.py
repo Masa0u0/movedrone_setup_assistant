@@ -51,7 +51,7 @@ class URDFParser(QWidget):
         _, parent_name = self._robot.parent_map[link_name]
         return self._robot.link_map[parent_name]
 
-    def get_children(self, link_name: str) -> Link[Tuple[str, str]]:
+    def get_children(self, link_name: str) -> List[Tuple[str, str]]:
         return self._robot.child_map[link_name]
 
     def is_end_link(self, link_name: str) -> bool:

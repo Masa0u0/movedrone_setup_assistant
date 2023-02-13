@@ -19,7 +19,6 @@ class SettingsWidget(VerticalTabWidget):
 
     def __init__(self, main: SetupAssistant) -> None:
         super().__init__()
-
         self._main = main
 
         self.start = StartWidget(main)

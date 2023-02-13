@@ -37,9 +37,9 @@ class SettingsWidget(VerticalTabWidget):
         self.addTab(self.imu, 'IMU')
         self.addTab(self.magnetic_sensor, 'Magnetic')
         self.addTab(self.gps, 'GPS')
-        self.addTab(self.perception_3d, '3D Perception')
+        # self.addTab(self.perception_3d, '3D Perception')  # TODO
         self.addTab(self.controllers, 'Controllers')
-        self.addTab(self.simulation, 'Simulation')
+        # self.addTab(self.simulation, 'Simulation')  # TODO
         self.addTab(self.author_information, 'Author Info')
         self.addTab(self.ros_package, 'ROS Package')
 

@@ -16,10 +16,10 @@ class ParamGetterWidget_Vector3d(ParamGetterWidget):
         self,
         param_name: str,
         description_text: str = None,
-        min: List[float] = [-1e-9] * 3,
+        min: List[float] = [-1e+9] * 3,
         max: List[float] = [+1e+9] * 3,
         single_step: List[float] = [1.] * 3,
-        default: List[float] = [None] * 3,
+        default: List[float] = [0.] * 3,
         suffix: str = "",
     ) -> None:
         assert len(min) == 3

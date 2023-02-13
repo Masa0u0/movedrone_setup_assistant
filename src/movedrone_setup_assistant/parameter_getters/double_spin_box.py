@@ -14,11 +14,11 @@ class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):
         self,
         param_name: str,
         description_text: str = None,
+        decimals: int = 12,
         min: float = -1e-9,
         max: float = +1e+9,
         single_step: float = 1.,
         default: float = None,
-        decimals: int = 12,
         suffix: str = "",
     ) -> None:
         assert min < max
@@ -30,13 +30,13 @@ class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):
         self.spin_box = DoubleSpinBox()
         self._rows.addWidget(self.spin_box)
 
+        self.spin_box.setDecimals(decimals)  # 桁数の設定を最初にしないと，デフォルト値などが潰れてしまう
         self.spin_box.setMinimum(min)
         self.spin_box.setMaximum(max)
         self.spin_box.setSingleStep(single_step)
         if default is not None:
             assert min <= default <= max
             self.spin_box.setValue(default)
-        self.spin_box.setDecimals(decimals)
         self.spin_box.setSuffix(suffix)
 
         self.spin_box.valueChanged.connect(self._on_value_changed)

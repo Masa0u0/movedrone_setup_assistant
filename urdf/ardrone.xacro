@@ -1,20 +1,17 @@
 <?xml version="1.0"?>
 
-<robot name="iris" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="ardrone" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Properties -->
   <!-- <xacro:property name="namespace" value="$(arg namespace)" /> -->
-  <xacro:property name="namespace" value="iris" />
+  <xacro:property name="namespace" value="ardrone" />
   <xacro:property name="rotor_velocity_slowdown_sim" value="10" />
   <xacro:property name="use_mesh_file" value="true" />
-  <xacro:property name="mesh_file" value="package://rotors_description/meshes/iris.dae" />
+  <xacro:property name="mesh_file" value="package://rotors_description/meshes/ardrone.dae" />
   <xacro:property name="mass" value="1.5" /> <!-- [kg] -->
-  <xacro:property name="body_width" value="0.47" /> <!-- [m] -->
-  <xacro:property name="body_height" value="0.11" /> <!-- [m] -->
+  <xacro:property name="body_width" value="0.3" /> <!-- [m] -->
+  <xacro:property name="body_height" value="0.16" /> <!-- [m] -->
   <xacro:property name="mass_rotor" value="0.005" /> <!-- [kg] -->
-  <xacro:property name="arm_length_front_x" value="0.13" /> <!-- [m] -->
-  <xacro:property name="arm_length_back_x" value="0.13" /> <!-- [m] -->
-  <xacro:property name="arm_length_front_y" value="0.22" /> <!-- [m] -->
-  <xacro:property name="arm_length_back_y" value="0.2" /> <!-- [m] -->
+  <xacro:property name="arm_length" value="0.09" /> <!-- [m] -->
   <xacro:property name="rotor_offset_top" value="0.023" /> <!-- [m] -->
   <xacro:property name="radius_rotor" value="0.1" /> <!-- [m] -->
   <xacro:property name="motor_constant" value="8.54858e-06" /> <!-- [kg.m/s^2] -->
@@ -70,10 +67,10 @@
     motor_number="0"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Blue"
+    color="Red"
     use_own_mesh="false"
     mesh="">
-    <origin xyz="${arm_length_front_x} -${arm_length_front_y} ${rotor_offset_top}" rpy="0 0 0" />
+    <origin xyz="${sqrt2 * arm_length} -${sqrt2 * arm_length} ${rotor_offset_top}" rpy="0 0 0" />
     <xacro:insert_block name="rotor_inertia" />
   </xacro:vertical_rotor>
 
@@ -92,10 +89,10 @@
     motor_number="1"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Red"
+    color="Blue"
     use_own_mesh="false"
     mesh="">
-    <origin xyz="-${arm_length_back_x} ${arm_length_back_y} ${rotor_offset_top}" rpy="0 0 0" />
+    <origin xyz="-${sqrt2 * arm_length} ${sqrt2 * arm_length} ${rotor_offset_top}" rpy="0 0 0" />
     <xacro:insert_block name="rotor_inertia" />
   </xacro:vertical_rotor>
 
@@ -113,10 +110,10 @@
     motor_number="2"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Blue"
+    color="Red"
     use_own_mesh="false"
     mesh="">
-    <origin xyz="${arm_length_front_x} ${arm_length_front_y} ${rotor_offset_top}" rpy="0 0 0" />
+    <origin xyz="${sqrt2 * arm_length} ${sqrt2 * arm_length} ${rotor_offset_top}" rpy="0 0 0" />
     <xacro:insert_block name="rotor_inertia" />
   </xacro:vertical_rotor>
 
@@ -134,11 +131,12 @@
     motor_number="3"
     rotor_drag_coefficient="${rotor_drag_coefficient}"
     rolling_moment_coefficient="${rolling_moment_coefficient}"
-    color="Red"
+    color="Blue"
     use_own_mesh="false"
     mesh="">
-    <origin xyz="-${arm_length_back_x} -${arm_length_back_y} ${rotor_offset_top}" rpy="0 0 0" />
+    <origin xyz="-${sqrt2 * arm_length} -${sqrt2 * arm_length} ${rotor_offset_top}" rpy="0 0 0" />
     <xacro:insert_block name="rotor_inertia" />
   </xacro:vertical_rotor>
+
 
 </robot>

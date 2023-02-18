@@ -92,6 +92,10 @@ class RosPackageWidget(BaseSettingWidget):
         if pkg_name.count("/") > 0:
             return False
 
+        # スペースはダメ
+        if pkg_name.count(" ") > 0:
+            return False
+
         return True
 
 

@@ -50,29 +50,37 @@ class PropellersWidget(BaseSettingWidget):
 
 class SelectedPropellersWidget(QTableWidget):
 
-    COL_WIDTH = 150
-    DECIMALS = 12
+    LINK_NAME_WIDTH = 100
+    DIRECTION_WIDTH = 80
+    MAX_VEL_WIDTH = 120
+    MOTOR_CONST_WIDTH = 200
+    MOMENT_CONST_WIDTH = 200
 
     link_added = pyqtSignal(str)
 
     def __init__(self, main: SetupAssistant) -> None:
-        super().__init__(0, 4)
+        super().__init__(0, 5)
         self._main = main
 
         self._link_names: List[QLabel] = []
         self._directions: List[ComboBox] = []
+        self._max_vels: List[DoubleSpinBox] = []
         self._motor_consts: List[DoubleSpinBox] = []
         self._moment_consts: List[DoubleSpinBox] = []
 
         self.setHorizontalHeaderLabels([
             "Link Name",
             "Direction",
+            "Max Velocity",
             "Motor Constant",
             "Moment Constant",
         ])
 
-        for c in range(self.columnCount()):
-            self.setColumnWidth(c, self.COL_WIDTH)
+        self.setColumnWidth(0, self.LINK_NAME_WIDTH)
+        self.setColumnWidth(1, self.DIRECTION_WIDTH)
+        self.setColumnWidth(2, self.MAX_VEL_WIDTH)
+        self.setColumnWidth(3, self.MOTOR_CONST_WIDTH)
+        self.setColumnWidth(4, self.MOMENT_CONST_WIDTH)
 
     def define_connections(self) -> None:
         # 必ずAdd -> Deleteの順に実行する
@@ -107,23 +115,32 @@ class SelectedPropellersWidget(QTableWidget):
         self._directions.append(direction)
         self.setCellWidget(row, 1, direction)
 
+        max_vel = DoubleSpinBox()
+        max_vel.setMinimum(0.)
+        max_vel.setMaximum(1e+4)
+        max_vel.setDecimals(1)
+        max_vel.setSuffix(" rad/s")
+        self._max_vels.append(max_vel)
+        self.setCellWidget(row, 2, max_vel)
+
         motor_const = DoubleSpinBox()
         motor_const.setMinimum(0.)
-        motor_const.setDecimals(self.DECIMALS)
+        motor_const.setDecimals(12)
         motor_const.setSuffix(" kg*m/s^2")
         self._motor_consts.append(motor_const)
-        self.setCellWidget(row, 2, motor_const)
+        self.setCellWidget(row, 3, motor_const)
 
         moment_const = DoubleSpinBox()
         moment_const.setMinimum(0.)
-        moment_const.setDecimals(self.DECIMALS)
+        moment_const.setDecimals(12)
         moment_const.setSuffix(" m")
         self._moment_consts.append(moment_const)
-        self.setCellWidget(row, 3, moment_const)
+        self.setCellWidget(row, 4, moment_const)
 
         # 2段目以降は直前の設定を初期値とする
         if row > 0:
             direction.setCurrentText(self._directions[row - 1].currentText())
+            max_vel.setValue(self._max_vels[row - 1].value())
             motor_const.setValue(self._motor_consts[row - 1].value())
             moment_const.setValue(self._moment_consts[row - 1].value())
 
@@ -139,6 +156,7 @@ class SelectedPropellersWidget(QTableWidget):
 
         self._link_names.pop(row)
         self._directions.pop(row)
+        self._max_vels.pop(row)
         self._motor_consts.pop(row)
         self._moment_consts.pop(row)
 

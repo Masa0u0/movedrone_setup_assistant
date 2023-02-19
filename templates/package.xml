@@ -3,7 +3,7 @@
 
 	<name>{{ pkg_name }}</name>
 	<version>0.0.0</version>
-	<description>MoveDrone configuration package of {{ drone_name }}</description>
+	<description>MoveDrone configuration package for {{ drone_name }}</description>
 	<maintainer email="{{ user_email }}">{{ user_name }}</maintainer>
 	<license>BSD</license>
 

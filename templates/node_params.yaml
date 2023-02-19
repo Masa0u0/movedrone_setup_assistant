@@ -1,0 +1,29 @@
+controller:
+  position_controller:
+    natural_frequency: {{ pos_controller["natural_freq"] }}
+    damping_ratio: {{ pos_controller["damp_ratio"] }}
+  rotation_controller:
+    prediction_horizon: {{ rot_controller["pred_horizon"] }}
+    prediction_steps: {{ rot_controller["pred_steps"] }}
+    input_steps: {{ rot_controller["input_steps"] }}
+    weight_scale: 1.0e-6
+    decay:
+      rotation:
+        roll: {{ rot_controller["decay"]["rotation"] }}
+        pitch: {{ rot_controller["decay"]["rotation"] }}
+        yaw: {{ rot_controller["decay"]["rotation"] }}
+      angular_velocity:
+        x: {{ rot_controller["decay"]["angvel"] }}
+        y: {{ rot_controller["decay"]["angvel"] }}
+        z: {{ rot_controller["decay"]["angvel"] }}
+    state_weight:
+      rotation:
+        roll: {{ rot_controller["state_weight"]["rotation"] }}
+        pitch: {{ rot_controller["state_weight"]["rotation"] }}
+        yaw: {{ rot_controller["state_weight"]["rotation"] }}
+      angular_velocity:
+        x: {{ rot_controller["state_weight"]["angvel"] }}
+        y: {{ rot_controller["state_weight"]["angvel"] }}
+        z: {{ rot_controller["state_weight"]["angvel"] }}
+    input_weight: 1.0e-3
+    input_rate_weight: 0.

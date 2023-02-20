@@ -1,1 +1,3 @@
 pyqt-vertical-tab-widget
+pyyaml
+et-xmlfile

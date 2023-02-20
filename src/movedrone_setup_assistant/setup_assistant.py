@@ -4,9 +4,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .urdf_parser import URDFParser
+from .package_generator import PackageGenerator
 from .robot_visualizer import RobotVisualizerWidget
 from .settings import SettingsWidget
-from .utils import get_pkg_path
+from .utils import get_proj_path
 from .const import *
 
 
@@ -15,12 +16,13 @@ class SetupAssistant(QWidget):
     def __init__(self) -> None:
         super().__init__()
 
-        pkg_path = get_pkg_path()
-        icon_path = osp.join(pkg_path, 'resources/movedrone_icon.png')
+        proj_path = get_proj_path()
+        icon_path = osp.join(proj_path, 'resources/movedrone_icon.png')
         self.setWindowIcon(QIcon(icon_path))
         self.setWindowTitle(TITLE)
 
         self.urdf_parser = URDFParser(self)
+        self.pkg_generator = PackageGenerator(self)
 
         self._rows = QVBoxLayout()
         self.setLayout(self._rows)
@@ -37,5 +39,6 @@ class SetupAssistant(QWidget):
 
     def define_connections(self) -> None:
         self.urdf_parser.define_connections()
+        self.pkg_generator.define_connections()
         self.robot_visualizer.define_connections()
         self.settings.define_connections()

@@ -18,7 +18,7 @@
   </include>
 
   <group ns="{{ drone_name }}">
-    <param name="robot_description" command="$(find xacro)/xacro '{{ urdf_path }}'"/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find {{ pkg_name }})/urdf/{{ drone_name }}.urdf'"/>
     <node name="spawn_{{ drone_name }}" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -x $(arg x) -y $(arg y) -z $(arg z) -model {{ drone_name }}" respawn="false" output="screen" />
   </group>
 

@@ -19,13 +19,13 @@ class MagnetometerWidget(BaseSettingWidget):
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
 
-        body_description = "TODO: instruction"
-        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, [])
-        self._rows.addWidget(self.body)
+        link_description = "TODO: instruction"
+        self.link = ParamGetterWidget_ComboBox("Link name", link_description, [])
+        self._rows.addWidget(self.link)
 
         topic_description = "TODO: instruction"
         self.topic = ParamGetterWidget_LineEdit(
-            "Magnetometer Topic", topic_description, "/magnetic_field")
+            "Magnetometer topic", topic_description, "magnetic_field")
         self._rows.addWidget(self.topic)
 
         self.use_custom_magnetometer = QCheckBox("Use custom magnetometer")
@@ -34,38 +34,39 @@ class MagnetometerWidget(BaseSettingWidget):
 
         ref_mag_north_description = "TODO: instruction"
         self.ref_mag_north = ParamGetterWidget_DoubleSpinBox(
-            "Reference Magnitude North", ref_mag_north_description, min=0., default=0.000021493
+            "Reference Magnitude North", ref_mag_north_description, minimum=0., default=2.1493e-5
         )
         self._rows.addWidget(self.ref_mag_north)
 
         ref_mag_east_description = "TODO: instruction"
         self.ref_mag_east = ParamGetterWidget_DoubleSpinBox(
-            "Reference Magnitude East", ref_mag_east_description, min=0., default=0.000000815
+            "Reference Magnitude East", ref_mag_east_description, minimum=0., default=8.15e-7
         )
         self._rows.addWidget(self.ref_mag_east)
 
         ref_mag_down_description = "TODO: instruction"
         self.ref_mag_down = ParamGetterWidget_DoubleSpinBox(
-            "Reference Magnitude Down", ref_mag_down_description, min=0., default=0.000042795
+            "Reference Magnitude Down", ref_mag_down_description, minimum=0., default=4.2795e-5
         )
         self._rows.addWidget(self.ref_mag_down)
 
-        noise_normal_description = "TODO: instruction"
-        self.noise_normal = ParamGetterWidget_Vector3d(
-            "Noise Normal",
-            noise_normal_description,
-            min=[0., 0., 0.],
-            default=[0.00000008, 0.00000008, 0.00000008],
+        gauss_noise_description = "TODO: instruction"
+        self.gauss_noise = ParamGetterWidget_DoubleSpinBox(
+            "Standard deviation of additive white gaussian noise [Tesla]",
+            gauss_noise_description,
+            minimum=0.,
+            default=8e-8,
         )
-        self._rows.addWidget(self.noise_normal)
+        self._rows.addWidget(self.gauss_noise)
 
-        noise_uniform_description = "TODO: instruction"
-        self.noise_uniform = ParamGetterWidget_Vector3d(
-            "Noise Uniform Initial Bias",
-            noise_uniform_description,
-            default=[0.0000004, 0.0000004, 0.0000004],
+        uniform_noise_description = "TODO: instruction"
+        self.uniform_noise = ParamGetterWidget_DoubleSpinBox(
+            "Symmetric bounds of uniform noise for initial sensor bias [Tesla]",
+            uniform_noise_description,
+            minimum=0.,
+            default=4e-7,
         )
-        self._rows.addWidget(self.noise_uniform)
+        self._rows.addWidget(self.uniform_noise)
 
         self._add_dummy_widget()
         self._update_visibility()
@@ -78,7 +79,7 @@ class MagnetometerWidget(BaseSettingWidget):
     @pyqtSlot()
     def _add_fixed_links(self) -> None:
         body_choices = self._main.urdf_parser.get_fixed_link_names()
-        self.body.box.addItems(body_choices)
+        self.link.box.addItems(body_choices)
 
     @pyqtSlot()
     def _update_visibility(self) -> None:
@@ -86,11 +87,11 @@ class MagnetometerWidget(BaseSettingWidget):
             self.ref_mag_north.setVisible(True)
             self.ref_mag_east.setVisible(True)
             self.ref_mag_down.setVisible(True)
-            self.noise_normal.setVisible(True)
-            self.noise_uniform.setVisible(True)
+            self.gauss_noise.setVisible(True)
+            self.uniform_noise.setVisible(True)
         else:
             self.ref_mag_north.setVisible(False)
             self.ref_mag_east.setVisible(False)
             self.ref_mag_down.setVisible(False)
-            self.noise_normal.setVisible(False)
-            self.noise_uniform.setVisible(False)
+            self.gauss_noise.setVisible(False)
+            self.uniform_noise.setVisible(False)

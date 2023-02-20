@@ -14,13 +14,13 @@ class ParamGetterWidget_SpinBox(ParamGetterWidget):
         self,
         param_name: str,
         description_text: str = None,
-        min: int = 0,
-        max: int = +10**9,
+        minimum: int = 0,
+        maximum: int = +10**9,
         single_step: int = 1,
         default: int = None,
         suffix: str = "",
     ) -> None:
-        assert min < max
+        assert minimum < maximum
         assert single_step > 0
 
         super().__init__(param_name, description_text)
@@ -28,11 +28,11 @@ class ParamGetterWidget_SpinBox(ParamGetterWidget):
         self.spin_box = SpinBox()
         self._rows.addWidget(self.spin_box)
 
-        self.spin_box.setMinimum(min)
-        self.spin_box.setMaximum(max)
+        self.spin_box.setMinimum(minimum)
+        self.spin_box.setMaximum(maximum)
         self.spin_box.setSingleStep(single_step)
         if default is not None:
-            assert min <= default <= max
+            assert minimum <= default <= maximum
             self.spin_box.setValue(default)
         self.spin_box.setSuffix(suffix)
 

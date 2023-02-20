@@ -102,7 +102,7 @@ class PointCloudSettingsWidget(QWidget):
         self.max_range = ParamGetterWidget_DoubleSpinBox(
             "Max Range",
             max_range_description,
-            min=0.,
+            minimum=0.,
             default=5.,
         )
         self._rows.addWidget(self.max_range)
@@ -111,7 +111,7 @@ class PointCloudSettingsWidget(QWidget):
         self.subsample = ParamGetterWidget_SpinBox(
             "Point Subsample",
             subsample_description,
-            min=0,
+            minimum=0,
             default=1,
         )
         self._rows.addWidget(self.subsample)
@@ -120,7 +120,7 @@ class PointCloudSettingsWidget(QWidget):
         self.padding_offset = ParamGetterWidget_DoubleSpinBox(
             "Padding Offset",
             padding_offset_description,
-            min=0.,
+            minimum=0.,
             default=0.1,
         )
         self._rows.addWidget(self.padding_offset)
@@ -129,7 +129,7 @@ class PointCloudSettingsWidget(QWidget):
         self.padding_scale = ParamGetterWidget_DoubleSpinBox(
             "Padding Scale",
             padding_scale_description,
-            min=0.,
+            minimum=0.,
             default=0.1,
         )
         self._rows.addWidget(self.padding_scale)
@@ -145,7 +145,7 @@ class PointCloudSettingsWidget(QWidget):
         self.max_update_rate = ParamGetterWidget_DoubleSpinBox(
             "Max Update Rate",
             max_update_rate_description,
-            min=1.,
+            minimum=1.,
             suffix=" Hz",
         )
         self._rows.addWidget(self.max_update_rate)

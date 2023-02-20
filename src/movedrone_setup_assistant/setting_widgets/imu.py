@@ -19,12 +19,12 @@ class ImuWidget(BaseSettingWidget):
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
 
-        body_description = "TODO: instruction"
-        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, [])
-        self._rows.addWidget(self.body)
+        link_description = "TODO: instruction"
+        self.link = ParamGetterWidget_ComboBox("Link name", link_description, [])
+        self._rows.addWidget(self.link)
 
         topic_description = "TODO: instruction"
-        self.topic = ParamGetterWidget_LineEdit("IMU Topic", topic_description, "/imu")
+        self.topic = ParamGetterWidget_LineEdit("IMU topic", topic_description, "imu")
         self._rows.addWidget(self.topic)
 
         self.use_custom_imu = QCheckBox("Use custom IMU")
@@ -33,51 +33,75 @@ class ImuWidget(BaseSettingWidget):
 
         gyro_noise_density_description = "TODO: instruction"
         self.gyro_noise_density = ParamGetterWidget_DoubleSpinBox(
-            "Gyroscope Noise Density", gyro_noise_density_description, min=0., default=0.0003394
+            "Gyroscope noise density (two-sided spectrum) [rad/s/sqrt(Hz)]",
+            gyro_noise_density_description,
+            minimum=0.,
+            default=3.394e-4,
         )
         self._rows.addWidget(self.gyro_noise_density)
 
         gyro_random_walk_description = "TODO: instruction"
         self.gyro_random_walk = ParamGetterWidget_DoubleSpinBox(
-            "Gyroscope Random Walk", gyro_random_walk_description, min=0., default=0.000038785
+            "Gyroscope bias random walk [rad/s^2/sqrt(Hz)]",
+            gyro_random_walk_description,
+            minimum=0.,
+            default=3.8785e-5,
         )
         self._rows.addWidget(self.gyro_random_walk)
 
         gyro_bias_corr_time_description = "TODO: instruction"
         self.gyro_bias_corr_time = ParamGetterWidget_DoubleSpinBox(
-            "Gyroscope Bias Correlation Time", gyro_bias_corr_time_description, min=0., default=1000.
+            "Gyroscope bias correlation time constant [s]",
+            gyro_bias_corr_time_description,
+            minimum=0.,
+            default=1000.,
         )
         self._rows.addWidget(self.gyro_bias_corr_time)
 
         gyro_turn_on_bias_sigma_description = "TODO: instruction"
         self.gyro_turn_on_bias_sigma = ParamGetterWidget_DoubleSpinBox(
-            "Gyroscope Turn On Bias Sigma", gyro_turn_on_bias_sigma_description, min=0., default=0.0087
+            "Gyroscope turn on bias standard deviation [rad/s]",
+            gyro_turn_on_bias_sigma_description,
+            minimum=0.,
+            default=8.7e-3,
         )
         self._rows.addWidget(self.gyro_turn_on_bias_sigma)
 
-        accel_noise_density_description = "TODO: instruction"
-        self.accel_noise_density = ParamGetterWidget_DoubleSpinBox(
-            "Accelerometer Noise Density", accel_noise_density_description, min=0., default=0.004
+        acc_noise_density_description = "TODO: instruction"
+        self.acc_noise_density = ParamGetterWidget_DoubleSpinBox(
+            "Accelerometer noise density (two-sided spectrum) [m/s^2/sqrt(Hz)]",
+            acc_noise_density_description,
+            minimum=0.,
+            default=4e-3,
         )
-        self._rows.addWidget(self.accel_noise_density)
+        self._rows.addWidget(self.acc_noise_density)
 
-        accel_random_walk_description = "TODO: instruction"
-        self.accel_random_walk = ParamGetterWidget_DoubleSpinBox(
-            "Accelerometer Random Walk", accel_random_walk_description, min=0., default=0.006
+        acc_random_walk_description = "TODO: instruction"
+        self.acc_random_walk = ParamGetterWidget_DoubleSpinBox(
+            "Accelerometer bias random walk. [m/s^2/sqrt(Hz)]",
+            acc_random_walk_description,
+            minimum=0.,
+            default=6e-3,
         )
-        self._rows.addWidget(self.accel_random_walk)
+        self._rows.addWidget(self.acc_random_walk)
 
-        accel_bias_corr_time_description = "TODO: instruction"
-        self.accel_bias_corr_time = ParamGetterWidget_DoubleSpinBox(
-            "Accelerometer Bias Correlation Time", accel_bias_corr_time_description, min=0., default=300.
+        acc_bias_corr_time_description = "TODO: instruction"
+        self.acc_bias_corr_time = ParamGetterWidget_DoubleSpinBox(
+            "Accelerometer bias correlation time constant [s]",
+            acc_bias_corr_time_description,
+            minimum=0.,
+            default=300.,
         )
-        self._rows.addWidget(self.accel_bias_corr_time)
+        self._rows.addWidget(self.acc_bias_corr_time)
 
-        accel_turn_on_bias_sigma_description = "TODO: instruction"
-        self.accel_turn_on_bias_sigma = ParamGetterWidget_DoubleSpinBox(
-            "Accelerometer Turn On Bias Sigma", accel_turn_on_bias_sigma_description, min=0., default=0.196
+        acc_turn_on_bias_sigma_description = "TODO: instruction"
+        self.acc_turn_on_bias_sigma = ParamGetterWidget_DoubleSpinBox(
+            "Accelerometer turn on bias standard deviation [m/s^2]",
+            acc_turn_on_bias_sigma_description,
+            minimum=0.,
+            default=0.196,
         )
-        self._rows.addWidget(self.accel_turn_on_bias_sigma)
+        self._rows.addWidget(self.acc_turn_on_bias_sigma)
 
         self._add_dummy_widget()
         self._update_visibility()
@@ -90,7 +114,7 @@ class ImuWidget(BaseSettingWidget):
     @pyqtSlot()
     def _add_fixed_links(self) -> None:
         body_choices = self._main.urdf_parser.get_fixed_link_names()
-        self.body.box.addItems(body_choices)
+        self.link.box.addItems(body_choices)
 
     @pyqtSlot()
     def _update_visibility(self) -> None:
@@ -99,16 +123,16 @@ class ImuWidget(BaseSettingWidget):
             self.gyro_random_walk.setVisible(True)
             self.gyro_bias_corr_time.setVisible(True)
             self.gyro_turn_on_bias_sigma.setVisible(True)
-            self.accel_noise_density.setVisible(True)
-            self.accel_random_walk.setVisible(True)
-            self.accel_bias_corr_time.setVisible(True)
-            self.accel_turn_on_bias_sigma.setVisible(True)
+            self.acc_noise_density.setVisible(True)
+            self.acc_random_walk.setVisible(True)
+            self.acc_bias_corr_time.setVisible(True)
+            self.acc_turn_on_bias_sigma.setVisible(True)
         else:
             self.gyro_noise_density.setVisible(False)
             self.gyro_random_walk.setVisible(False)
             self.gyro_bias_corr_time.setVisible(False)
             self.gyro_turn_on_bias_sigma.setVisible(False)
-            self.accel_noise_density.setVisible(False)
-            self.accel_random_walk.setVisible(False)
-            self.accel_bias_corr_time.setVisible(False)
-            self.accel_turn_on_bias_sigma.setVisible(False)
+            self.acc_noise_density.setVisible(False)
+            self.acc_random_walk.setVisible(False)
+            self.acc_bias_corr_time.setVisible(False)
+            self.acc_turn_on_bias_sigma.setVisible(False)

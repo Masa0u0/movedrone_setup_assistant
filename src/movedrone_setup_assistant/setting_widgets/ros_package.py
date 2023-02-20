@@ -84,6 +84,10 @@ class RosPackageWidget(BaseSettingWidget):
         return True
 
     def _pkg_name_is_valid(self, pkg_name: str) -> bool:
+        # 既に存在していたらダメ
+        if osp.exists(self.pkg_path.text()):
+            return False
+
         # 空欄はダメ
         if len(pkg_name) == 0:
             return False

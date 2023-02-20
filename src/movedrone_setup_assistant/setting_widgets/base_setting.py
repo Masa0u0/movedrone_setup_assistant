@@ -40,7 +40,8 @@ class BaseSettingWidget(QScrollArea):
         self._rows.addWidget(abst)
 
     def define_connections(self) -> None:
-        self._main.urdf_parser.robot_model_updated.connect(self._enable)
+        self._main.urdf_parser.robot_model_updated.connect(lambda: self.setEnabled(True))
+        self._main.pkg_generator.generated.connect(lambda: self.setEnabled(False))
 
     @final
     def _add_dummy_widget(self) -> None:
@@ -51,8 +52,3 @@ class BaseSettingWidget(QScrollArea):
         dummy_widget = QWidget()
         dummy_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self._rows.addWidget(dummy_widget)
-
-    @final
-    @pyqtSlot()
-    def _enable(self) -> None:
-        self.setEnabled(True)

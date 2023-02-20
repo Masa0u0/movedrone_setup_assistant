@@ -19,17 +19,17 @@ class GpsWidget(BaseSettingWidget):
         abst_text = 'TODO: abstruct'
         super().__init__(main, title_text, abst_text)
 
-        body_description = "TODO: instruction"
-        self.body = ParamGetterWidget_ComboBox("Body Name", body_description, [])
-        self._rows.addWidget(self.body)
+        link_description = "TODO: instruction"
+        self.link = ParamGetterWidget_ComboBox("Link name", link_description, [])
+        self._rows.addWidget(self.link)
 
         pos_topic_description = "TODO: instruction"
-        self.pos_topic = ParamGetterWidget_LineEdit("GPS Topic", pos_topic_description, "/gps")
+        self.pos_topic = ParamGetterWidget_LineEdit("GPS topic", pos_topic_description, "gps")
         self._rows.addWidget(self.pos_topic)
 
         vel_topic_description = "TODO: instruction"
         self.vel_topic = ParamGetterWidget_LineEdit(
-            "Ground Speed Topic", vel_topic_description, "/ground_speed"
+            "Ground speed topic", vel_topic_description, "ground_speed"
         )
         self._rows.addWidget(self.vel_topic)
 
@@ -39,25 +39,33 @@ class GpsWidget(BaseSettingWidget):
 
         horizontal_pos_std_description = "TODO: instruction"
         self.horizontal_pos_std = ParamGetterWidget_DoubleSpinBox(
-            "Horizontal Position Standard Deviation", horizontal_pos_std_description, default=3.
+            "Standard deviation for horizontal position noise [m]",
+            horizontal_pos_std_description,
+            default=3.,
         )
         self._rows.addWidget(self.horizontal_pos_std)
 
         vertical_pos_std_description = "TODO: instruction"
         self.vertical_pos_std = ParamGetterWidget_DoubleSpinBox(
-            "Vertical Position Standard Deviation", vertical_pos_std_description, default=6.
+            "Standard deviation for vertical position noise [m]",
+            vertical_pos_std_description,
+            default=6.,
         )
         self._rows.addWidget(self.vertical_pos_std)
 
         horizontal_vel_std_description = "TODO: instruction"
         self.horizontal_vel_std = ParamGetterWidget_DoubleSpinBox(
-            "Horizontal Velocity Standard Deviation", horizontal_vel_std_description, default=3.
+            "Standard deviation for horizontal speed noise [m/s]",
+            horizontal_vel_std_description,
+            default=0.1,
         )
         self._rows.addWidget(self.horizontal_vel_std)
 
         vertical_vel_std_description = "TODO: instruction"
         self.vertical_vel_std = ParamGetterWidget_DoubleSpinBox(
-            "Vertical Velocity Standard Deviation", vertical_vel_std_description, default=6.
+            "Standard deviation for vertical speed noise [m/s]",
+            vertical_vel_std_description,
+            default=0.1,
         )
         self._rows.addWidget(self.vertical_vel_std)
 
@@ -72,7 +80,7 @@ class GpsWidget(BaseSettingWidget):
     @pyqtSlot()
     def _add_fixed_links(self) -> None:
         body_choices = self._main.urdf_parser.get_fixed_link_names()
-        self.body.box.addItems(body_choices)
+        self.link.box.addItems(body_choices)
 
     @pyqtSlot()
     def _update_visibility(self) -> None:

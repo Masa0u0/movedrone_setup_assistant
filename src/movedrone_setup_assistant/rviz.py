@@ -9,7 +9,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-from .utils import get_pkg_path
+from .utils import get_proj_path
 
 
 class RvizWidget(QWidget):
@@ -26,7 +26,7 @@ class RvizWidget(QWidget):
         # cf. RViz Python Tutorial: https://docs.ros.org/en/indigo/api/rviz_python_tutorial/html/
         reader = rviz.YamlConfigReader()
         config = rviz.Config()
-        rviz_config_path = osp.join(get_pkg_path(), "config/setup_assistant.rviz")
+        rviz_config_path = osp.join(get_proj_path(), "config/setup_assistant.rviz")
         reader.readFile(config, rviz_config_path)
 
         self.frame = rviz.VisualizationFrame()

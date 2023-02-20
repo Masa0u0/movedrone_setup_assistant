@@ -92,7 +92,7 @@ class LMPCSettingsWidget(QWidget):
         self.natural_freq = ParamGetterWidget_DoubleSpinBox(
             "position_controller/natural_frequency",
             natural_freq_description,
-            min=0.1,
+            minimum=0.1,
             default=1.,
             suffix=" Hz",
         )
@@ -102,7 +102,7 @@ class LMPCSettingsWidget(QWidget):
         self.damp_ratio = ParamGetterWidget_DoubleSpinBox(
             "position_controller/damping_ratio",
             damp_ratio_description,
-            min=math.sqrt(0.5),
+            minimum=math.sqrt(0.5),
             default=1.,
         )
         self._rows.addWidget(self.damp_ratio)
@@ -111,8 +111,8 @@ class LMPCSettingsWidget(QWidget):
         self.pred_horizon = ParamGetterWidget_DoubleSpinBox(
             "rotation_controller/prediction_horizon",
             pred_horizon_description,
-            min=0.1,
-            max=3.,
+            minimum=0.1,
+            maximum=3.,
             default=1.,
         )
         self._rows.addWidget(self.pred_horizon)
@@ -121,8 +121,8 @@ class LMPCSettingsWidget(QWidget):
         self.pred_steps = ParamGetterWidget_SpinBox(
             "rotation_controller/prediction_steps",
             pred_steps_description,
-            min=1,
-            max=30,
+            minimum=1,
+            maximum=30,
             default=10,
         )
         self._rows.addWidget(self.pred_steps)
@@ -131,8 +131,8 @@ class LMPCSettingsWidget(QWidget):
         self.input_steps = ParamGetterWidget_SpinBox(
             "rotation_controller/input_steps",
             input_steps_description,
-            min=1,
-            max=30,
+            minimum=1,
+            maximum=30,
             default=10,
         )
         self._rows.addWidget(self.input_steps)
@@ -141,8 +141,8 @@ class LMPCSettingsWidget(QWidget):
         self.rot_decay = ParamGetterWidget_DoubleSpinBox(
             "rotation_controller/decay/rotation",
             rot_decay_description,
-            min=0.,
-            max=1.,
+            minimum=0.,
+            maximum=1.,
             default=0.2,
         )
         self._rows.addWidget(self.rot_decay)
@@ -151,8 +151,8 @@ class LMPCSettingsWidget(QWidget):
         self.angvel_decay = ParamGetterWidget_DoubleSpinBox(
             "rotation_controller/decay/angular_velocity",
             angvel_decay_description,
-            min=0.,
-            max=1.,
+            minimum=0.,
+            maximum=1.,
             default=0.,
         )
         self._rows.addWidget(self.angvel_decay)
@@ -161,8 +161,8 @@ class LMPCSettingsWidget(QWidget):
         self.rot_weight = ParamGetterWidget_SpinBox(
             "rotation_controller/state_weight/rotation",
             rot_weight_description,
-            min=1,
-            max=100,
+            minimum=1,
+            maximum=100,
             default=100,
         )
         self._rows.addWidget(self.rot_weight)
@@ -171,8 +171,8 @@ class LMPCSettingsWidget(QWidget):
         self.angvel_weight = ParamGetterWidget_SpinBox(
             "rotation_controller/state_weight/angular_velocity",
             angvel_weight_description,
-            min=1,
-            max=100,
+            minimum=1,
+            maximum=100,
             default=1,
         )
         self._rows.addWidget(self.angvel_weight)

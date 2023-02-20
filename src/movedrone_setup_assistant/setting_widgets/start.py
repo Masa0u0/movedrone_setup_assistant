@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
-from ..utils import get_pkg_path
+from ..utils import get_proj_path
 from ..const import *
 
 
@@ -47,7 +47,7 @@ class RobotModelLoaderWidget(QWidget):
         self.description_path = None
 
         description_loader_uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-        description_launch_path = osp.join(get_pkg_path(), "launch/description.launch")
+        description_launch_path = osp.join(get_proj_path(), "launch/description.launch")
         roslaunch.configure_logging(description_loader_uuid)
         self.description_launcher = roslaunch.parent.ROSLaunchParent(
             description_loader_uuid, [description_launch_path]

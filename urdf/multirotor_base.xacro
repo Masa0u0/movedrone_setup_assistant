@@ -138,9 +138,9 @@
         <motorSpeedPubTopic>motor_speed/${motor_number}</motorSpeedPubTopic>
         <rotorVelocitySlowdownSim>${rotor_velocity_slowdown_sim}</rotorVelocitySlowdownSim>
       </plugin>
-    </gazebo>
+    </gazebo> -->
     <gazebo reference="${robot_namespace}/rotor_${motor_number}">
       <material>Gazebo/${color}</material>
-    </gazebo> -->
+    </gazebo>
   </xacro:macro>
 </robot>

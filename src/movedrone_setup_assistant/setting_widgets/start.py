@@ -125,7 +125,7 @@ class RobotModelLoaderWidget(QWidget):
         elif file_path == "":
             pass
         else:
-            QMessageBox.information(self, "ERROR", "Invalid file path: " + "\r\n" + file_path)
+            QMessageBox.information(self, "ERROR", f'Invalid file path: \r\n{file_path}')
 
     @pyqtSlot()
     def _on_load_button_clicked(self) -> None:

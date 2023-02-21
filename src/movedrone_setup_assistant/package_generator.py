@@ -49,6 +49,7 @@ class PackageGenerator(QWidget):
         if not self._is_valid_config():
             return
         self._generate_pkg()
+        QMessageBox.information(self._main, "SUCCESS", "Configuration package is generated.")
         self.generated.emit()
 
     def _is_valid_config(self) -> bool:

@@ -42,3 +42,4 @@ class SetupAssistant(QWidget):
         self.pkg_generator.define_connections()
         self.robot_visualizer.define_connections()
         self.settings.define_connections()
+        self.pkg_generator.generated.connect(lambda: self.close())

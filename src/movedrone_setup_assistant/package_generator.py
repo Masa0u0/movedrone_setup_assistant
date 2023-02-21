@@ -182,16 +182,57 @@ class PackageGenerator(QWidget):
             yaml.dump(drone_props, f)
 
     def _generate_urdf(self, urdf_dir: str) -> None:
-        root = self._make_urdf_with_plugins()
-        tree = ET.ElementTree(root)
+        tree = self._make_urdf_with_plugins()
         urdf_path = osp.join(urdf_dir, f'{self._drone_name}.urdf')
         tree.write(urdf_path)
 
-    def _make_urdf_with_plugins(self) -> ET.Element:
+    def _make_urdf_with_plugins(self) -> ET.ElementTree:
         description = rospy.get_param("/robot_description")
         root = ET.fromstring(description)
         assert root.tag == "robot"
 
+        self._remove_gazebo_plugins(root)
+        self._add_gazebo_plugins(root)
+
+        return ET.ElementTree(root)
+
+    def _remove_gazebo_plugins(self, root: ET.Element) -> None:
+        for child in root:
+            if child.tag != "gazebo":
+                continue
+
+            for gchild in child:
+                if gchild.tag == "plugin":
+                    msg_box = QMessageBox()
+                    msg_box.setText(
+                        "Gazebo plugin is detected.\n"
+                        f'name: {gchild.attrib["name"]}\n'
+                        f'filename: {gchild.attrib["filename"]}\n'
+                        "This may interfere with components automatically added by MoveDrone."
+                    )
+                    msg_box.setInformativeText("Is it OK if this plugin is ignored?")
+                    msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.No)
+                    msg_box.setDefaultButton(QMessageBox.Ok)
+                    ret = msg_box.exec()
+                    if ret == QMessageBox.Ok:
+                        root.remove(child)
+
+                elif gchild.tag == "sensor":
+                    msg_box = QMessageBox()
+                    msg_box.setText(
+                        "Gazebo sensor is detected.\n"
+                        f'name: {gchild.attrib["name"]}\n'
+                        f'type: {gchild.attrib["type"]}\n'
+                        "This may interfere with components automatically added by MoveDrone."
+                    )
+                    msg_box.setInformativeText("Is it OK if this sensor is ignored?")
+                    msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.No)
+                    msg_box.setDefaultButton(QMessageBox.Ok)
+                    ret = msg_box.exec()
+                    if ret == QMessageBox.Ok:
+                        root.remove(child)
+
+    def _add_gazebo_plugins(self, root: ET.Element) -> None:
         root_link = self._main.urdf_parser.get_root().name
 
         # Base

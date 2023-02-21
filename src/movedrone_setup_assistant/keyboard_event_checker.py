@@ -9,6 +9,8 @@ from std_msgs.msg import Empty
 class KeyboardEventChecker:
     """ Ctrl+Cを検出してアプリ終了を要求するためのノード． """
 
+    GETKEY_TIMEOUT = 0.1
+
     def __init__(self):
         self._settings = termios.tcgetattr(sys.stdin)
 
@@ -25,7 +27,7 @@ class KeyboardEventChecker:
 
     def _get_key(self) -> str:
         tty.setraw(sys.stdin.fileno())
-        rlist, _, _ = select.select([sys.stdin], [], [], None)  # タイムアウトは無し
+        rlist, _, _ = select.select([sys.stdin], [], [], self.GETKEY_TIMEOUT)
         if rlist:
             key = sys.stdin.read(1)
         else:

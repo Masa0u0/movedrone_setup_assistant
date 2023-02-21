@@ -1,4 +1,6 @@
 import os.path as osp
+import rospy
+from std_msgs.msg import Empty
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -37,6 +39,8 @@ class SetupAssistant(QWidget):
         # "no attribute"エラーを防ぐため，コンストラクタの最後に再帰的にシグナルスロット接続を定義する
         self.define_connections()
 
+        self._quit_sub = rospy.Subscriber("/quit_movedrone", Empty, self._quit_cb)
+
     def define_connections(self) -> None:
         self.urdf_parser.define_connections()
         self.pkg_generator.define_connections()
@@ -45,3 +49,6 @@ class SetupAssistant(QWidget):
 
         # パッケージの作成が完了したら閉じる
         self.pkg_generator.generated.connect(lambda: self.close())
+
+    def _quit_cb(self, msg: Empty) -> None:
+        self.close()

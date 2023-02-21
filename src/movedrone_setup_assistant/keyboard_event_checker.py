@@ -9,12 +9,12 @@ from std_msgs.msg import Empty
 class KeyboardEventChecker:
     """ Ctrl+Cを検出してアプリ終了を要求するためのノード． """
 
-    GETKEY_TIMEOUT = 0.1
+    GETKEY_TIMEOUT = 1.
 
     def __init__(self):
         self._settings = termios.tcgetattr(sys.stdin)
 
-        self._quit_pub = rospy.Publisher("/quit_movedrone", Empty)
+        self._quit_pub = rospy.Publisher("/quit_movedrone", Empty, queue_size=1)
 
     def run(self):
         while not rospy.is_shutdown():

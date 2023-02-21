@@ -39,7 +39,7 @@ class SetupAssistant(QWidget):
         # "no attribute"エラーを防ぐため，コンストラクタの最後に再帰的にシグナルスロット接続を定義する
         self.define_connections()
 
-        self._quit_sub = rospy.Subscriber("/quit_movedrone", Empty, self._quit_cb)
+        self._quit_sub = rospy.Subscriber("/quit_movedrone", Empty, self._quit_cb, queue_size=1)
 
     def define_connections(self) -> None:
         self.urdf_parser.define_connections()

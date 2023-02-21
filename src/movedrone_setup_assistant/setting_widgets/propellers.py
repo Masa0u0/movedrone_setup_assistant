@@ -290,13 +290,18 @@ class AvailableLinksWidget(QListWidget):
 
     @pyqtSlot()
     def _add_available_links(self) -> None:
+        """ rootから複数のfixedと1つのcontinuousで繋がったリンクのみプロペラ候補とする． """
         root_link = self._main.urdf_parser.get_root()
         links = self._main.urdf_parser.get_links()
+        fixed_link_names = self._main.urdf_parser.get_fixed_link_names()
+
         for link in links:
             if link.name == root_link.name:
                 continue
+
             joint = self._main.urdf_parser.get_joint(link.name)
-            if joint.type == "continuous":
+            parent = self._main.urdf_parser.get_parent(link.name)
+            if joint.type == "continuous" and parent.name in fixed_link_names:
                 self.add_link(link.name)
 
     @pyqtSlot()

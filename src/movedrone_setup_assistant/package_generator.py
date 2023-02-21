@@ -203,11 +203,11 @@ class PackageGenerator(QWidget):
 
             for gchild in child:
                 if gchild.tag == "plugin":
-                    msg_box = QMessageBox()
+                    msg_box = QMessageBox(self._main)  # 親を設定しておけば一緒に落とせる
                     msg_box.setText(
-                        "Gazebo plugin is detected.\n"
-                        f'name: {gchild.attrib["name"]}\n'
-                        f'filename: {gchild.attrib["filename"]}\n'
+                        "Gazebo plugin is detected.\n\n"
+                        f'    name: {gchild.attrib["name"]}\n'
+                        f'    filename: {gchild.attrib["filename"]}\n\n'
                         "This may interfere with components automatically added by MoveDrone."
                     )
                     msg_box.setInformativeText("Is it OK if this plugin is ignored?")
@@ -218,11 +218,11 @@ class PackageGenerator(QWidget):
                         root.remove(child)
 
                 elif gchild.tag == "sensor":
-                    msg_box = QMessageBox()
+                    msg_box = QMessageBox(self._main)
                     msg_box.setText(
-                        "Gazebo sensor is detected.\n"
-                        f'name: {gchild.attrib["name"]}\n'
-                        f'type: {gchild.attrib["type"]}\n'
+                        "Gazebo sensor is detected.\n\n"
+                        f'    name: {gchild.attrib["name"]}\n'
+                        f'    type: {gchild.attrib["type"]}\n\n'
                         "This may interfere with components automatically added by MoveDrone."
                     )
                     msg_box.setInformativeText("Is it OK if this sensor is ignored?")

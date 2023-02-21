@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base import ParamGetterWidget
-from ..utils import ComboBox
+from ..basic_widgets import ComboBox
 
 
 class ParamGetterWidget_ComboBox(ParamGetterWidget):

@@ -1,3 +1,9 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .setup_assistant import SetupAssistant
+
+import re
 import rospy
 import rospkg
 from xml.etree import ElementTree as ET
@@ -20,22 +26,25 @@ def get_drone_name() -> str:
     return root.get("name")
 
 
-class SpinBox(QSpinBox):
-    """ QSpineBoxのスクロールイベントを無効化したもの． """
-
-    def wheelEvent(self, e: QWheelEvent) -> None:
-        e.ignore()
-
-
-class DoubleSpinBox(QDoubleSpinBox):
-    """ QDoubleSpineBoxのスクロールイベントを無効化したもの． """
-
-    def wheelEvent(self, e: QWheelEvent) -> None:
-        e.ignore()
+def is_valid_email(email: str) -> bool:
+    """
+    Emailアドレスが有効かどうかを判定する．
+    cf. https://www.geeksforgeeks.org/check-if-email-address-valid-or-not-in-python/
+    """
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+    return re.fullmatch(regex, email)
 
 
-class ComboBox(QComboBox):
-    """ QComboBoxのスクロールイベントを無効化したもの． """
+def q_info(main: SetupAssistant, msg: str) -> None:
+    rospy.loginfo(msg)
+    QMessageBox.information(main, "INFO", msg)
 
-    def wheelEvent(self, e: QWheelEvent) -> None:
-        e.ignore()
+
+def q_warn(main: SetupAssistant, msg: str) -> None:
+    rospy.logwarn(msg)
+    QMessageBox.warning(main, "WARN", msg)
+
+
+def q_error(main: SetupAssistant, msg: str) -> None:
+    rospy.logerr(msg)
+    QMessageBox.critical(main, "ERROR", msg)

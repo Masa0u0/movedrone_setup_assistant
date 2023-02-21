@@ -9,8 +9,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
-from ..utils import ComboBox, DoubleSpinBox
+from ..basic_widgets import ComboBox, DoubleSpinBox
 from ..const import *
+from ..utils import q_error
 
 
 class PropellersWidget(BaseSettingWidget):
@@ -106,7 +107,7 @@ class SelectedPropellersWidget(QTableWidget):
     def _add_selected_link(self) -> None:
         selected_link = self._main.settings.propellers.available_links.selected_link()
         if selected_link is None:
-            QMessageBox.information(self, "ERROR", "No link is selected.")
+            q_error(self._main, "No link is selected.")
             return
 
         row = self.rowCount()
@@ -302,7 +303,7 @@ class AvailableLinksWidget(QListWidget):
     def _add_selected_link(self) -> None:
         selected_link = self._main.settings.propellers.selected.selected_link()
         if selected_link is None:
-            QMessageBox.information(self, "ERROR", "No link is selected.")
+            q_error(self._main, "No link is selected.")
             return
 
         self.add_link(selected_link)

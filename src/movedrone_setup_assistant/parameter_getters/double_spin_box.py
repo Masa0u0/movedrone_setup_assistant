@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base import ParamGetterWidget
-from ..utils import DoubleSpinBox
+from ..basic_widgets import DoubleSpinBox
 
 
 class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):

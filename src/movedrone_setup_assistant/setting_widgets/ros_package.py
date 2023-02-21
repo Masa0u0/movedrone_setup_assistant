@@ -62,45 +62,11 @@ class RosPackageWidget(BaseSettingWidget):
 
     @pyqtSlot(str, str)
     def _on_path_changed(self, pardir: str, pkg_name: str) -> None:
-        if not self._pardir_is_valid(pardir):
-            self.generate_button.setEnabled(False)
-            return
-
-        if not self._pkg_name_is_valid(pkg_name):
+        if pardir == "" or pkg_name == "":
             self.generate_button.setEnabled(False)
             return
 
         self.generate_button.setEnabled(True)
-
-    def _pardir_is_valid(self, pardir: str) -> bool:
-        # 存在していないとダメ
-        if not osp.isdir(pardir):
-            return False
-
-        # ルートはダメ
-        if pardir == "/":
-            return False
-
-        return True
-
-    def _pkg_name_is_valid(self, pkg_name: str) -> bool:
-        # 既に存在していたらダメ
-        if osp.exists(self.pkg_path.text()):
-            return False
-
-        # 空欄はダメ
-        if len(pkg_name) == 0:
-            return False
-
-        # 複数階層はダメ
-        if pkg_name.count("/") > 0:
-            return False
-
-        # スペースはダメ
-        if pkg_name.count(" ") > 0:
-            return False
-
-        return True
 
 
 class PackagePath(QLabel):
@@ -113,8 +79,8 @@ class PackagePath(QLabel):
         super().__init__()
         self._main = main
 
-        self._pardir = ""
-        self._pkg_name = ""
+        self.pardir = ""
+        self.pkg_name = ""
 
         self.setFont(QFont("Default", pointSize=BODY_PSIZE, weight=QFont.Bold))
         self.setFixedHeight(self.HEIGHT)
@@ -127,18 +93,18 @@ class PackagePath(QLabel):
         self._main.settings.ros_package.pkg_name.text_changed.connect(self._on_pkg_name_changed)
 
     def _update(self) -> None:
-        path = self._pardir + "/" + self._pkg_name
+        path = self.pardir + "/" + self.pkg_name
         path = re.sub("/*/", "/", path)  # スラッシュの重複を削除
         self.setText(path)
 
-        self.path_changed.emit(self._pardir, self._pkg_name)
+        self.path_changed.emit(self.pardir, self.pkg_name)
 
     @pyqtSlot(str)
     def _on_pardir_changed(self, pardir: str) -> None:
-        self._pardir = pardir
+        self.pardir = pardir
         self._update()
 
     @pyqtSlot(str)
     def _on_pkg_name_changed(self, pkg_name: str) -> None:
-        self._pkg_name = pkg_name
+        self.pkg_name = pkg_name
         self._update()

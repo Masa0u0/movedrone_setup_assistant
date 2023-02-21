@@ -13,7 +13,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-from .utils import get_proj_path, get_drone_name
+from .utils import *
 from .xml_nodes import *
 
 
@@ -49,11 +49,45 @@ class PackageGenerator(QWidget):
         if not self._is_valid_config():
             return
         self._generate_pkg()
-        QMessageBox.information(self._main, "SUCCESS", "Configuration package is generated.")
+        q_info(self._main, "Configuration package is generated.")
         self.generated.emit()
 
     def _is_valid_config(self) -> bool:
-        return True  # TODO: ダメならメッセージも
+        propellers = self._main.settings.propellers.selected
+        author_info = self._main.settings.author_information
+        ros_pkg = self._main.settings.ros_package
+
+        if propellers.num() < 3:
+            # TODO: ヘリのような駆動関節の先にプロペラが付いたモデルなら2つでもいけるはず
+            q_error(self._main, "[Propellers]: At least 3 propellers are needed.")
+            return False
+
+        author_name = author_info.name.get()
+        if author_name == "":
+            q_error(self._main, "[Author Info]: Author name is blank.")
+            return False
+
+        author_email = author_info.email.get()
+        if not is_valid_email(author_email):
+            q_error(self._main, "[Author Info]: Invalid email address.")
+            return False
+
+        pardir = ros_pkg.pkg_path.pardir
+        if not osp.isdir(pardir):
+            q_error(self._main, f'[ROS Package]: {pardir} does not exist.')
+            return False
+
+        pkg_name = ros_pkg.pkg_path.pkg_name
+        if pkg_name.count("/") > 0 or pkg_name.count(" "):
+            q_error(self._main, f'[ROS Package]: Invalid package name.')
+            return False
+
+        pkg_path = ros_pkg.pkg_path.text()
+        if osp.exists(pkg_path):
+            q_error(self._main, f'[ROS Package]: {pkg_path} already exists.')
+            return False
+
+        return True
 
     def _generate_pkg(self) -> None:
         # 各ディレクトリのパス

@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from .base_setting import BaseSettingWidget
-from ..utils import get_proj_path
+from ..utils import get_proj_path, q_error
 from ..const import *
 
 
@@ -125,7 +125,7 @@ class RobotModelLoaderWidget(QWidget):
         elif file_path == "":
             pass
         else:
-            QMessageBox.information(self, "ERROR", f'Invalid file path: \r\n{file_path}')
+            q_error(self._main, f'Invalid file path: \r\n{file_path}')
 
     @pyqtSlot()
     def _on_load_button_clicked(self) -> None:
@@ -139,7 +139,7 @@ class RobotModelLoaderWidget(QWidget):
         if ok:
             self.urdf_loaded.emit()
         else:
-            QMessageBox.information(self, "ERROR", "Failed to load robot description.")
+            q_error(self._main, "Failed to load robot description.")
             self.file_text.clear()
             self.file_text.setEnabled(True)
             self.browse_button.setEnabled(True)

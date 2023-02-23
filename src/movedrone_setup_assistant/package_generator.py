@@ -240,6 +240,10 @@ class PackageGenerator(QWidget):
                         if gchild.attrib["filename"].startswith("librotors"):
                             root.remove(child)
                             continue
+                        # Gazebo ROS Controlは問答無用で消す
+                        if gchild.attrib["filename"] == "libgazebo_ros_control.so":
+                            root.remove(child)
+                            continue
                         self._remove_or_keep_gazebo_child(child, gchild)
                     elif gchild.tag == "sensor":
                         self._remove_or_keep_gazebo_child(child, gchild)

@@ -44,4 +44,4 @@ class SetupAssistant(QWidget):
         self.settings.define_connections()
 
         # パッケージの作成が完了したら閉じる
-        self.pkg_generator.generated.connect(lambda: self.close())
+        self.pkg_generator.generated.connect(self.close)

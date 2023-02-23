@@ -12,6 +12,7 @@ from PyQt5.QtGui import *
 from .base_setting import BaseSettingWidget
 from ..parameter_getters import *
 from ..const import *
+from ..utils import get_drone_name
 
 
 class RosPackageWidget(BaseSettingWidget):
@@ -91,6 +92,7 @@ class PackagePath(QLabel):
     def define_connections(self) -> None:
         self._main.settings.ros_package.pardir.path_changed.connect(self._on_pardir_changed)
         self._main.settings.ros_package.pkg_name.text_changed.connect(self._on_pkg_name_changed)
+        self._main.urdf_parser.robot_model_updated.connect(self._set_default_pkg)
 
     def _update(self) -> None:
         path = self.pardir + "/" + self.pkg_name
@@ -107,4 +109,10 @@ class PackagePath(QLabel):
     @pyqtSlot(str)
     def _on_pkg_name_changed(self, pkg_name: str) -> None:
         self.pkg_name = pkg_name
+        self._update()
+
+    @pyqtSlot()
+    def _set_default_pkg(self) -> None:
+        pkg_name = f'movedrone_{get_drone_name()}_config'
+        self._main.settings.ros_package.pkg_name.set(pkg_name)
         self._update()

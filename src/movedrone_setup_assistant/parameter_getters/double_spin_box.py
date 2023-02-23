@@ -44,6 +44,9 @@ class ParamGetterWidget_DoubleSpinBox(ParamGetterWidget):
     def get(self) -> float:
         return self.spin_box.value()
 
+    def set(self, value: float) -> None:
+        self.spin_box.setValue(value)
+
     @pyqtSlot(float)
     def _on_value_changed(self, value: float) -> None:
         self.value_changed.emit(value)

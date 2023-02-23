@@ -38,6 +38,9 @@ class ParamGetterWidget_DirDialog(ParamGetterWidget):
     def get(self) -> str:
         return self.line.text()
 
+    def set(self, text: str) -> None:
+        self.path.setText(text)
+
     @pyqtSlot(str)
     def _on_text_changed(self, text: str) -> None:
         self.path_changed.emit(text)

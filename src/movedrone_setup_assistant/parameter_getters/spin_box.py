@@ -43,6 +43,9 @@ class ParamGetterWidget_SpinBox(ParamGetterWidget):
     def get(self) -> int:
         return self.spin_box.value()
 
+    def set(self, value: int) -> None:
+        self.spin_box.setValue(value)
+
     @pyqtSlot(int)
     def _on_value_changed(self, value: int) -> None:
         self.value_changed.emit(value)

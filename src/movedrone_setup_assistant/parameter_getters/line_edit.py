@@ -24,6 +24,9 @@ class ParamGetterWidget_LineEdit(ParamGetterWidget):
 
     def get(self) -> str:
         return self.line.text()
+    
+    def set(self, text: str) -> None:
+        self.line.setText(text)
 
     @pyqtSlot(str)
     def _on_text_changed(self, text: str) -> None:

@@ -32,6 +32,9 @@ class ParamGetterWidget_ComboBox(ParamGetterWidget):
 
     def get(self) -> str:
         return self.box.currentText()
+    
+    def set(self, text: str) -> None:
+        self.box.setCurrentText(text)
 
     @pyqtSlot(str)
     def _on_text_changed(self, text: str) -> None:

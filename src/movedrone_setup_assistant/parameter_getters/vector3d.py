@@ -48,6 +48,11 @@ class ParamGetterWidget_Vector3d(ParamGetterWidget):
     def get(self) -> Tuple[float, float, float]:
         return self._x.get(), self._y.get(), self._z.get()
 
+    def set(self, x: float, y: float, z: float) -> None:
+        self._x.data.setValue(x)
+        self._y.data.setValue(y)
+        self._z.data.setValue(z)
+
     @pyqtSlot(float)
     def _on_value_changed(self, value: float) -> None:
         self.value_changed.emit(self._x.get(), self._y.get(), self._z.get())
@@ -66,7 +71,7 @@ class DoubleGetter(QWidget):
     ) -> None:
         assert minimum < maximum
         assert single_step > 0.
-        
+
         super().__init__()
 
         self._cols = QHBoxLayout()

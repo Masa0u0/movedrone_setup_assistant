@@ -100,8 +100,16 @@ class SelectedPropellersWidget(QTableWidget):
         return self.link_names[row].text()
 
     def num(self) -> int:
-        """ 現在選択されているプロペラの個数を返す． """
+        """ 選択テーブル内のプロペラの個数を返す． """
         return len(self.link_names)
+
+    def get_link_names(self) -> List[str]:
+        """ 選択テーブル内のリンクの名前のリストを返す． """
+        return [link_name.text() for link_name in self.link_names]
+
+    def get_joint_names(self) -> List[str]:
+        """ 選択テーブル内のジョイントの名前のリストを返す． """
+        return [joint_name.text() for joint_name in self.joint_names]
 
     @pyqtSlot()
     def _add_selected_link(self) -> None:
@@ -303,6 +311,8 @@ class AvailableLinksWidget(QListWidget):
             parent = self._main.urdf_parser.get_parent(link.name)
             if joint.type == "continuous" and parent.name in fixed_link_names:
                 self.add_link(link.name)
+
+        self.sortItems()
 
     @pyqtSlot()
     def _add_selected_link(self) -> None:

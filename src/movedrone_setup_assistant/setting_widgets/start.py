@@ -37,8 +37,6 @@ class StartWidget(BaseSettingWidget):
 
 class RobotModelLoaderWidget(QWidget):
 
-    WAIT_UNTIL_URDF_LOADED = 5.
-
     urdf_loaded = pyqtSignal()
 
     def __init__(self, main: SetupAssistant) -> None:
@@ -89,94 +87,47 @@ class RobotModelLoaderWidget(QWidget):
     def _on_file_path_changed(self) -> None:
         file_path = self.file_text.text().strip()
 
-        if not self._is_valid_extension(file_path):
+        if not self._is_valid_path(file_path):
             self.load_button.setEnabled(False)
             return
 
+        self.description_path = file_path
         self.load_button.setEnabled(True)
-        self.file_text.setText(file_path)
-
-        pkg_name = rospkg.get_package_name(file_path)
-
-        if pkg_name == None:
-            self.description_path = file_path
-            return
-
-        try:
-            start = file_path.index(pkg_name) + len(pkg_name)
-            file_name = osp.basename(file_path)
-            end = file_path.index(file_name)
-            file_sub_path = file_path[start:end]
-            self.description_path = f'$(find {pkg_name}){file_sub_path}{file_name}'
-        except:
-            pass
 
     @pyqtSlot()
     def _on_browse_button_clicked(self) -> None:
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file_path, _ = QFileDialog.getOpenFileName(
-            self, TITLE, "", "Robot Description (*.urdf *xacro);;All (*)", options=options
+            self, TITLE, "", "Robot Description (*.urdf *.xacro)", options=options
         )
-
-        if self._is_valid_extension(file_path):
-            self.file_text.setText(file_path)
-            self.load_button.setEnabled(True)
-        elif file_path == "":
-            pass
-        else:
-            q_error(self._main, f'Invalid file path: \r\n{file_path}')
+        self.file_text.setText(file_path)
 
     @pyqtSlot()
     def _on_load_button_clicked(self) -> None:
-        self._launch_file()
+        try:
+            self._launch_file()
+        except Exception as e:
+            rospy.logerr(e)
+            q_error(self._main, "Failed to load robot description.")
+            return
 
         self.file_text.setEnabled(False)
         self.browse_button.setEnabled(False)
         self.load_button.setEnabled(False)
 
-        ok = self._wait_until_urdf_ready()
-        if ok:
-            self.urdf_loaded.emit()
-        else:
-            q_error(self._main, "Failed to load robot description.")
-            self.file_text.clear()
-            self.file_text.setEnabled(True)
-            self.browse_button.setEnabled(True)
-            self.load_button.setEnabled(True)
+        self.urdf_loaded.emit()
 
     def _launch_file(self) -> None:
         # this is a hack to pass urdf file
         # description.launchで使われる環境変数を設定
-        print(self.description_path)
         os.environ["MOVEDRONE_SETUP_ASSISTANT_DESCRIPTION_PATH"] = self.description_path
 
         # robot_descriptionをrosparamに登録
         self.description_launcher.shutdown()
         self.description_launcher.start()
 
-    def _is_valid_extension(self, file_path: str) -> bool:
-        _, extension = osp.splitext(file_path)
-
-        if extension in {'.urdf', '.xacro'}:
-            return osp.isfile(file_path)
-        else:
-            return False
-
-    def _wait_until_urdf_ready(self) -> bool:
-        """ 制限時間内にdescriptionがパラメータサーバに登録されたらTrue． """
-        start = rospy.Time.now()
-
-        while not rospy.is_shutdown():
-            try:
-                rospy.get_param('/robot_description')
-                return True
-            except:
-                pass
-
-            now = rospy.Time.now()
-            elapsed_time = (now - start).to_sec()
-            if elapsed_time > self.WAIT_UNTIL_URDF_LOADED:
-                return False
-
-            rospy.sleep(0.1)
+    def _is_valid_path(self, file_path: str) -> bool:
+        """ 引数が実在するロボット記述言語かどうかを判定する． """
+        _, ext = osp.splitext(file_path)
+        return ext.lower() in {'.urdf', '.xacro'} and osp.isfile(file_path)

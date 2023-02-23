@@ -46,7 +46,7 @@ class BaseSettingWidget(QScrollArea):
     @final
     def _add_dummy_widget(self) -> None:
         """
-        余白が空いているとサイズ固定が効かなくなるため，最後に伸縮可能なダミーウィジェットを加える．
+        余白が空いているとサイズ固定が効かなくなるため，最後に伸縮可能なダミーウィジェットを加える．\\
         ダミーウィジェットを最大まで拡大するようにしておけば，他の要素はなるべく上に詰めてくれる．
         """
         dummy_widget = QWidget()

@@ -6,7 +6,7 @@ SLOWDOWN_SIM = 10.
 class BaseModel(ET.Element):
 
     def __init__(self, drone_name: str, root_link: str) -> None:
-        super().__init__("gazebo", {})
+        super().__init__("gazebo")
 
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_multirotor_base_plugin.so"
@@ -33,7 +33,7 @@ class MotorModel(ET.Element):
         roll_coef: float,
         time_const_up: float,
         time_const_down: float,
-    ):
+    ) -> None:
         assert direction in {"cw", "ccw"}
         assert max_rot_vel > 0.
         assert motor_const > 0.
@@ -43,7 +43,7 @@ class MotorModel(ET.Element):
         assert time_const_up > 0.
         assert time_const_down > 0.
 
-        super().__init__("gazebo", {})
+        super().__init__("gazebo")
 
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_motor_model.so"
@@ -68,8 +68,8 @@ class MotorModel(ET.Element):
 
 class ControllerInterface(ET.Element):
 
-    def __init__(self, drone_name: str):
-        super().__init__("gazebo", {})
+    def __init__(self, drone_name: str) -> None:
+        super().__init__("gazebo")
 
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_controller_interface.so"
@@ -95,7 +95,7 @@ class ImuModel(ET.Element):
         acc_random_walk: float,
         acc_bias_corr_time: float,
         acc_turn_on_bias_sigma: float,
-    ):
+    ) -> None:
         assert gyro_noise_density >= 0.
         assert gyro_random_walk >= 0.
         assert gyro_bias_corr_time > 0.
@@ -105,7 +105,7 @@ class ImuModel(ET.Element):
         assert acc_bias_corr_time > 0.
         assert acc_turn_on_bias_sigma >= 0.
 
-        super().__init__("gazebo", {})
+        super().__init__("gazebo")
 
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_imu_plugin.so"
@@ -136,14 +136,14 @@ class MagneometerModel(ET.Element):
         ref_mag_down: float,
         gauss_noise: float,
         uniform_noise: float,
-    ):
+    ) -> None:
         assert ref_mag_north > 0.
         assert ref_mag_east > 0.
         assert ref_mag_down > 0.
         assert gauss_noise >= 0.
         assert uniform_noise >= 0.
 
-        super().__init__("gazebo", {})
+        super().__init__("gazebo")
 
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_magnetometer_plugin.so"
@@ -172,13 +172,13 @@ class GpsModel(ET.Element):
         ver_pos_std: float,
         hor_vel_std: float,
         ver_vel_std: float,
-    ):
+    ) -> None:
         assert hor_pos_std >= 0.
         assert ver_pos_std >= 0.
         assert hor_vel_std >= 0.
         assert ver_vel_std >= 0.
 
-        super().__init__("gazebo", {"reference": link_name})
+        super().__init__("gazebo", reference=link_name)
 
         sensor = _GpsSensor(
             drone_name,
@@ -205,8 +205,8 @@ class _GpsSensor(ET.Element):
         ver_pos_std: float,
         hor_vel_std: float,
         ver_vel_std: float,
-    ):
-        super().__init__("sensor", {"name": f'{drone_name}_gps', "type": "gps"})
+    ) -> None:
+        super().__init__("sensor", name=f'{drone_name}_gps', type="gps")
 
         ET.SubElement(self, "pose").text = "0 0 0 0 0 0"
         ET.SubElement(self, "visualize").text = "0"
@@ -237,8 +237,8 @@ class _GpsSensorGps(ET.Element):
         ver_pos_std: float,
         hor_vel_std: float,
         ver_vel_std: float,
-    ):
-        super().__init__("gps", {})
+    ) -> None:
+        super().__init__("gps")
 
         pos_sensing = _GpsSensorGpsSensing("position_sensing", hor_pos_std, ver_pos_std)
         self.append(pos_sensing)
@@ -249,8 +249,8 @@ class _GpsSensorGps(ET.Element):
 
 class _GpsSensorGpsSensing(ET.Element):
 
-    def __init__(self, tag: str, hor_std: float, ver_std: float):
-        super().__init__(tag, {})
+    def __init__(self, tag: str, hor_std: float, ver_std: float) -> None:
+        super().__init__(tag)
 
         horizontal = _GpsSensorGpsSensingElement("horizontal", hor_std)
         self.append(horizontal)
@@ -261,8 +261,8 @@ class _GpsSensorGpsSensing(ET.Element):
 
 class _GpsSensorGpsSensingElement(ET.Element):
 
-    def __init__(self, tag: str, std: float):
-        super().__init__(tag, {})
+    def __init__(self, tag: str, std: float) -> None:
+        super().__init__(tag)
 
         gauss_noise = ET.SubElement(self, "gauss_noise")
         gauss_noise.attrib["type"] = "gaussian"
@@ -285,7 +285,7 @@ class _GpsSensorPlugin(ET.Element):
         ver_pos_std: float,
         hor_vel_std: float,
         ver_vel_std: float,
-    ):
+    ) -> None:
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_gps_plugin.so"
         plugin.attrib["name"] = "rotors_gazebo_gps_plugin"
@@ -302,8 +302,8 @@ class _GpsSensorPlugin(ET.Element):
 
 class ImuModelGT(ET.Element):
 
-    def __init__(self, drone_name: str, link_name: str):
-        super().__init__("gazebo", {})
+    def __init__(self, drone_name: str, link_name: str) -> None:
+        super().__init__("gazebo")
 
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_imu_plugin.so"
@@ -324,8 +324,8 @@ class ImuModelGT(ET.Element):
 
 class OdometryModelGT(ET.Element):
 
-    def __init__(self, drone_name: str, root_link: str):
-        super().__init__("gazebo", {})
+    def __init__(self, drone_name: str, root_link: str) -> None:
+        super().__init__("gazebo")
 
         plugin = ET.SubElement(self, "plugin")
         plugin.attrib["filename"] = "librotors_gazebo_odometry_plugin.so"
@@ -351,3 +351,39 @@ class OdometryModelGT(ET.Element):
         ET.SubElement(plugin, "noiseUniformQuaternion").text = "0 0 0"
         ET.SubElement(plugin, "noiseUniformLinearVelocity").text = "0 0 0"
         ET.SubElement(plugin, "noiseUniformAngularVelocity").text = "0 0 0"
+
+
+class GazeboRosControlModel(ET.Element):
+
+    def __init__(self, drone_name: str) -> None:
+        super().__init__("gazebo")
+
+        plugin = ET.SubElement(self, "plugin")
+        plugin.attrib["filename"] = "libgazebo_ros_control.so"
+        plugin.attrib["name"] = "gazebo_ros_control"
+
+        ET.SubElement(plugin, "robotNamespace").text = drone_name  # コントローラはこのNSに属する
+        ET.SubElement(plugin, "robotSimType").text = "gazebo_ros_control/DefaultRobotHWSim"
+        ET.SubElement(plugin, "legacyModeNS").text = "true"
+
+
+class TransmissionModel(ET.Element):
+
+    POSITION = "hardware_interface/PositionJointInterface"
+    VELOCITY = "hardware_interface/VelocityJointInterface"
+    EFFORT = "hardware_interface/EffortJointInterface"
+
+    def __init__(self, joint_name: str, interface: str = POSITION, reduction: float = 1.):
+        assert interface in {self.POSITION, self.VELOCITY, self.EFFORT}
+        assert reduction >= 1.
+
+        super().__init__("transmission", name=f'{joint_name}_trans')
+
+        ET.SubElement(self, "type").text = "transmission_interface/SimpleTransmission"
+
+        joint = ET.SubElement(self, "joint", {"name": joint_name})
+        ET.SubElement(joint, "hardwareInterface").text = interface
+
+        actuator = ET.SubElement(self, "actuator", {"name": f'{joint_name}_actuator'})
+        ET.SubElement(actuator, "hardwareInterface").text = interface
+        ET.SubElement(actuator, "mechanicalReduction").text = f'{reduction}'

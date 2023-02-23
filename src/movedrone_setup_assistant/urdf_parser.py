@@ -10,6 +10,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from .utils import q_error
+
 
 class URDFParser(QWidget):
 
@@ -27,6 +29,7 @@ class URDFParser(QWidget):
     @pyqtSlot()
     def _on_urdf_loaded(self) -> None:
         self._robot = Robot.from_parameter_server("/robot_description")
+        self._is_valid_robot()
         rospy.loginfo("Robot model is loaded successfully.")
         self.robot_model_updated.emit()
 
@@ -58,14 +61,32 @@ class URDFParser(QWidget):
         assert link_name in self._robot.link_map.keys()
         return link_name not in self._robot.child_map.keys()
 
+    def is_fixed_joint(self, joint_name: str) -> bool:
+        joint = self._robot.joint_map[joint_name]
+        return joint.type == "fixed"
+
+    def required_joint_names(self) -> List[str]:
+        """
+        ロボットの形状を決めるのに必要な関節名のリストを返す．\\
+        プロペラに設定されていない可動リンクがあるかどうかを調べる．
+        """
+        propeller_joints = set(self._main.settings.propellers.selected.get_joint_names())
+        res = []
+
+        for joint in self.get_joints():
+            if (not joint.name in propeller_joints) and (not self.is_fixed_joint(joint.name)):
+                res.append(joint.name)
+
+        return res
+
     def link_exists(self, link_name: str) -> bool:
-        for link in self._robot.links:
+        for link in self.get_links():
             if link.name == link_name:
                 return True
         return False
 
     def joint_exists(self, joint_name: str) -> bool:
-        for joint in self._robot.joints:
+        for joint in self.get_joints():
             if joint.name == joint_name:
                 return True
         return False
@@ -88,3 +109,13 @@ class URDFParser(QWidget):
                 continue
             res += self._get_fixed_link_names_rec(child_name)
         return res
+
+    def _is_valid_robot(self) -> bool:
+        """ 有効なロボットかどうかを判定する． """
+        # 多自由度関節はダメ
+        for joint in self.get_joints():
+            if joint.type in {"floating", "planar"}:
+                q_error(self._main, f'Invalid joint type: {joint.type}')
+                return False
+
+        return True

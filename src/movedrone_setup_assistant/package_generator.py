@@ -110,6 +110,7 @@ class PackageGenerator(QWidget):
         self._generate_from_template(items, "gazebo.launch", launch_dir)
         self._generate_from_template(items, "controller.launch", launch_dir)
         self._generate_drone_props(config_dir)
+        self._generate_joint_control(config_dir)
         self._generate_urdf(urdf_dir)
 
     def _make_template_items(self) -> None:
@@ -146,6 +147,11 @@ class PackageGenerator(QWidget):
         smc_items = {}  # TODO
         template_items["smc"] = smc_items
 
+        joint_controllers = "joint_state_controller"
+        for jnt_name in self._main.urdf_parser.required_joint_names():
+            joint_controllers += f' {jnt_name}_controller'
+        template_items["joint_controllers"] = joint_controllers
+
         return template_items
 
     def _generate_from_template(self, items: dict, template_file: str, dest: str) -> None:
@@ -162,6 +168,7 @@ class PackageGenerator(QWidget):
         drone_props = {
             "drone_name": self._drone_name,
             "num_rotors": num_rotors,
+            "required_joint_names": self._main.urdf_parser.required_joint_names(),
         }
         for i in range(num_rotors):
             drone_props[f'rotor_{i}'] = {
@@ -181,6 +188,28 @@ class PackageGenerator(QWidget):
         with open(drone_props_path, "w") as f:
             yaml.dump(drone_props, f)
 
+    def _generate_joint_control(self, config_dir: str) -> None:
+        # yamlファイルに書き込むための辞書を作る
+        jnt_ctrl_sub = {}
+
+        jnt_ctrl_sub["joint_state_controller"] = {
+            "type": "joint_state_controller/JointStateController",
+            "publish_rate": 1000.
+        }
+
+        for jnt_name in self._main.urdf_parser.required_joint_names():
+            jnt_ctrl_sub[f'{jnt_name}_controller'] = {
+                "type": "position_controllers/JointPositionController",
+                "joint": jnt_name,
+            }
+
+        jnt_ctrl = {self._drone_name: jnt_ctrl_sub}
+
+        # yamlファイルを作成
+        jnt_ctrl_path = osp.join(config_dir, "joint_control.yaml")
+        with open(jnt_ctrl_path, "w") as f:
+            yaml.dump(jnt_ctrl, f)
+
     def _generate_urdf(self, urdf_dir: str) -> None:
         tree = self._make_urdf_with_plugins()
         urdf_path = osp.join(urdf_dir, f'{self._drone_name}.urdf')
@@ -191,55 +220,62 @@ class PackageGenerator(QWidget):
         root = ET.fromstring(description)
         assert root.tag == "robot"
 
-        self._remove_gazebo_plugins(root)
-        self._add_gazebo_plugins(root)
+        self._screen_xml_elements(root)
+        self._add_xml_elements(root)
 
         return ET.ElementTree(root)
 
-    def _remove_gazebo_plugins(self, root: ET.Element) -> None:
+    def _screen_xml_elements(self, root: ET.Element) -> None:
+        """ 悪影響を与えるかもしれないXML要素を，ユーザに確認した上で消す． """
         for child in root:
-            if child.tag != "gazebo":
-                continue
+            # transmissionは問答無用で消す
+            if child.tag == "transmission":
+                root.remove(child)
 
-            for gchild in child:
-                if gchild.tag == "plugin":
-                    msg_box = QMessageBox(self._main)  # 親を設定しておけば一緒に落とせる
-                    msg_box.setText(
-                        "Gazebo plugin is detected.\n\n"
-                        f'    name: {gchild.attrib["name"]}\n'
-                        f'    filename: {gchild.attrib["filename"]}\n\n'
-                        "This may interfere with components automatically added by MoveDrone."
-                    )
-                    msg_box.setInformativeText("Is it OK if this plugin is ignored?")
-                    msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.No)
-                    msg_box.setDefaultButton(QMessageBox.Ok)
-                    ret = msg_box.exec()
-                    if ret == QMessageBox.Ok:
-                        root.remove(child)
+            # gazeboタグの場合はその子ノードを確認する
+            if child.tag == "gazebo":
+                for gchild in child:
+                    if gchild.tag == "plugin":
+                        # RotorSのプラグインは問答無用で消す
+                        if gchild.attrib["filename"].startswith("librotors"):
+                            root.remove(child)
+                            continue
+                        self._remove_or_keep_gazebo_child(child, gchild)
+                    elif gchild.tag == "sensor":
+                        self._remove_or_keep_gazebo_child(child, gchild)
 
-                elif gchild.tag == "sensor":
-                    msg_box = QMessageBox(self._main)
-                    msg_box.setText(
-                        "Gazebo sensor is detected.\n\n"
-                        f'    name: {gchild.attrib["name"]}\n'
-                        f'    type: {gchild.attrib["type"]}\n\n'
-                        "This may interfere with components automatically added by MoveDrone."
-                    )
-                    msg_box.setInformativeText("Is it OK if this sensor is ignored?")
-                    msg_box.setStandardButtons(QMessageBox.Ok | QMessageBox.No)
-                    msg_box.setDefaultButton(QMessageBox.Ok)
-                    ret = msg_box.exec()
-                    if ret == QMessageBox.Ok:
-                        root.remove(child)
+    def _remove_or_keep_gazebo_child(self, gazebo: ET.Element, child: ET.Element) -> None:
+        """ 属性を確認した上でGazeboの子ノードを削除する． """
+        msg_box = QMessageBox(self._main)  # 親を設定しておけば一緒に落とせる
 
-    def _add_gazebo_plugins(self, root: ET.Element) -> None:
+        # テキストの設定
+        text = f'Gazebo {child.tag} is detected.\n\n'
+        for key, value in child.attrib.items():
+            text += f'    {key}: {value}\n'
+        text += "\nThis may interfere with components automatically added by MoveDrone."
+        msg_box.setText(text)
+        msg_box.setInformativeText(f'Do you remove this {child.tag} or keep it?')
+
+        # ボタンの設定
+        remove_button = msg_box.addButton("Remove", QMessageBox.ActionRole)
+        keep_button = msg_box.addButton("Keep", QMessageBox.ActionRole)
+        msg_box.setDefaultButton(remove_button)
+
+        # ユーザの返事を取得
+        msg_box.exec()
+
+        # Removeが選択されたら消す
+        if msg_box.clickedButton() == remove_button:
+            gazebo.remove(child)
+
+    def _add_xml_elements(self, root: ET.Element) -> None:
         root_link = self._main.urdf_parser.get_root().name
 
         # Base
-        base_model = BaseModel(self._drone_name, root_link)
-        root.append(base_model)
+        # base_model = BaseModel(self._drone_name, root_link)
+        # root.append(base_model)
 
-        # Motor
+        # Motors
         propellers_widget = self._main.settings.propellers.selected
         for i in range(propellers_widget.num()):
             motor_model = MotorModel(
@@ -314,5 +350,14 @@ class PackageGenerator(QWidget):
         # Odometry (Ground Truth)
         odom_gt_model = OdometryModelGT(self._drone_name, root_link)
         root.append(odom_gt_model)
+
+        # ROS Control
+        ros_control = GazeboRosControlModel(self._drone_name)
+        root.append(ros_control)
+
+        # Transmissions
+        for jnt_name in self._main.urdf_parser.required_joint_names():
+            transmission = TransmissionModel(jnt_name, interface=TransmissionModel.POSITION)
+            root.append(transmission)
 
         return root

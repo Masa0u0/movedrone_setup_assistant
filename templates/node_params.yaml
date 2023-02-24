@@ -26,4 +26,4 @@ controller:
         y: {{ lmpc["angvel_weight"] }}
         z: {{ lmpc["angvel_weight"] }}
     input_weight: 1.0e-3
-    input_rate_weight: 0.
+    input_rate_weight: 1.0e-3

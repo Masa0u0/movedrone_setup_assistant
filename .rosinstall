@@ -15,3 +15,9 @@
   uri: https://github.com/chvmp/robot_state_plugin.git,
   version: master,
   }
+
+- git: {
+  local-name: dh_rqt_tools,
+  uri: git@github.com:Masa0u0/dh_rqt_tools.git,
+  version: main,
+}

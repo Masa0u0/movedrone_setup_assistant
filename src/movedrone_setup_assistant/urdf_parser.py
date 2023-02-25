@@ -10,7 +10,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
-from .utils import q_error
+from dh_rqt_tools.messages import q_error
 
 
 class URDFParser(QWidget):

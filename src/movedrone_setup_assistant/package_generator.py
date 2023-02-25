@@ -13,6 +13,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from dh_rqt_tools.path import get_proj_path
+from dh_rqt_tools.messages import q_info, q_error
+
 from .utils import *
 from .xml_nodes import *
 

@@ -3,11 +3,12 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from dh_rqt_tools.path import get_proj_path
+
 from .urdf_parser import URDFParser
 from .package_generator import PackageGenerator
 from .robot_visualizer import RobotVisualizerWidget
 from .settings import SettingsWidget
-from .utils import get_proj_path
 from .const import *
 
 

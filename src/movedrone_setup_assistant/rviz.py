@@ -3,13 +3,13 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .setup_assistant import SetupAssistant
 
+from dh_rqt_tools.path import get_proj_path
+
 import os.path as osp
 from rviz import bindings as rviz
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-
-from .utils import get_proj_path
 
 
 class RvizWidget(QWidget):

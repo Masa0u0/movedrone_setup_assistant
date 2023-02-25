@@ -6,14 +6,15 @@ if TYPE_CHECKING:
 import os
 import os.path as osp
 import rospy
-import rospkg
 import roslaunch
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from dh_rqt_tools.path import get_proj_path
+from dh_rqt_tools.messages import q_error
+
 from .base_setting import BaseSettingWidget
-from ..utils import get_proj_path, q_error
 from ..const import *
 
 

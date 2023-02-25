@@ -18,7 +18,7 @@ class SetupAssistant(QWidget):
         super().__init__()
 
         proj_path = get_proj_path()
-        icon_path = osp.join(proj_path, 'resources/movedrone_icon.png')
+        icon_path = osp.join(proj_path, "resources/movedrone_icon.png")
         self.setWindowIcon(QIcon(icon_path))
         self.setWindowTitle(TITLE)
 

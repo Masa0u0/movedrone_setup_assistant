@@ -3,8 +3,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from typing import List, Tuple
 
+from dh_rqt_tools.widgets import DoubleSpinBox
+
 from .base import ParamGetterWidget
-from ..basic_widgets import DoubleSpinBox
 from ..const import *
 
 

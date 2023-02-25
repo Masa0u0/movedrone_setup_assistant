@@ -2,8 +2,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from dh_rqt_tools.widgets import SpinBox
+
 from .base import ParamGetterWidget
-from ..basic_widgets import SpinBox
 
 
 class ParamGetterWidget_SpinBox(ParamGetterWidget):

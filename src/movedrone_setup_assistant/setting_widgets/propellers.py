@@ -8,10 +8,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from dh_rqt_tools.widgets import ComboBox, DoubleSpinBox
 from dh_rqt_tools.messages import q_error
 
 from .base_setting import BaseSettingWidget
-from ..basic_widgets import ComboBox, DoubleSpinBox
 from ..const import *
 
 

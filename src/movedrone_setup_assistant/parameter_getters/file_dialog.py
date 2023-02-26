@@ -27,6 +27,8 @@ class ParamGetterWidget_FileDialog(ParamGetterWidget):
         self._rows.addLayout(self._cols)
 
         self.path = QLineEdit(default)
+        self.path.setReadOnly(True)
+        self.path.setFocusPolicy(Qt.NoFocus)
         self._cols.addWidget(self.path)
 
         self.browse_button = QPushButton("Browse")

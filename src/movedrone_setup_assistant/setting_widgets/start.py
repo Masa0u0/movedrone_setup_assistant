@@ -70,6 +70,8 @@ class RobotModelLoaderWidget(QWidget):
         self._rows.addLayout(self._cols)
 
         self.file_text = QLineEdit("")
+        self.file_text.setReadOnly(True)
+        self.file_text.setFocusPolicy(Qt.NoFocus)
         self._cols.addWidget(self.file_text)
 
         self.browse_button = QPushButton("Browse")

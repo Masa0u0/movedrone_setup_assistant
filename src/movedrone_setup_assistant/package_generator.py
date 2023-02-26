@@ -109,7 +109,7 @@ class PackageGenerator(QWidget):
         items = self._make_template_items()
         self._generate_from_template(items, "CMakeLists.txt", pkg_path)
         self._generate_from_template(items, "package.xml", pkg_path)
-        self._generate_from_template(items, "node_params.yaml", config_dir)
+        self._generate_from_template(items, "controller.yaml", config_dir)
         self._generate_from_template(items, "gazebo.launch", launch_dir)
         self._generate_from_template(items, "controller.launch", launch_dir)
         self._generate_drone_props(config_dir)

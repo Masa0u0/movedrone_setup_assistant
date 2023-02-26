@@ -139,6 +139,8 @@ class PackageGenerator(QWidget):
             "angvel_decay": lmpc.angvel_decay.get(),
             "rot_weight": lmpc.rot_weight.get(),
             "angvel_weight": lmpc.angvel_weight.get(),
+            "thrust_weight": lmpc.thrust_weight.get(),
+            "thrust_rate_weight": lmpc.thrust_rate_weight.get(),
         }
         template_items["lmpc"] = lmpc_items
 

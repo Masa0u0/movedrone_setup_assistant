@@ -159,7 +159,7 @@ class LMPCSettingsWidget(QWidget):
 
         rot_weight_description = "TODO: instruction"
         self.rot_weight = ParamGetterWidget_SpinBox(
-            "rotation_controller/state_weight/rotation",
+            "rotation_controller/weight/rotation",
             rot_weight_description,
             minimum=1,
             maximum=100,
@@ -169,13 +169,33 @@ class LMPCSettingsWidget(QWidget):
 
         angvel_weight_description = "TODO: instruction"
         self.angvel_weight = ParamGetterWidget_SpinBox(
-            "rotation_controller/state_weight/angular_velocity",
+            "rotation_controller/weight/angular_velocity",
             angvel_weight_description,
             minimum=1,
             maximum=100,
             default=1,
         )
         self._rows.addWidget(self.angvel_weight)
+
+        thrust_weight_description = "TODO: instruction"
+        self.thrust_weight = ParamGetterWidget_SpinBox(
+            "rotation_controller/weight/thrust_force",
+            thrust_weight_description,
+            minimum=-6,
+            maximum=0,
+            default=-3,
+        )
+        self._rows.addWidget(self.thrust_weight)
+
+        thrust_rate_weight_description = "TODO: instruction"
+        self.thrust_rate_weight = ParamGetterWidget_SpinBox(
+            "rotation_controller/weight/thrust_force_rate",
+            thrust_rate_weight_description,
+            minimum=-6,
+            maximum=0,
+            default=-3,
+        )
+        self._rows.addWidget(self.thrust_rate_weight)
 
 
 class NMPCSettingsWidget(QWidget):

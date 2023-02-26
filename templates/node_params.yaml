@@ -6,7 +6,6 @@ controller:
     prediction_horizon: {{ lmpc["pred_horizon"] }}
     prediction_steps: {{ lmpc["pred_steps"] }}
     input_steps: {{ lmpc["input_steps"] }}
-    weight_scale: 1.0e-6
     decay:
       rotation:
         roll: {{ lmpc["rot_decay"] }}

@@ -2,7 +2,7 @@
 
   <include file="$(find multirotor_controller)/launch/controller.launch">
     <arg name="drone_properties_path" value="$(find {{ pkg_name }})/config/drone_properties.yaml"/>
-    <arg name="node_params_path" value="$(find {{ pkg_name }})/config/controller.yaml"/>
+    <arg name="controller_params_path" value="$(find {{ pkg_name }})/config/controller.yaml"/>
   </include>
 
 </launch>

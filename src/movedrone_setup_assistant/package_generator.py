@@ -134,7 +134,6 @@ class PackageGenerator(QWidget):
             "damp_ratio": lmpc.damp_ratio.get(),
             "pred_horizon": lmpc.pred_horizon.get(),
             "pred_steps": lmpc.pred_steps.get(),
-            "input_steps": lmpc.input_steps.get(),
             "rot_decay": lmpc.rot_decay.get(),
             "angvel_decay": lmpc.angvel_decay.get(),
             "rot_weight": lmpc.rot_weight.get(),

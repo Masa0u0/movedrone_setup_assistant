@@ -127,16 +127,6 @@ class LMPCSettingsWidget(QWidget):
         )
         self._rows.addWidget(self.pred_steps)
 
-        input_steps_description = "TODO: instruction"
-        self.input_steps = ParamGetterWidget_SpinBox(
-            "rotation_controller/input_steps",
-            input_steps_description,
-            minimum=1,
-            maximum=30,
-            default=10,
-        )
-        self._rows.addWidget(self.input_steps)
-
         rot_decay_description = "TODO: instruction"
         self.rot_decay = ParamGetterWidget_DoubleSpinBox(
             "rotation_controller/decay/rotation",

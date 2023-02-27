@@ -21,3 +21,9 @@
   uri: git@github.com:Masa0u0/dh_rqt_tools.git,
   version: main,
 }
+
+- git: {
+  local-name: dh_multirotor,
+  uri: git@github.com:Masa0u0/dh_multirotor.git,
+  version: main,
+}

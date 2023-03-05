@@ -124,7 +124,7 @@ class ImuModel(ET.Element):
         ET.SubElement(plugin, "accelerometerTurnOnBiasSigma").text = f'{acc_turn_on_bias_sigma}'
 
 
-class MagneometerModel(ET.Element):
+class MagnetometerModel(ET.Element):
 
     def __init__(
         self,
@@ -158,6 +158,32 @@ class MagneometerModel(ET.Element):
         ET.SubElement(plugin, "noiseNormal").text = f'{gauss_noise} {gauss_noise} {gauss_noise}'
         ET.SubElement(plugin, "noiseUniformInitialBias").text \
             = f'{uniform_noise} {uniform_noise} {uniform_noise}'
+
+
+class BarometerModel(ET.Element):
+
+    def __init__(
+        self,
+        drone_name: str,
+        link_name: str,
+        topic: str,
+        ref_altitude: float,
+        pressure_var: float,
+    ) -> None:
+        assert ref_altitude >= 0.
+        assert pressure_var >= 0.
+
+        super().__init__("gazebo")
+
+        plugin = ET.SubElement(self, "plugin")
+        plugin.attrib["filename"] = "librotors_gazebo_pressure_plugin.so"
+        plugin.attrib["name"] = "rotors_gazebo_pressure_sensor_plugin"
+
+        ET.SubElement(plugin, "robotNamespace").text = drone_name
+        ET.SubElement(plugin, "linkName").text = link_name
+        ET.SubElement(plugin, "pressureTopic").text = topic
+        ET.SubElement(plugin, "referenceAltitude").text = f'{ref_altitude}'
+        ET.SubElement(plugin, "pressureVariance").text = f'{pressure_var}'
 
 
 class GpsModel(ET.Element):

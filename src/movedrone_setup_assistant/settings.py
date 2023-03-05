@@ -25,6 +25,7 @@ class SettingsWidget(VerticalTabWidget):
         self.propellers = PropellersWidget(main)
         self.imu = ImuWidget(main)
         self.magnetometer = MagnetometerWidget(main)
+        self.barometer = BarometerWidget(main)
         self.gps = GpsWidget(main)
         self.perception_3d = Perception3dWidget(main)
         self.controllers = ControllersWidget(main)
@@ -32,16 +33,17 @@ class SettingsWidget(VerticalTabWidget):
         self.author_information = AuthorInformationWidget(main)
         self.ros_package = RosPackageWidget(main)
 
-        self.addTab(self.start, 'Start')
-        self.addTab(self.propellers, 'Propellers')
-        self.addTab(self.imu, 'IMU')
-        self.addTab(self.magnetometer, 'Magnetic')
-        self.addTab(self.gps, 'GPS')
-        # self.addTab(self.perception_3d, '3D Perception')  # TODO
-        self.addTab(self.controllers, 'Controllers')
-        # self.addTab(self.simulation, 'Simulation')  # TODO
-        self.addTab(self.author_information, 'Author Info')
-        self.addTab(self.ros_package, 'ROS Package')
+        self.addTab(self.start, "Start")
+        self.addTab(self.propellers, "Propellers")
+        self.addTab(self.imu, "IMU")
+        self.addTab(self.magnetometer, "Magnetic")
+        self.addTab(self.barometer, "Barometer")
+        self.addTab(self.gps, "GPS")
+        # self.addTab(self.perception_3d, "3D Perception")  # TODO
+        self.addTab(self.controllers, "Controllers")
+        # self.addTab(self.simulation, "Simulation")  # TODO
+        self.addTab(self.author_information, "Author Info")
+        self.addTab(self.ros_package, "ROS Package")
 
         self.setMinimumHeight(self.MIN_HEIGHT)
         self.setStyleSheet(
@@ -53,6 +55,7 @@ class SettingsWidget(VerticalTabWidget):
         self.propellers.define_connections()
         self.imu.define_connections()
         self.magnetometer.define_connections()
+        self.barometer.define_connections()
         self.gps.define_connections()
         self.perception_3d.define_connections()
         self.controllers.define_connections()

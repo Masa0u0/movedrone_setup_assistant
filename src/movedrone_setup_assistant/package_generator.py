@@ -326,7 +326,7 @@ class PackageGenerator(QWidget):
 
         # Magnetometer
         mag_widget = self._main.settings.magnetometer
-        mag_model = MagneometerModel(
+        mag_model = MagnetometerModel(
             self._drone_name,
             mag_widget.link.get(),
             mag_widget.topic.get(),
@@ -337,6 +337,17 @@ class PackageGenerator(QWidget):
             mag_widget.uniform_noise.get(),
         )
         root.append(mag_model)
+
+        # Barometer
+        bar_widget = self._main.settings.barometer
+        bar_model = BarometerModel(
+            self._drone_name,
+            bar_widget.link.get(),
+            bar_widget.topic.get(),
+            bar_widget.ref_altitude.get(),
+            bar_widget.pressure_var.get(),
+        )
+        root.append(bar_model)
 
         # GPS
         gps_widget = self._main.settings.gps

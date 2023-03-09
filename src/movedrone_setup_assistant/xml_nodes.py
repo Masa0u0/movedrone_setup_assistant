@@ -313,8 +313,10 @@ class _GpsSensorPlugin(ET.Element):
         ver_vel_std: float,
     ) -> None:
         plugin = ET.SubElement(self, "plugin")
-        plugin.attrib["filename"] = "librotors_gazebo_gps_plugin.so"
-        plugin.attrib["name"] = "rotors_gazebo_gps_plugin"
+        # plugin.attrib["filename"] = "librotors_gazebo_gps_plugin.so"
+        # plugin.attrib["name"] = "rotors_gazebo_gps_plugin"
+        plugin.attrib["filename"] = "libdh_gazebo_gps_plugin.so"
+        plugin.attrib["name"] = "dh_gazebo_gps_plugin"
 
         ET.SubElement(plugin, "robotNamespace").text = drone_name
         ET.SubElement(plugin, "linkName").text = link_name

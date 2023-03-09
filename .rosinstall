@@ -27,3 +27,9 @@
   uri: git@github.com:Masa0u0/dh_multirotor.git,
   version: main,
 }
+
+- git: {
+  local-name: dh_gazebo_plugins,
+  uri: git@github.com:Masa0u0/dh_gazebo_plugins.git,
+  version: main,
+}

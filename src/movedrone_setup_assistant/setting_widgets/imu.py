@@ -78,7 +78,7 @@ class ImuWidget(BaseSettingWidget):
 
         acc_random_walk_description = "TODO: instruction"
         self.acc_random_walk = ParamGetterWidget_DoubleSpinBox(
-            "Accelerometer bias random walk. [m/s^2/sqrt(Hz)]",
+            "Accelerometer bias random walk. [m/s^3/sqrt(Hz)]",
             acc_random_walk_description,
             minimum=0.,
             default=6e-3,

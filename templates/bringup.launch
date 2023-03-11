@@ -10,11 +10,11 @@
   <group unless='$(arg ground_truth)'>
     <rosparam file="$(find {{ pkg_name }})/config/observer.yaml" command="load"/>
     <node pkg='state_estimation_eskf' name='state_estimator_eskf' type='state_estimator_node' output='screen'>
-      <remap from="/imu" to="{{ imu_topic }}"/>
-      <remap from="/magnetic_field" to="{{ mag_topic }}"/>
-      <remap from="/air_pressure" to="{{ bar_topic }}"/>
-      <remap from="/gps" to="{{ gps_topic }}"/>
-      <remap from="/ground_speed" to="{{ vel_topic }}"/>
+      <remap from="/imu" to="/{{ drone_name }}/imu"/>
+      <remap from="/magnetic_field" to="/{{ drone_name }}/magnetic_field"/>
+      <remap from="/air_pressure" to="/{{ drone_name }}/air_pressure"/>
+      <remap from="/gps" to="/{{ drone_name }}/gps"/>
+      <remap from="/ground_speed" to="/{{ drone_name }}/ground_speed"/>
       <remap from="/estimated_state" to="/{{ drone_name }}/base_state"/>
     </node>
   </group>

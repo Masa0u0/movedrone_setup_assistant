@@ -23,12 +23,6 @@ class BarometerWidget(BaseSettingWidget):
         self.link = ParamGetterWidget_ComboBox("Link name", link_description, [])
         self._rows.addWidget(self.link)
 
-        topic_description = "TODO: instruction"
-        self.topic = ParamGetterWidget_LineEdit(
-            "Barometer topic", topic_description, "/air_pressure"
-        )
-        self._rows.addWidget(self.topic)
-
         self.use_custom_barometer = QCheckBox("Use custom Barometer")
         self.use_custom_barometer.setFont(QFont("Default", pointSize=BODY_PSIZE))
         self._rows.addWidget(self.use_custom_barometer)

@@ -23,10 +23,6 @@ class ImuWidget(BaseSettingWidget):
         self.link = ParamGetterWidget_ComboBox("Link name", link_description, [])
         self._rows.addWidget(self.link)
 
-        topic_description = "TODO: instruction"
-        self.topic = ParamGetterWidget_LineEdit("IMU topic", topic_description, "/imu")
-        self._rows.addWidget(self.topic)
-
         self.use_custom_imu = QCheckBox("Use custom IMU")
         self.use_custom_imu.setFont(QFont("Default", pointSize=BODY_PSIZE))
         self._rows.addWidget(self.use_custom_imu)

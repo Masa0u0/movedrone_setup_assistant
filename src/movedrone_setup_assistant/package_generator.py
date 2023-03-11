@@ -139,13 +139,6 @@ class PackageGenerator(QWidget):
         template_items["acc_noise_density"] = imu.acc_noise_density.get()
         template_items["acc_random_walk"] = imu.acc_random_walk.get()
 
-        # Sensor topics
-        template_items["imu_topic"] = self._main.settings.imu.topic.get()
-        template_items["mag_topic"] = self._main.settings.magnetometer.topic.get()
-        template_items["bar_topic"] = self._main.settings.barometer.topic.get()
-        template_items["gps_topic"] = self._main.settings.gps.pos_topic.get()
-        template_items["vel_topic"] = self._main.settings.gps.vel_topic.get()
-
         # LMPC
         lmpc = self._main.settings.controllers.lmpc_settings
         lmpc_items = {
@@ -332,7 +325,6 @@ class PackageGenerator(QWidget):
         imu_model = ImuModel(
             self._drone_name,
             imu_widget.link.get(),
-            imu_widget.topic.get(),
             imu_widget.gyro_noise_density.get(),
             imu_widget.gyro_random_walk.get(),
             imu_widget.gyro_bias_corr_time.get(),
@@ -349,7 +341,6 @@ class PackageGenerator(QWidget):
         mag_model = MagnetometerModel(
             self._drone_name,
             mag_widget.link.get(),
-            mag_widget.topic.get(),
             mag_widget.ref_mag_north.get(),
             mag_widget.ref_mag_east.get(),
             mag_widget.ref_mag_down.get(),
@@ -363,7 +354,6 @@ class PackageGenerator(QWidget):
         bar_model = BarometerModel(
             self._drone_name,
             bar_widget.link.get(),
-            bar_widget.topic.get(),
             bar_widget.ref_altitude.get(),
             bar_widget.pressure_var.get(),
         )
@@ -374,8 +364,6 @@ class PackageGenerator(QWidget):
         gps_model = GpsModel(
             self._drone_name,
             gps_widget.link.get(),
-            gps_widget.pos_topic.get(),
-            gps_widget.vel_topic.get(),
             gps_widget.horizontal_pos_std.get(),
             gps_widget.vertical_pos_std.get(),
             gps_widget.horizontal_vel_std.get(),

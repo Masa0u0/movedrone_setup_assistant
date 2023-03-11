@@ -23,16 +23,6 @@ class GpsWidget(BaseSettingWidget):
         self.link = ParamGetterWidget_ComboBox("Link name", link_description, [])
         self._rows.addWidget(self.link)
 
-        pos_topic_description = "TODO: instruction"
-        self.pos_topic = ParamGetterWidget_LineEdit("GPS topic", pos_topic_description, "/gps")
-        self._rows.addWidget(self.pos_topic)
-
-        vel_topic_description = "TODO: instruction"
-        self.vel_topic = ParamGetterWidget_LineEdit(
-            "Ground speed topic", vel_topic_description, "/ground_speed"
-        )
-        self._rows.addWidget(self.vel_topic)
-
         self.use_custom_gps = QCheckBox("Use custom GPS")
         self.use_custom_gps.setFont(QFont("Default", pointSize=BODY_PSIZE))
         self._rows.addWidget(self.use_custom_gps)

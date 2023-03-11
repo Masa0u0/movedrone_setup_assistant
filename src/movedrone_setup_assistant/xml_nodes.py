@@ -86,7 +86,6 @@ class ImuModel(ET.Element):
         self,
         drone_name: str,
         link_name: str,
-        topic: str,
         gyro_noise_density: float,
         gyro_random_walk: float,
         gyro_bias_corr_time: float,
@@ -113,7 +112,7 @@ class ImuModel(ET.Element):
 
         ET.SubElement(plugin, "robotNamespace").text = drone_name
         ET.SubElement(plugin, "linkName").text = link_name
-        ET.SubElement(plugin, "imuTopic").text = topic
+        ET.SubElement(plugin, "imuTopic").text = "imu"
         ET.SubElement(plugin, "gyroscopeNoiseDensity").text = f'{gyro_noise_density}'
         ET.SubElement(plugin, "gyroscopeRandomWalk").text = f'{gyro_random_walk}'
         ET.SubElement(plugin, "gyroscopeBiasCorrelationTime").text = f'{gyro_bias_corr_time}'
@@ -130,7 +129,6 @@ class MagnetometerModel(ET.Element):
         self,
         drone_name: str,
         link_name: str,
-        topic: str,
         ref_mag_north: float,
         ref_mag_east: float,
         ref_mag_down: float,
@@ -151,7 +149,7 @@ class MagnetometerModel(ET.Element):
 
         ET.SubElement(plugin, "robotNamespace").text = drone_name
         ET.SubElement(plugin, "linkName").text = link_name
-        ET.SubElement(plugin, "magnetometerTopic").text = topic
+        ET.SubElement(plugin, "magnetometerTopic").text = "magnetic_field"
         ET.SubElement(plugin, "refMagNorth").text = f'{ref_mag_north}'
         ET.SubElement(plugin, "refMagEast").text = f'{ref_mag_east}'
         ET.SubElement(plugin, "refMagDown").text = f'{ref_mag_down}'
@@ -166,7 +164,6 @@ class BarometerModel(ET.Element):
         self,
         drone_name: str,
         link_name: str,
-        topic: str,
         ref_altitude: float,
         pressure_var: float,
     ) -> None:
@@ -181,7 +178,7 @@ class BarometerModel(ET.Element):
 
         ET.SubElement(plugin, "robotNamespace").text = drone_name
         ET.SubElement(plugin, "linkName").text = link_name
-        ET.SubElement(plugin, "pressureTopic").text = topic
+        ET.SubElement(plugin, "pressureTopic").text = "air_pressure"
         ET.SubElement(plugin, "referenceAltitude").text = f'{ref_altitude}'
         ET.SubElement(plugin, "pressureVariance").text = f'{pressure_var}'
 
@@ -192,8 +189,6 @@ class GpsModel(ET.Element):
         self,
         drone_name: str,
         link_name: str,
-        pos_topic: str,
-        vel_topic: str,
         hor_pos_std: float,
         ver_pos_std: float,
         hor_vel_std: float,
@@ -209,8 +204,6 @@ class GpsModel(ET.Element):
         sensor = _GpsSensor(
             drone_name,
             link_name,
-            pos_topic,
-            vel_topic,
             hor_pos_std,
             ver_pos_std,
             hor_vel_std,
@@ -225,8 +218,6 @@ class _GpsSensor(ET.Element):
         self,
         drone_name: str,
         link_name: str,
-        pos_topic: str,
-        vel_topic: str,
         hor_pos_std: float,
         ver_pos_std: float,
         hor_vel_std: float,
@@ -245,8 +236,6 @@ class _GpsSensor(ET.Element):
         plugin = _GpsSensorPlugin(
             drone_name,
             link_name,
-            pos_topic,
-            vel_topic,
             hor_pos_std,
             ver_pos_std,
             hor_vel_std,
@@ -305,8 +294,6 @@ class _GpsSensorPlugin(ET.Element):
         self,
         drone_name: str,
         link_name: str,
-        pos_topic: str,
-        vel_topic: str,
         hor_pos_std: float,
         ver_pos_std: float,
         hor_vel_std: float,
@@ -320,8 +307,8 @@ class _GpsSensorPlugin(ET.Element):
 
         ET.SubElement(plugin, "robotNamespace").text = drone_name
         ET.SubElement(plugin, "linkName").text = link_name
-        ET.SubElement(plugin, "gpsTopic").text = pos_topic
-        ET.SubElement(plugin, "groundSpeedTopic").text = vel_topic
+        ET.SubElement(plugin, "gpsTopic").text = "gps"
+        ET.SubElement(plugin, "groundSpeedTopic").text = "ground_speed"
         ET.SubElement(plugin, "horPosStdDev").text = f'{hor_pos_std}'
         ET.SubElement(plugin, "verPosStdDev").text = f'{ver_pos_std}'
         ET.SubElement(plugin, "horVelStdDev").text = f'{hor_vel_std}'

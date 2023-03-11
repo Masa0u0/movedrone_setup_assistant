@@ -1,4 +1,4 @@
-controller:
+multirotor_controller:
   natural_frequency: {{ lmpc["natural_freq"] }}
   damping_ratio: {{ lmpc["damp_ratio"] }}
   prediction_horizon: {{ lmpc["pred_horizon"] }}

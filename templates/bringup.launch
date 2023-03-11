@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name='ground_truth' default='false'/>
+
+  <!-- Bringup observer -->
+  <group if='$(arg ground_truth)'>
+    <node pkg='multirotor_gazebo' name='state_estimator_gt' type='state_estimator_gt_node' output='screen'/>
+  </group>
+
+  <group unless='$(arg ground_truth)'>
+    <rosparam file="$(find {{ pkg_name }})/config/observer.yaml" command="load"/>
+    <node pkg='state_estimation_eskf' name='state_estimator_eskf' type='state_estimator_node' output='screen'>
+      <remap from="/imu" to="{{ imu_topic }}"/>
+      <remap from="/magnetic_field" to="{{ mag_topic }}"/>
+      <remap from="/air_pressure" to="{{ bar_topic }}"/>
+      <remap from="/gps" to="{{ gps_topic }}"/>
+      <remap from="/ground_speed" to="{{ vel_topic }}"/>
+      <remap from="/estimated_state" to="/{{ drone_name }}/base_state"/>
+    </node>
+  </group>
+
+  <!-- Bringup controller -->
+  <rosparam file="$(find {{ pkg_name }})/config/drone_properties.yaml" command="load"/>
+  <rosparam file="$(find {{ pkg_name }})/config/controller.yaml" command="load"/>
+  <node pkg='multirotor_controller' name='multirotor_controller' type='controller_node' output='screen'/>
+
+</launch>

@@ -25,7 +25,7 @@ class MagnetometerWidget(BaseSettingWidget):
 
         topic_description = "TODO: instruction"
         self.topic = ParamGetterWidget_LineEdit(
-            "Magnetometer topic", topic_description, "magnetic_field")
+            "Magnetometer topic", topic_description, "/magnetic_field")
         self._rows.addWidget(self.topic)
 
         self.use_custom_magnetometer = QCheckBox("Use custom magnetometer")

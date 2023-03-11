@@ -25,7 +25,7 @@ class BarometerWidget(BaseSettingWidget):
 
         topic_description = "TODO: instruction"
         self.topic = ParamGetterWidget_LineEdit(
-            "Barometer topic", topic_description, "air_pressure"
+            "Barometer topic", topic_description, "/air_pressure"
         )
         self._rows.addWidget(self.topic)
 

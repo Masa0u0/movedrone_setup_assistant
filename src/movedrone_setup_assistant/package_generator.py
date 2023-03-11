@@ -110,9 +110,10 @@ class PackageGenerator(QWidget):
         self._generate_from_template(items, "README.md", pkg_path)
         self._generate_from_template(items, "CMakeLists.txt", pkg_path)
         self._generate_from_template(items, "package.xml", pkg_path)
+        self._generate_from_template(items, "observer.yaml", config_dir)
         self._generate_from_template(items, "controller.yaml", config_dir)
         self._generate_from_template(items, "gazebo.launch", launch_dir)
-        self._generate_from_template(items, "controller.launch", launch_dir)
+        self._generate_from_template(items, "bringup.launch", launch_dir)
         self._generate_drone_props(config_dir)
         self._generate_joint_control(config_dir)
         self._generate_urdf(urdf_dir)
@@ -122,13 +123,30 @@ class PackageGenerator(QWidget):
 
         template_items["drone_name"] = self._drone_name
 
+        # Ros Package
         ros_pkg = self._main.settings.ros_package
         template_items["pkg_name"] = ros_pkg.pkg_name.get()
 
+        # Author Info
         author_info = self._main.settings.author_information
         template_items["author_name"] = author_info.name.get()
         template_items["author_email"] = author_info.email.get()
 
+        # IMU
+        imu = self._main.settings.imu
+        template_items["gyro_noise_density"] = imu.gyro_noise_density.get()
+        template_items["gyro_random_walk"] = imu.gyro_random_walk.get()
+        template_items["acc_noise_density"] = imu.acc_noise_density.get()
+        template_items["acc_random_walk"] = imu.acc_random_walk.get()
+
+        # Sensor topics
+        template_items["imu_topic"] = self._main.settings.imu.topic.get()
+        template_items["mag_topic"] = self._main.settings.magnetometer.topic.get()
+        template_items["bar_topic"] = self._main.settings.barometer.topic.get()
+        template_items["gps_topic"] = self._main.settings.gps.pos_topic.get()
+        template_items["vel_topic"] = self._main.settings.gps.vel_topic.get()
+
+        # LMPC
         lmpc = self._main.settings.controllers.lmpc_settings
         lmpc_items = {
             "natural_freq": lmpc.natural_freq.get(),
@@ -144,10 +162,12 @@ class PackageGenerator(QWidget):
         }
         template_items["lmpc"] = lmpc_items
 
+        # NMPC
         nmpc = self._main.settings.controllers.nmpc_settings
         nmpc_items = {}  # TODO
         template_items["nmpc"] = nmpc_items
 
+        # SMC
         smc = self._main.settings.controllers.smc_settings
         smc_items = {}  # TODO
         template_items["smc"] = smc_items

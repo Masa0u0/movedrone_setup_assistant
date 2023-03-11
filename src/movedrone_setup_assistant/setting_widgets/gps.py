@@ -24,12 +24,12 @@ class GpsWidget(BaseSettingWidget):
         self._rows.addWidget(self.link)
 
         pos_topic_description = "TODO: instruction"
-        self.pos_topic = ParamGetterWidget_LineEdit("GPS topic", pos_topic_description, "gps")
+        self.pos_topic = ParamGetterWidget_LineEdit("GPS topic", pos_topic_description, "/gps")
         self._rows.addWidget(self.pos_topic)
 
         vel_topic_description = "TODO: instruction"
         self.vel_topic = ParamGetterWidget_LineEdit(
-            "Ground speed topic", vel_topic_description, "ground_speed"
+            "Ground speed topic", vel_topic_description, "/ground_speed"
         )
         self._rows.addWidget(self.vel_topic)
 

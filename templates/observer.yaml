@@ -1,0 +1,6 @@
+state_estimator_eskf:
+  update_rate: 1000.
+  gyro_noise_density: {{ gyro_noise_density }}
+  gyro_random_walk: {{ gyro_random_walk }}
+  acc_noise_density: {{ acc_noise_density }}
+  acc_random_walk: {{ acc_random_walk }}

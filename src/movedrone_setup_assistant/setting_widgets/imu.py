@@ -24,7 +24,7 @@ class ImuWidget(BaseSettingWidget):
         self._rows.addWidget(self.link)
 
         topic_description = "TODO: instruction"
-        self.topic = ParamGetterWidget_LineEdit("IMU topic", topic_description, "imu")
+        self.topic = ParamGetterWidget_LineEdit("IMU topic", topic_description, "/imu")
         self._rows.addWidget(self.topic)
 
         self.use_custom_imu = QCheckBox("Use custom IMU")

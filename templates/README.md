@@ -8,12 +8,12 @@
 $ roslaunch {{ pkg_name }} gazebo.launch
 ```
 
-## Bringup Controller
+## Bringup Observer and Controller
 
 ---
 
 ```bash
-$ roslaunch {{ pkg_name }} controller.launch
+$ roslaunch {{ pkg_name }} bringup.launch
 ```
 
 ## Teleoperation

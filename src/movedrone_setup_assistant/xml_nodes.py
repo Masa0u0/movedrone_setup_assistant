@@ -279,7 +279,7 @@ class _GpsSensorGpsSensingElement(ET.Element):
     def __init__(self, tag: str, std: float) -> None:
         super().__init__(tag)
 
-        gauss_noise = ET.SubElement(self, "gauss_noise")
+        gauss_noise = ET.SubElement(self, "noise")
         gauss_noise.attrib["type"] = "gaussian"
 
         ET.SubElement(gauss_noise, "mean").text = "0."

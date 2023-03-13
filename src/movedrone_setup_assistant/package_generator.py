@@ -139,6 +139,12 @@ class PackageGenerator(QWidget):
         template_items["acc_noise_density"] = imu.acc_noise_density.get()
         template_items["acc_random_walk"] = imu.acc_random_walk.get()
 
+        # Magnetometer
+        magnetometer = self._main.settings.magnetometer
+        template_items["ref_mag_north"] = magnetometer.ref_mag_north.get()
+        template_items["ref_mag_east"] = magnetometer.ref_mag_east.get()
+        template_items["ref_mag_down"] = magnetometer.ref_mag_down.get()
+
         # LMPC
         lmpc = self._main.settings.controllers.lmpc_settings
         lmpc_items = {

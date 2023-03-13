@@ -29,19 +29,25 @@ class MagnetometerWidget(BaseSettingWidget):
 
         ref_mag_north_description = "TODO: instruction"
         self.ref_mag_north = ParamGetterWidget_DoubleSpinBox(
-            "Reference Magnitude North", ref_mag_north_description, minimum=0., default=2.1493e-5
+            "Reference Magnetic Field Strength: North",
+            ref_mag_north_description,
+            default=2.1493e-5,
         )
         self._rows.addWidget(self.ref_mag_north)
 
         ref_mag_east_description = "TODO: instruction"
         self.ref_mag_east = ParamGetterWidget_DoubleSpinBox(
-            "Reference Magnitude East", ref_mag_east_description, minimum=0., default=8.15e-7
+            "Reference Magnetic Field Strength: East",
+            ref_mag_east_description,
+            default=8.15e-7,
         )
         self._rows.addWidget(self.ref_mag_east)
 
         ref_mag_down_description = "TODO: instruction"
         self.ref_mag_down = ParamGetterWidget_DoubleSpinBox(
-            "Reference Magnitude Down", ref_mag_down_description, minimum=0., default=4.2795e-5
+            "Reference Magnetic Field Strength: Down",
+            ref_mag_down_description,
+            default=4.2795e-5,
         )
         self._rows.addWidget(self.ref_mag_down)
 

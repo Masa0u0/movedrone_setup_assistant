@@ -4,3 +4,7 @@ state_estimator_eskf:
   gyro_random_walk: {{ gyro_random_walk }}
   acc_noise_density: {{ acc_noise_density }}
   acc_random_walk: {{ acc_random_walk }}
+  reference_magnetic_strength:
+    north: {{ ref_mag_north }}
+    east: {{ ref_mag_east }}
+    down: {{ ref_mag_down }}

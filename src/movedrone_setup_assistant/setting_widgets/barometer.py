@@ -41,7 +41,7 @@ class BarometerWidget(BaseSettingWidget):
             "the air pressure variance [Pa^2]",
             pressure_var_description,
             minimum=0.,
-            default=0.,
+            default=1.,
         )
         self._rows.addWidget(self.pressure_var)
 
